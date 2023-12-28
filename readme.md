@@ -1,4 +1,4 @@
-<div style="text-align: center">
+<div align="center">
     <img src="./assets/images/atlas.png" alt="Atlas logo">
     <h1><a href="https://atlas.pulsewave.dev" target="_blank">Atlas</a></h1>
 </div>

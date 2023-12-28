@@ -1,0 +1,10 @@
+{
+  "stryker-config": {
+    "language-version": "Preview",
+    "mutation-level": "Complete",
+    "thresholds": {
+      "high": 100,
+      "low": 100
+    }
+  }
+}

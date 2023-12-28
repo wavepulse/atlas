@@ -1,0 +1,11 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('directory.packages.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <ItemGroup Label="Common packages">
+    <PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.1.1" />
+  </ItemGroup>
+  <ItemGroup Label="Application packages">
+    <PackageVersion Include="Mediator.Abstractions" Version="3.0.0-preview.15" />
+    <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.0-preview.15" />
+  </ItemGroup>
+</Project>

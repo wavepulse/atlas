@@ -4,8 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.9.34407.89
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{72842A8F-F132-4E52-A800-E2D952429168}"
+	ProjectSection(SolutionItems) = preProject
+		src\directory.build.props = src\directory.build.props
+		src\directory.packages.props = src\directory.packages.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{DEE33759-DA97-4B35-AADE-E03AC9A661AF}"
+	ProjectSection(SolutionItems) = preProject
+		tests\.editorconfig = tests\.editorconfig
+		tests\directory.build.props = tests\directory.build.props
+		tests\directory.packages.props = tests\directory.packages.props
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "rules", "rules", "{825FB4BD-BD72-490D-9B69-DEDD15BFC8C7}"
 	ProjectSection(SolutionItems) = preProject
@@ -36,9 +45,80 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "documentation", "documentat
 		readme.md = readme.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{DD4F2AE7-7AE7-452A-B443-284B5F33C6B2}"
+	ProjectSection(SolutionItems) = preProject
+		.github\contributing.md = .github\contributing.md
+		.github\pull_request_template.md = .github\pull_request_template.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "issue_template", "issue_template", "{60FC8C21-81D4-4F15-B755-10B2969A5E69}"
+	ProjectSection(SolutionItems) = preProject
+		.github\issue_template\bug.yml = .github\issue_template\bug.yml
+		.github\issue_template\config.yml = .github\issue_template\config.yml
+		.github\issue_template\feature.yml = .github\issue_template\feature.yml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Domain", "src\Atlas.Domain\Atlas.Domain.csproj", "{92FBB410-676D-4884-BCFF-7E80ED93F92C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Domain.Tests", "tests\Atlas.Domain.Tests\Atlas.Domain.Tests.csproj", "{CE198CD7-B74D-4D72-BB9D-FF12CDC65425}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Application", "src\Atlas.Application\Atlas.Application.csproj", "{A01356F3-2E1F-46A3-BE0E-907BA3793722}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Application.Tests", "tests\Atlas.Application.Tests\Atlas.Application.Tests.csproj", "{21512BE3-FC69-4F29-861F-165CFD99B10A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Contracts", "src\Atlas.Contracts\Atlas.Contracts.csproj", "{18BFB52E-6398-4876-9064-1FA1847CCCB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure", "src\Atlas.Infrastructure\Atlas.Infrastructure.csproj", "{51270E21-A803-4E9B-B04C-6068D43A6A19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure.Tests", "tests\Atlas.Infrastructure.Tests\Atlas.Infrastructure.Tests.csproj", "{9DBF2015-8D4E-4F42-88CC-4B247045102D}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92FBB410-676D-4884-BCFF-7E80ED93F92C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92FBB410-676D-4884-BCFF-7E80ED93F92C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92FBB410-676D-4884-BCFF-7E80ED93F92C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92FBB410-676D-4884-BCFF-7E80ED93F92C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE198CD7-B74D-4D72-BB9D-FF12CDC65425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE198CD7-B74D-4D72-BB9D-FF12CDC65425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE198CD7-B74D-4D72-BB9D-FF12CDC65425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE198CD7-B74D-4D72-BB9D-FF12CDC65425}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A01356F3-2E1F-46A3-BE0E-907BA3793722}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A01356F3-2E1F-46A3-BE0E-907BA3793722}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A01356F3-2E1F-46A3-BE0E-907BA3793722}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A01356F3-2E1F-46A3-BE0E-907BA3793722}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21512BE3-FC69-4F29-861F-165CFD99B10A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21512BE3-FC69-4F29-861F-165CFD99B10A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21512BE3-FC69-4F29-861F-165CFD99B10A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21512BE3-FC69-4F29-861F-165CFD99B10A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18BFB52E-6398-4876-9064-1FA1847CCCB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18BFB52E-6398-4876-9064-1FA1847CCCB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18BFB52E-6398-4876-9064-1FA1847CCCB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18BFB52E-6398-4876-9064-1FA1847CCCB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51270E21-A803-4E9B-B04C-6068D43A6A19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51270E21-A803-4E9B-B04C-6068D43A6A19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51270E21-A803-4E9B-B04C-6068D43A6A19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51270E21-A803-4E9B-B04C-6068D43A6A19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DBF2015-8D4E-4F42-88CC-4B247045102D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DBF2015-8D4E-4F42-88CC-4B247045102D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DBF2015-8D4E-4F42-88CC-4B247045102D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DBF2015-8D4E-4F42-88CC-4B247045102D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{60FC8C21-81D4-4F15-B755-10B2969A5E69} = {DD4F2AE7-7AE7-452A-B443-284B5F33C6B2}
+		{92FBB410-676D-4884-BCFF-7E80ED93F92C} = {72842A8F-F132-4E52-A800-E2D952429168}
+		{CE198CD7-B74D-4D72-BB9D-FF12CDC65425} = {DEE33759-DA97-4B35-AADE-E03AC9A661AF}
+		{A01356F3-2E1F-46A3-BE0E-907BA3793722} = {72842A8F-F132-4E52-A800-E2D952429168}
+		{21512BE3-FC69-4F29-861F-165CFD99B10A} = {DEE33759-DA97-4B35-AADE-E03AC9A661AF}
+		{18BFB52E-6398-4876-9064-1FA1847CCCB9} = {72842A8F-F132-4E52-A800-E2D952429168}
+		{51270E21-A803-4E9B-B04C-6068D43A6A19} = {72842A8F-F132-4E52-A800-E2D952429168}
+		{9DBF2015-8D4E-4F42-88CC-4B247045102D} = {DEE33759-DA97-4B35-AADE-E03AC9A661AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D39B2A6B-80B8-406D-A4A4-41A6A49A7048}

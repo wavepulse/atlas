@@ -18,5 +18,5 @@ internal static class FlagMapper
             => new(flag.Code.AsContract(), flag.Translations.AsContract());
     }
 
-    private static FlagCodeContract AsContract(this FlagCode code) => new(code.Cca2, code.Cca3);
+    internal static FlagCodeContract AsContract(this FlagCode code) => new(code.Cca2, code.Cca3);
 }

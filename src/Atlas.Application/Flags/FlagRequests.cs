@@ -9,4 +9,6 @@ namespace Atlas.Application.Flags;
 public static class FlagRequests
 {
     public sealed class GetAll : IQuery<IEnumerable<Flag>>;
+
+    public sealed class Randomize : IQuery<FlagCode>;
 }

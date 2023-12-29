@@ -20,14 +20,14 @@ public sealed class AreaTests
 
         size.Should().Be(expectedSize);
     }
-}
 
-file sealed class AreaSizes : TheoryData<Area, Area, AreaSize>
-{
-    public AreaSizes()
+    internal sealed class AreaSizes : TheoryData<Area, Area, AreaSize>
     {
-        Add(new Area(0.0), new Area(0.0), AreaSize.Same);
-        Add(new Area(0.0), new Area(1.0), AreaSize.Smaller);
-        Add(new Area(1.0), new Area(0.0), AreaSize.Larger);
+        public AreaSizes()
+        {
+            Add(new Area(0.0), new Area(0.0), AreaSize.Same);
+            Add(new Area(0.0), new Area(1.0), AreaSize.Smaller);
+            Add(new Area(1.0), new Area(0.0), AreaSize.Larger);
+        }
     }
 }

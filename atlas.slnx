@@ -4,17 +4,13 @@
   </Properties>
   <Project Path="src\Atlas.Etl\Atlas.Etl.csproj" />
   <Project Path="src\Atlas.Web.App\Atlas.Web.App.csproj" />
-  <Project Path="D:\pulsewave\atlas\src\Atlas.Etl\Atlas.Etl.csproj" />
-  <Project Path="D:\pulsewave\atlas\src\Atlas.Web.App\Atlas.Web.App.csproj" />
-  <Project Path="D:\pulsewave\atlas\tests\Atlas.Web.App.Tests\Atlas.Web.App.Tests.csproj" Type="C#" />
   <Folder Name="/tests/">
     <File Path="tests\.editorconfig" />
     <File Path="tests\directory.build.props" />
     <File Path="tests\directory.packages.props" />
-    <Project Path="tests\Atlas.Web.App.Tests\Atlas.Web.App.Tests.csproj" Type="C#" />
-    <Project Path="tests\Atlas.Etl.Tests\Atlas.Etl.Tests.csproj" Type="C#" />
-    <Project Path="D:\pulsewave\atlas\tests\Atlas.Etl.Tests\Atlas.Etl.Tests.csproj" Type="C#" />
-    <Project Path="tests\Atlas.Domain.Tests\Atlas.Domain.Tests.csproj" Type="C#" />
+    <Project Path="tests\Atlas.Web.App.Tests\Atlas.Web.App.Tests.csproj" />
+    <Project Path="tests\Atlas.Etl.Tests\Atlas.Etl.Tests.csproj" />
+    <Project Path="tests\Atlas.Domain.Tests\Atlas.Domain.Tests.csproj" />
   </Folder>
   <Folder Name="/configurations/">
     <File Path=".editorconfig" />
@@ -50,7 +46,6 @@
     <File Path="readme.md" />
   </Folder>
   <Folder Name="/core/">
-    <Project Path="D:\pulsewave\atlas\src\Atlas.Domain\Atlas.Domain.csproj" Type="C#" />
-    <Project Path="src\Atlas.Domain\Atlas.Domain.csproj" Type="C#" />
+    <Project Path="src\Atlas.Domain\Atlas.Domain.csproj" />
   </Folder>
 </Solution>

@@ -1,0 +1,16 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('directory.packages.props', '$(MSBuildThisFileDirectory)../'))" />
+  <ItemGroup Label="Common packages">
+    <PackageVersion Include="DotNet.ReproducibleBuilds" Version="1.2.4" />
+  </ItemGroup>
+
+  <ItemGroup Label="ETL packages">
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.6.24327.7" />
+  </ItemGroup>
+
+  <ItemGroup Label="Web packages">
+    <PackageVersion Include="DartSassBuilder" Version="1.1.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.0-preview.6.24328.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="9.0.0-preview.6.24328.4" PrivateAssets="all" />
+  </ItemGroup>
+</Project>

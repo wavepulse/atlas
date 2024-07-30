@@ -1,0 +1,23 @@
+<Project>
+  <PropertyGroup Label="Configure all .csproj">
+    <TargetFramework>net9.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+
+    <!-- Configure packages which are only Development dependency -->
+    <!-- https://github.com/NuGet/Home/wiki/DevelopmentDependency-support-for-PackageReference -->
+    <IncludedAssets>runtime;build;native;contentfiles;analyzers</IncludedAssets>
+
+    <!-- Configure the output directory -->
+    <!-- https://devblogs.microsoft.com/dotnet/announcing-dotnet-8-preview-3/ -->
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+  </PropertyGroup>
+
+  <ItemGroup Label="Link and configure analyzer rules">
+    <GlobalAnalyzerConfigFiles Include="..\..\rules\*.editorconfig" />
+    <AdditionalFiles Include="..\..\.config\stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,47 @@
+# Web
+
+/src/*/wwwroot/_data
+
+# Ignore *.css files because they are generated from *.scss files
+*.css
+
+# Visual studio
+
+## User-specific files
+
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## cache/options directory
+
+.vs/
+
+## build results
+
+[Aa]rtifacts/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+## Coverlet
+
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# Visual Studio Code
+
+.vscode/*
+*.code-workspace
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

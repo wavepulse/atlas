@@ -1,0 +1,44 @@
+<Project>
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('directory.build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup Label="Defines variables">
+    <ProjectName>$(MSBuildProjectName.Replace(".Tests", ""))</ProjectName>
+    <ProjectSourcePath>..\..\src\$(ProjectName)\$(ProjectName).csproj</ProjectSourcePath>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configure .csproj">
+    <RootNamespace>$(ProjectName.Replace(" ", "_"))</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup Label="Reference the project" Condition="Exists('$(ProjectSourcePath)')">
+    <ProjectReference Include="$(ProjectSourcePath)" />
+  </ItemGroup>
+
+  <ItemGroup Label="Exclude tests project from code coverage">
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
+
+  <ItemGroup Label="Global usings">
+    <Using Include="FluentAssertions" />
+    <Using Include="NSubstitute" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup Label="Test analyzers">
+    <PackageReference Include="FluentAssertions.Analyzers" PrivateAssets="all" IncludeAssets="$(IncludeAssets)" />
+    <PackageReference Include="NSubstitute.Analyzers.CSharp" PrivateAssets="all" IncludeAssets="$(IncludeAssets)" />
+    <PackageReference Include="xunit.analyzers" PrivateAssets="all" IncludeAssets="$(IncludeAssets)" />
+  </ItemGroup>
+
+  <ItemGroup Label="Common test NuGets">
+    <PackageReference Include="coverlet.collector" PrivateAssets="all" IncludeAssets="$(IncludeAssets)" />
+    <PackageReference Include="coverlet.msbuild" PrivateAssets="all" IncludeAssets="$(IncludeAssets)" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" PrivateAssets="all" IncludeAssets="$(IncludeAssets)" />
+  </ItemGroup>
+</Project>

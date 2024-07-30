@@ -1,0 +1,20 @@
+name: Feature
+description: Suggest a new feature or enhancement.
+labels: ["feature", "triage"]
+assignees:
+  - beauchama
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to suggest a new feature or enhancement. Please fill in the information below to help us understand your suggestion.
+        Please search to see if the feature has already been suggested ([atlas/issues](https://github.com/wavepulse/atlas/issues))
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: >-
+        Is your feature request related to a new game or help the app to be better? Please describe the feature.
+      description: A clear and concise description of what the feature is.
+      placeholder: I want a game about flags from provinces in Canada.
+    validations:
+      required: true

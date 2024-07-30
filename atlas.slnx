@@ -14,6 +14,7 @@
     <Project Path="tests\Atlas.Web.App.Tests\Atlas.Web.App.Tests.csproj" Type="C#" />
     <Project Path="tests\Atlas.Etl.Tests\Atlas.Etl.Tests.csproj" Type="C#" />
     <Project Path="D:\pulsewave\atlas\tests\Atlas.Etl.Tests\Atlas.Etl.Tests.csproj" Type="C#" />
+    <Project Path="tests\Atlas.Domain.Tests\Atlas.Domain.Tests.csproj" Type="C#" />
   </Folder>
   <Folder Name="/configurations/">
     <File Path=".editorconfig" />
@@ -47,5 +48,9 @@
     <File Path="changelog.md" />
     <File Path="license" />
     <File Path="readme.md" />
+  </Folder>
+  <Folder Name="/core/">
+    <Project Path="D:\pulsewave\atlas\src\Atlas.Domain\Atlas.Domain.csproj" Type="C#" />
+    <Project Path="src\Atlas.Domain\Atlas.Domain.csproj" Type="C#" />
   </Folder>
 </Solution>

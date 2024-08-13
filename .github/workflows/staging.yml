@@ -1,0 +1,14 @@
+name: Staging
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  deploy:
+    name: Deploy
+    uses: wavepulse/atlas/.github/workflows/deploy.yml@develop
+    with:
+      branch: develop
+      environment: staging
+      secrets: inherit

@@ -16,10 +16,13 @@ public sealed class Area(double area)
 
     public Size CompareTo(Area other)
     {
+        if (area < other)
+            return Size.Smaller;
+
         if (Math.Abs(area - other) < double.Epsilon)
             return Size.Same;
 
-        return area < other ? Size.Smaller : Size.Larger;
+        return Size.Larger;
     }
 
     private double ToDouble() => area;

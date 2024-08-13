@@ -1,11 +1,8 @@
 name: Build
 
-permissions:
-  pull-requests: write
-
 on:
   pull_request:
-    branches: [ develop ]
+    branches: [ develop, releases/** ]
 
 jobs:
   build:
@@ -40,16 +37,19 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
 
+    permissions:
+      pull-requests: write
+
     name: Code Coverage
 
     steps:
-    - name: Download coverage report
+    - name: Download code coverage report
       uses: actions/download-artifact@v4
       with:
         name: coverage
         path: coverage
 
-    - name: Code coverage report
+    - name: Verify code coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
         filename: coverage/**/coverage.cobertura.xml

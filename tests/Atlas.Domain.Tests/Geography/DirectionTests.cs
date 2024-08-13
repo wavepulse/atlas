@@ -40,4 +40,15 @@ public sealed class DirectionTests
 
         direction.Should().Be(43.0);
     }
+
+    [Fact]
+    public void DirectionShouldGiveTheAngleInTheFirstQuadrantGivenLongitudeFor180Degrees()
+    {
+        Coordinate from = new(0, 0);
+        Coordinate to = new(0, 180);
+
+        double direction = Direction.Calculate(from, to);
+
+        direction.Should().Be(90);
+    }
 }

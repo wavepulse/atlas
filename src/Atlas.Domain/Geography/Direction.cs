@@ -55,7 +55,7 @@ internal static class Direction
 
         static double GetShorterRhumbLine(double deltaLongitude)
         {
-            return deltaLongitude > 0
+            return double.IsPositive(deltaLongitude)
                 ? -((2 * Math.PI) - deltaLongitude)
                 : (2 * Math.PI) + deltaLongitude;
         }

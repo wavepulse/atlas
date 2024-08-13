@@ -28,9 +28,20 @@ public sealed class AreaTests
     }
 
     [Fact]
-    public void CompareToShouldReturnGreaterWhenLeftAreaIsGreaterThanRightArea()
+    public void CompareToShouldReturnLargerWhenLeftAreaIsLargerThanRightArea()
     {
         Area left = new(1.0);
+        Area right = new(0.0);
+
+        Area.Size size = left.CompareTo(right);
+
+        size.Should().Be(Area.Size.Larger);
+    }
+
+    [Fact]
+    public void CompareToShouldReturnLargerWhenLeftAreaIsEpsilonAndRightIsZero()
+    {
+        Area left = new(double.Epsilon);
         Area right = new(0.0);
 
         Area.Size size = left.CompareTo(right);

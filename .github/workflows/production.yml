@@ -10,6 +10,7 @@ jobs:
     name: Deploy
 
     permissions:
+      contents: read
       deployments: write
 
     uses: wavepulse/atlas/.github/workflows/publish.yml@main

@@ -8,7 +8,7 @@ on:
 
 jobs:
   analyze:
-    name: analyze (${{ matrix.language }})
+    name: Analyze (${{ matrix.language }})
     runs-on: ubuntu-latest
     permissions:
       security-events: write

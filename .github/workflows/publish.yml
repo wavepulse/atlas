@@ -1,0 +1,75 @@
+name: Publish
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: 'The branch to deploy from'
+        required: true
+        type: string
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: string
+    secrets:
+      cloudflare_api_token:
+        required: true
+      cloudflare_account_id:
+        required: true
+      token:
+        required: true
+
+jobs:
+  publish:
+    runs-on: windows-latest
+
+    name: Prepare the application
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 9.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore      
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Publish
+      run: dotnet publish ./src/Atlas.Web.App/Atlas.Web.App.csproj --configuration Release --no-build --output ./artifacts
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: atlas-web-app
+        path: ./artifacts/wwwroot
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: publish
+
+    permissions:
+      contents: read
+      deployments: write
+
+    name: Deploy the application to ${{ inputs.environment }} environment
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: atlas-web-app
+          path: wwwroot
+
+      - name: Deploy
+        uses: cloudflare/pages-action@v1
+        with:
+          branch: ${{ inputs.branch }}
+          apiToken: ${{ secrets.cloudflare_api_token }}
+          accountId: ${{ secrets.cloudflare_account_id }}
+          projectName: atlas
+          directory: wwwroot
+          gitHubToken: ${{ secrets.token }}

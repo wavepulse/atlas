@@ -48,6 +48,9 @@ jobs:
       with:
         name: coverage
 
+    - name: Display coverage report
+      run: ls -R
+
     - name: Code coverage report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:

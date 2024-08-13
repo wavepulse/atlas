@@ -12,11 +12,11 @@ on:
         required: true
         type: string
     secrets:
-      cloudflare_api_token:
+      CLOUDFLARE_API_TOKEN:
         required: true
-      cloudflare_account_id:
+      CLOUDFLARE_ACCOUNT_ID:
         required: true
-      token:
+      GITHUB_TOKEN:
         required: true
 
 jobs:
@@ -68,8 +68,8 @@ jobs:
         uses: cloudflare/pages-action@v1
         with:
           branch: ${{ inputs.branch }}
-          apiToken: ${{ secrets.cloudflare_api_token }}
-          accountId: ${{ secrets.cloudflare_account_id }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: atlas
           directory: wwwroot
-          gitHubToken: ${{ secrets.token }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

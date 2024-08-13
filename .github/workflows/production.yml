@@ -1,13 +1,14 @@
 name: Staging
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
 
 jobs:
   deploy:
     name: Deploy
-    uses: wavepulse/atlas/.github/workflows/deploy.yml@main
+    uses: wavepulse/atlas/.github/workflows/publish.yml@main
     with:
       branch: main
       environment: production

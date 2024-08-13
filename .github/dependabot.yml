@@ -5,7 +5,7 @@ updates:
     directory: /
     schedule:
       interval: weekly
-      time: 01:00
+      time: "01:00"
     commit-message:
       prefix: NuGet packages
     labels: [ dependencies ]

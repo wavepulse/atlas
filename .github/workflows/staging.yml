@@ -12,4 +12,4 @@ jobs:
     with:
       branch: develop
       environment: staging
-      secrets: inherit
+    secrets: inherit

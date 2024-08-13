@@ -8,6 +8,10 @@ on:
 jobs:
   deploy:
     name: Deploy
+
+    permissions:
+      deployments: write
+
     uses: wavepulse/atlas/.github/workflows/publish.yml@main
     with:
       branch: main

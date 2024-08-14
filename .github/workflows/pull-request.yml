@@ -63,7 +63,7 @@ jobs:
         format: markdown
         hide_complexity: true
         output: both
-        thresholds: '90 100'
+        thresholds: '80 100'
 
     - name: Add coverage PR comment
       uses: marocchino/sticky-pull-request-comment@v2

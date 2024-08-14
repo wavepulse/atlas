@@ -2,7 +2,7 @@ name: Build
 
 on:
   pull_request:
-    branches: [ develop, releases/** ]
+    branches: [ develop ]
 
 jobs:
   build:
@@ -18,6 +18,9 @@ jobs:
       with:
         dotnet-version: 9.0.x
 
+    - name: Restore dotnet tools
+      run: dotnet tool restore
+
     - name: Restore dependencies
       run: dotnet restore
 
@@ -27,11 +30,14 @@ jobs:
     - name: Test
       run: dotnet test --configuration Debug --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
 
+    - name: Generate coverage report
+      run: dotnet coverage merge coverage/**/*.cobertura.xml --output ./coverage.cobertura.xml --output-format cobertura
+
     - name: Upload coverage report
       uses: actions/upload-artifact@v4
       with:
         name: coverage
-        path: coverage
+        path: ./coverage.cobertura.xml
 
   code-coverage:
     needs: build
@@ -47,12 +53,11 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: coverage
-        path: coverage
 
     - name: Verify code coverage
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
-        filename: coverage/**/coverage.cobertura.xml
+        filename: coverage.cobertura.xml
         badge: true
         fail_below_min: true
         format: markdown

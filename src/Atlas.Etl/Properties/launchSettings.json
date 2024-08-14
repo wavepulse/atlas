@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Atlas.Etl": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

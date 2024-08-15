@@ -39,7 +39,7 @@ public sealed class JsonFileWriterTests
     {
         await _writer.WriteToAsync(Path, Value, _metadata, CancellationToken.None);
 
-        _serializer.Received(1).SerializeAsync(_stream, Value, _metadata, CancellationToken.None);
+        await _serializer.Received(1).SerializeAsync(_stream, Value, _metadata, CancellationToken.None);
     }
 
     [Fact]
@@ -47,6 +47,6 @@ public sealed class JsonFileWriterTests
     {
         await _writer.WriteToAsync(Path, Value, _metadata, CancellationToken.None);
 
-        _stream.Received(1).DisposeAsync();
+        await _stream.Received(1).DisposeAsync();
     }
 }

@@ -3,6 +3,7 @@
 
 using Atlas.Etl;
 using Atlas.Etl.Configurations;
+using Atlas.Etl.Countries;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics.CodeAnalysis;
 
@@ -12,6 +13,8 @@ builder.ConfigureLoggings();
 builder.ConfigureHttpClients();
 
 builder.AddJsonServices();
+
+builder.AddCountries();
 
 await builder.Build().RunAsync().ConfigureAwait(false);
 

@@ -7,12 +7,13 @@ using Atlas.Etl.Countries;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics.CodeAnalysis;
 
-HostApplicationBuilder builder = Host.CreateApplicationBuilder();
+HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
 builder.ConfigureLoggings();
 builder.ConfigureHttpClients();
 
 builder.AddJsonServices();
+builder.AddFileServices();
 
 builder.AddCountries();
 

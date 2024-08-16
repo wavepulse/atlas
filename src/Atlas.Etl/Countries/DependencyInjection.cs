@@ -20,6 +20,12 @@ internal static class DependencyInjection
                             .AddSingleton(sp => sp.GetRequiredService<IOptions<CountryEndpointSettings>>().Value)
                             .AddOptionsWithValidateOnStart<CountryEndpointSettings>();
 
+        _ = builder.Services.Configure<CountryFilterSettings>(builder.Configuration.GetSection(CountryFilterSettings.Section))
+                            .AddSingleton<IValidateOptions<CountryFilterSettings>, CountryFilterSettings.Validator>()
+                            .AddSingleton(sp => sp.GetRequiredService<IOptions<CountryFilterSettings>>().Value)
+                            .AddOptionsWithValidateOnStart<CountryFilterSettings>();
+
         _ = builder.Services.AddHttpClient<ICountryEndpoint, CountryEndpoint>();
+        _ = builder.Services.AddTransient<IMigration, CountryMigration>();
     }
 }

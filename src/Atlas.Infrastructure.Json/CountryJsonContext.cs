@@ -3,7 +3,6 @@
 
 using Atlas.Domain.Countries;
 using Atlas.Infrastructure.Json.Converters;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace Atlas.Infrastructure.Json;

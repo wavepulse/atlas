@@ -5,6 +5,11 @@
     <PackageVersion Include="Microsoft.Extensions.Http" Version="9.0.0-preview.6.24327.7" />
   </ItemGroup>
 
+  <ItemGroup Label="Application packages">
+    <PackageVersion Include="Mediator.Abstractions" Version="3.0.0-preview.27" />
+    <PackageVersion Include="Mediator.SourceGenerator" Version="3.0.0-preview.27" />
+  </ItemGroup>
+
   <ItemGroup Label="ETL packages">
     <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.0-preview.6.24327.7" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.6.24327.7" />

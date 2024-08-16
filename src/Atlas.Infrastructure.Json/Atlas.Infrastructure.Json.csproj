@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\Atlas.Domain\Atlas.Domain.csproj" />
+    <ProjectReference Include="..\Atlas.Application\Atlas.Application.csproj" />
   </ItemGroup>
 </Project>

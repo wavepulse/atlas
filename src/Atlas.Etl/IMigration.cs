@@ -5,5 +5,7 @@ namespace Atlas.Etl;
 
 internal interface IMigration
 {
+    string Name { get; }
+
     Task MigrateAsync(string path, CancellationToken cancellationToken);
 }

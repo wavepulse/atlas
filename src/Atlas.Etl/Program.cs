@@ -16,6 +16,7 @@ builder.AddJsonServices();
 builder.AddFileServices();
 
 builder.AddCountries();
+builder.AddEtlApplication();
 
 await builder.Build().RunAsync().ConfigureAwait(false);
 

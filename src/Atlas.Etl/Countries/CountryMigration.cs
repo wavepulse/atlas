@@ -14,6 +14,8 @@ namespace Atlas.Etl.Countries;
 
 internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonFileWriter writer, ILogger<CountryMigration> logger, CountryFilterSettings settings) : IMigration
 {
+    public string Name { get; } = "Countries";
+
     public async Task MigrateAsync(string path, CancellationToken cancellationToken)
     {
         CountryDto[] dto = await endpoint.GetAllAsync(cancellationToken).ConfigureAwait(false);

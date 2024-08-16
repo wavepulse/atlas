@@ -14,6 +14,9 @@ namespace Atlas.Etl;
 [ExcludeFromCodeCoverage]
 internal static class DependencyInjection
 {
+    internal static void AddEtlApplication(this IHostApplicationBuilder builder)
+        => builder.Services.AddHostedService<EtlApplication>();
+
     internal static void AddJsonServices(this IHostApplicationBuilder builder)
     {
         _ = builder.Services.AddTransient<IJsonFile, JsonFile>()

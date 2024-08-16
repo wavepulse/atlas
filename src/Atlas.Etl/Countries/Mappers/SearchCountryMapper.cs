@@ -7,8 +7,8 @@ namespace Atlas.Etl.Countries.Mappers;
 
 internal static class SearchCountryMapper
 {
-    internal static SearchCountry[] AsSearchCountries(this Country[] countries, IEnumerable<string> excludedCountries) =>
-        countries.Select(country => country.AsSearchCountry(excludedCountries.Contains(country.Cca2))).ToArray();
+    internal static SearchCountry[] AsSearchCountries(this Country[] countries, IEnumerable<string> excludedCountries)
+        => countries.Select(country => country.AsSearchCountry(excludedCountries.Contains(country.Cca2, StringComparer.OrdinalIgnoreCase))).ToArray();
 
     private static SearchCountry AsSearchCountry(this Country country, bool isExcluded) => new()
     {

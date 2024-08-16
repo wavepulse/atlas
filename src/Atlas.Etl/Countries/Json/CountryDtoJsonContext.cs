@@ -3,12 +3,10 @@
 
 using Atlas.Etl.Countries.Dto;
 using Atlas.Etl.Countries.Json.Converters;
-using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
 namespace Atlas.Etl.Countries.Json;
 
-[ExcludeFromCodeCoverage]
 [JsonSerializable(typeof(CountryDto[]))]
 [JsonSourceGenerationOptions(
     Converters = [typeof(CoordinateDtoJsonConverter), typeof(SubRegionDtoJsonConverter), typeof(TranslationDtoJsonConverter)],

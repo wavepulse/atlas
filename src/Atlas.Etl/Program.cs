@@ -5,7 +5,6 @@ using Atlas.Etl;
 using Atlas.Etl.Configurations;
 using Atlas.Etl.Countries;
 using Microsoft.Extensions.Hosting;
-using System.Diagnostics.CodeAnalysis;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
@@ -20,5 +19,4 @@ builder.AddEtlApplication();
 
 await builder.Build().RunAsync().ConfigureAwait(false);
 
-[ExcludeFromCodeCoverage]
 file static partial class Program;

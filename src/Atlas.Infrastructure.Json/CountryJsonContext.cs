@@ -8,7 +8,6 @@ using System.Text.Json.Serialization;
 
 namespace Atlas.Infrastructure.Json;
 
-[ExcludeFromCodeCoverage]
 [JsonSerializable(typeof(Country[]))]
 [JsonSerializable(typeof(SearchCountry[]))]
 [JsonSourceGenerationOptions(

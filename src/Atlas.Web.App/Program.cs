@@ -4,7 +4,6 @@
 using Atlas.Web.App;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using System.Diagnostics.CodeAnalysis;
 
 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -12,5 +11,4 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 await builder.Build().RunAsync().ConfigureAwait(false);
 
-[ExcludeFromCodeCoverage]
 file static partial class Program;

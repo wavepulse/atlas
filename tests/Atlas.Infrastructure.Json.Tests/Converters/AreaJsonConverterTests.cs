@@ -15,7 +15,7 @@ public sealed class AreaJsonConverterTests
     [Fact]
     public void ReadShouldReturnTheAreaFromJson()
     {
-        Utf8JsonReader reader = CreateJsonReader(/*lang=json,strict*/"""{ "area": 42.0 }""");
+        Utf8JsonReader reader = CreateJsonReader();
 
         double area = _converter.Read(ref reader, typeof(Area), _options);
 
@@ -40,8 +40,10 @@ public sealed class AreaJsonConverterTests
         json.Should().Be(/*lang=json,strict*/"""{"area":42}""");
     }
 
-    private static Utf8JsonReader CreateJsonReader(string json)
+    private static Utf8JsonReader CreateJsonReader()
     {
+        const string json = /*lang=json,strict*/"""{ "area": 42.0 }""";
+
         Utf8JsonReader reader = new(Encoding.UTF8.GetBytes(json));
 
         while (reader.TokenType != JsonTokenType.Number)

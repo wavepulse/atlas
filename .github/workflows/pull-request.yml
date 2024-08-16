@@ -28,7 +28,7 @@ jobs:
       run: dotnet build --configuration Debug --no-restore
 
     - name: Test
-      run: dotnet test --configuration Debug --no-build --verbosity normal --collect:"XPlat Code Coverage" --results-directory ./coverage
+      run: dotnet test --configuration Debug --no-build --verbosity normal --results-directory ./coverage --settings coverlet.runsettings
 
     - name: Generate coverage report
       run: dotnet coverage merge coverage/**/*.cobertura.xml --output ./coverage.cobertura.xml --output-format cobertura

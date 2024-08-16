@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "configurations", "configura
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		coverlet.runsettings = coverlet.runsettings
 		directory.build.props = directory.build.props
 		directory.packages.props = directory.packages.props
 		nuget.config = nuget.config
@@ -67,12 +68,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atlas.Etl.Tests", "tests\At
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atlas.Web.App.Tests", "tests\Atlas.Web.App.Tests\Atlas.Web.App.Tests.csproj", "{0CAE086B-63B5-A03E-C6CA-32955BFE7984}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{A089C81A-67E3-4A6B-91B9-597636C6B623}"
-	ProjectSection(SolutionItems) = preProject
-		.github\workflows\codeql.yml = .github\workflows\codeql.yml
-		.github\workflows\pull-request.yml = .github\workflows\pull-request.yml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{FCEA8836-A284-4A97-AECE-E07685D53A74}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure.Json", "src\Atlas.Infrastructure.Json\Atlas.Infrastructure.Json.csproj", "{911B8283-8143-47AF-AD60-60A16B9A4C43}"
@@ -129,7 +124,6 @@ Global
 		{2BBFFFF6-F0DA-3F55-6479-61EBF9429846} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{716AFB6B-A63A-8BFB-1954-6AEC756B1723} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{0CAE086B-63B5-A03E-C6CA-32955BFE7984} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
-		{A089C81A-67E3-4A6B-91B9-597636C6B623} = {862D2BA5-904F-93EC-EB36-CF73F33AB34E}
 		{911B8283-8143-47AF-AD60-60A16B9A4C43} = {FCEA8836-A284-4A97-AECE-E07685D53A74}
 		{9DCB80F1-BAAF-45C8-A9C8-F9390CFD52BD} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection

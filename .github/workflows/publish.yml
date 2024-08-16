@@ -34,11 +34,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
+    - name: create etl app
+      run: dotnet publish ./src/Atlas.Etl/Atlas.Etl.csproj --no-restore --output .
 
-    - name: Publish
-      run: dotnet publish ./src/Atlas.Web.App/Atlas.Web.App.csproj --configuration Release --no-build --output ./artifacts
+    - name: Run ETL
+      run: ./Atlas.Etl.exe --root atlas --output src/Atlas.Web.App/wwwroot
+
+    - name: Publish web app
+      run: dotnet publish ./src/Atlas.Web.App/Atlas.Web.App.csproj --no-restore --output ./artifacts
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4

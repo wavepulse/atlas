@@ -17,6 +17,8 @@ internal sealed class SubRegionDtoJsonConverter : JsonConverter<SubRegionDto?>
         {
             "North America" => SubRegionDto.NorthAmerica,
             "South America" => SubRegionDto.SouthAmerica,
+            "Central America" => SubRegionDto.CentralAmerica,
+            "Caribbean" => SubRegionDto.Caribbean,
             _ => null
         };
     }

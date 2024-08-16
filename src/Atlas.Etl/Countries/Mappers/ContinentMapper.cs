@@ -17,6 +17,8 @@ internal static class ContinentMapper
         (RegionDto.Antarctic, null) => Continent.Antarctica,
         (RegionDto.Americas, SubRegionDto.NorthAmerica) => Continent.NorthAmerica,
         (RegionDto.Americas, SubRegionDto.SouthAmerica) => Continent.SouthAmerica,
-        _ => throw new ArgumentException($"Unknown region: {region}", nameof(region))
+        (RegionDto.Americas, SubRegionDto.CentralAmerica) => Continent.CentralAmerica,
+        (RegionDto.Americas, SubRegionDto.Caribbean) => Continent.CentralAmerica,
+        _ => throw new ArgumentException($"Unknown region or sub region: {region} - {subRegion}", nameof(region))
     };
 }

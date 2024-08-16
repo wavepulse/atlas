@@ -12,7 +12,7 @@ public sealed class ContinentMapperTests
     public void AsDomainShouldThrowExceptionWhenRegionIsUnknown()
     {
         Action action = () => ((RegionDto)999).AsDomain(subRegion: null);
-        action.Should().Throw<ArgumentException>().WithMessage("Unknown region: 999 (Parameter 'region')");
+        action.Should().Throw<ArgumentException>().WithMessage("Unknown region or sub region: 999 -  (Parameter 'region')");
     }
 
     [Theory]
@@ -31,6 +31,8 @@ public sealed class ContinentMapperTests
     [Theory]
     [InlineData(RegionDto.Americas, SubRegionDto.NorthAmerica, Continent.NorthAmerica)]
     [InlineData(RegionDto.Americas, SubRegionDto.SouthAmerica, Continent.SouthAmerica)]
+    [InlineData(RegionDto.Americas, SubRegionDto.CentralAmerica, Continent.CentralAmerica)]
+    [InlineData(RegionDto.Americas, SubRegionDto.Caribbean, Continent.CentralAmerica)]
     internal void AsDomainShouldMapDtoToDomainWithSubRegion(RegionDto region, SubRegionDto subRegion, Continent expectedContinent)
     {
         Continent continent = region.AsDomain(subRegion);

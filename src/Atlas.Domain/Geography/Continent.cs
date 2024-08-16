@@ -11,5 +11,6 @@ public enum Continent
     Europe = 3,
     NorthAmerica = 4,
     Oceania = 5,
-    SouthAmerica = 6
+    SouthAmerica = 6,
+    CentralAmerica = 7
 }

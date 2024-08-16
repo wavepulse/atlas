@@ -13,28 +13,20 @@ public sealed class SubRegionDtoJsonConverterTests
 
     private readonly SubRegionDtoJsonConverter _converter = new();
 
-    [Fact]
-    public void ReadShouldReturnNorthAmericaAsSubRegion()
+    [Theory]
+    [InlineData("North America", SubRegionDto.NorthAmerica)]
+    [InlineData("South America", SubRegionDto.SouthAmerica)]
+    [InlineData("Central America", SubRegionDto.CentralAmerica)]
+    [InlineData("Caribbean", SubRegionDto.Caribbean)]
+    internal void ReadShouldReturnTheGoodSubRegion(string value, SubRegionDto expectedSubRegion)
     {
-        const string json = /*lang=json,strict*/"""{ "subregion": "North America" }""";
+        string json = /*lang=json,strict*/$@"{{ ""subregion"": ""{value}"" }}";
 
         Utf8JsonReader reader = CreateJsonReader(json);
 
         SubRegionDto? subRegion = _converter.Read(ref reader, typeof(SubRegionDto), _options);
 
-        subRegion.Should().Be(SubRegionDto.NorthAmerica);
-    }
-
-    [Fact]
-    public void ReadShouldReturnSouthAmericaAsSubRegion()
-    {
-        const string json = /*lang=json,strict*/"""{ "subregion": "South America" }""";
-
-        Utf8JsonReader reader = CreateJsonReader(json);
-
-        SubRegionDto? subRegion = _converter.Read(ref reader, typeof(SubRegionDto), _options);
-
-        subRegion.Should().Be(SubRegionDto.SouthAmerica);
+        subRegion.Should().Be(expectedSubRegion);
     }
 
     [Fact]

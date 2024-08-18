@@ -76,6 +76,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure.Json.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Application", "src\Atlas.Application\Atlas.Application.csproj", "{4E091E7C-3CC6-4674-BE28-AB10D4ECD12D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Contracts", "src\Atlas.Contracts\Atlas.Contracts.csproj", "{03772896-AD0B-4FE4-AB2F-2D2F1D44BB79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,10 @@ Global
 		{4E091E7C-3CC6-4674-BE28-AB10D4ECD12D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E091E7C-3CC6-4674-BE28-AB10D4ECD12D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E091E7C-3CC6-4674-BE28-AB10D4ECD12D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03772896-AD0B-4FE4-AB2F-2D2F1D44BB79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03772896-AD0B-4FE4-AB2F-2D2F1D44BB79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03772896-AD0B-4FE4-AB2F-2D2F1D44BB79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03772896-AD0B-4FE4-AB2F-2D2F1D44BB79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,6 +139,7 @@ Global
 		{911B8283-8143-47AF-AD60-60A16B9A4C43} = {FCEA8836-A284-4A97-AECE-E07685D53A74}
 		{9DCB80F1-BAAF-45C8-A9C8-F9390CFD52BD} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{4E091E7C-3CC6-4674-BE28-AB10D4ECD12D} = {FBF56CC3-7AE6-AD2D-3F14-7F97FD322CD6}
+		{03772896-AD0B-4FE4-AB2F-2D2F1D44BB79} = {FBF56CC3-7AE6-AD2D-3F14-7F97FD322CD6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BD34E4C3-1BB6-49BA-AD59-5C4C8D56DEC5}

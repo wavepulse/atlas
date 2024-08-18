@@ -1,6 +1,7 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
+using Atlas.Infrastructure.Json;
 using Atlas.Web.App;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -8,6 +9,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 await builder.Build().RunAsync().ConfigureAwait(false);
 

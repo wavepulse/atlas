@@ -7,5 +7,5 @@ namespace Atlas.Application.Countries;
 
 public interface ISearchCountryRepository
 {
-    Task<IEnumerable<SearchCountry>> GetAllAsync(CancellationToken cancellationToken);
+    Task<SearchCountry[]> GetAllAsync(CancellationToken cancellationToken);
 }

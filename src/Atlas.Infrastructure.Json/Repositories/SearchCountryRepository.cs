@@ -13,7 +13,7 @@ internal sealed class SearchCountryRepository(HttpClient httpClient, IAppCache a
 {
     private const string Key = "search-countries";
 
-    public async Task<IEnumerable<SearchCountry>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<SearchCountry[]> GetAllAsync(CancellationToken cancellationToken)
     {
         if (appCache.TryGetValue(Key, out SearchCountry[]? cachedCountries))
             return cachedCountries;

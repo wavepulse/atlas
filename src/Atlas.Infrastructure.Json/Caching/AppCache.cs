@@ -3,20 +3,21 @@
 
 using Atlas.Infrastructure.Json.Settings;
 using Microsoft.Extensions.Caching.Memory;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Atlas.Infrastructure.Json.Caching;
 
 internal sealed class AppCache(IMemoryCache cache, CacheSettings settings) : IAppCache
 {
-    public async Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> factory)
+    public ICacheEntry CreateEntry(string key)
     {
-        MemoryCacheEntryOptions options = new()
-        {
-            AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(settings.ExpirationTimeInMinutes)
-        };
+        ICacheEntry entry = cache.CreateEntry(key);
 
-        T? entry = await cache.GetOrCreateAsync(key, _ => factory(), options).ConfigureAwait(false);
+        entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(settings.ExpirationTimeInMinutes);
 
-        return entry!;
+        return entry;
     }
+
+    public bool TryGetValue<TItem>(string key, [NotNullWhen(true)] out TItem? value)
+        => cache.TryGetValue(key, out value);
 }

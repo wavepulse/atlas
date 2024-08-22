@@ -23,31 +23,45 @@ public sealed class AppCacheTests
     }
 
     [Fact]
-    public async Task GetOrCreateAsyncShouldCreateTheEntryWhenDoesNotFoundTheEntry()
+    public void CreateEntryShouldCreateAnEntry()
     {
-        await _appCache.GetOrAddAsync("key", () => Task.FromResult("value"));
+        using ICacheEntry entry = _appCache.CreateEntry("key");
 
         _cache.Received(1).CreateEntry("key");
     }
 
     [Fact]
-    public async Task GetOrCreateAsyncShouldSetSettingsForTheCacheEntry()
+    public void CreateEntryShouldCreateAnEntryWithSettings()
     {
-        ICacheEntry entry = Substitute.For<ICacheEntry>();
-        _cache.CreateEntry("key").ReturnsForAnyArgs(entry);
+        using ICacheEntry entry = Substitute.For<ICacheEntry>();
 
-        await _appCache.GetOrAddAsync("key", () => Task.FromResult("value"));
+        _cache.CreateEntry("key").Returns(entry);
+
+        _ = _appCache.CreateEntry("key");
 
         entry.AbsoluteExpirationRelativeToNow.Should().Be(TimeSpan.FromMinutes(_settings.ExpirationTimeInMinutes));
     }
 
     [Fact]
-    public async Task GetOrCreateAsyncShouldReturnTheValue()
+    public void TryGetValueShouldReturnTheBoolean()
     {
-        ICacheEntry entry = Substitute.For<ICacheEntry>();
-        _cache.CreateEntry("key").ReturnsForAnyArgs(entry);
+        _cache.TryGetValue("key", out _).Returns(returnThis: true);
 
-        string value = await _appCache.GetOrAddAsync("key", () => Task.FromResult("value"));
+        bool result = _appCache.TryGetValue<object>("key", out _);
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public void TryGetValueShouldOutputThevalue()
+    {
+        _cache.TryGetValue("key", out _).Returns(x =>
+        {
+            x[1] = "value";
+            return true;
+        });
+
+        bool result = _appCache.TryGetValue("key", out string? value);
 
         value.Should().Be("value");
     }

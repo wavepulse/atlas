@@ -11,7 +11,7 @@ namespace Atlas.Infrastructure.Json.Repositories;
 
 internal sealed class SearchCountryRepository(HttpClient httpClient, IAppCache appCache) : ISearchCountryRepository
 {
-    private const string Key = "search-countries";
+    private const string Key = "country:search";
 
     public async Task<SearchCountry[]> GetAllAsync(CancellationToken cancellationToken)
     {

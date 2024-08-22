@@ -4,7 +4,6 @@
 using Atlas.Domain.Countries;
 using Atlas.Domain.Languages;
 using Atlas.Infrastructure.Json.Caching;
-using Microsoft.Extensions.Caching.Memory;
 using MockHttp;
 using System.Net;
 using System.Text.Json;
@@ -85,13 +84,13 @@ public sealed class SearchCountryRepositoryTests : IDisposable
 
         _ = await _repository.GetAllAsync(CancellationToken.None);
 
-        _appCache.Received(1).CreateEntry("search-countries");
+        _appCache.Received(1).CreateEntry("country:search");
     }
 
     [Fact]
     public async Task GetAllAsyncShouldGetWhenEntryExists()
     {
-        _appCache.TryGetValue<SearchCountry[]>("search-countries", out _).Returns(returnThis: true);
+        _appCache.TryGetValue<SearchCountry[]>("country:search", out _).Returns(returnThis: true);
 
         const string body = "[]";
 
@@ -101,7 +100,7 @@ public sealed class SearchCountryRepositoryTests : IDisposable
         _ = await _repository.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Never);
-        _appCache.Received(1).TryGetValue<SearchCountry[]>("search-countries", out _);
+        _appCache.Received(1).TryGetValue<SearchCountry[]>("country:search", out _);
     }
 
     private static SearchCountry CreateSearchCountry() => new()

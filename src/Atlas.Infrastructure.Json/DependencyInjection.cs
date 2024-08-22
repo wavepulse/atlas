@@ -22,8 +22,10 @@ public static class DependencyInjection
                     .AddSingleton(sp => sp.GetRequiredService<IOptions<CacheSettings>>().Value)
                     .AddOptionsWithValidateOnStart<CacheSettings>();
 
-        _ = services.ConfigureHttpClientDefaults(c => c.ConfigureHttpClient(configure))
-                    .AddHttpClient<ISearchCountryRepository, SearchCountryRepository>();
+        _ = services.ConfigureHttpClientDefaults(c => c.ConfigureHttpClient(configure));
+
+        _ = services.AddHttpClient<ISearchCountryRepository, SearchCountryRepository>();
+        _ = services.AddHttpClient<ICountryRepository, CountryRepository>();
 
         _ = services.AddMemoryCache()
                     .AddScoped<IAppCache, AppCache>();

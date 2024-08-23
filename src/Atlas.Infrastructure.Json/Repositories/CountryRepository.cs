@@ -53,7 +53,7 @@ internal sealed class CountryRepository(HttpClient client, IAppCache appCache) :
 
         using ICacheEntry entry = appCache.CreateEntry(countryKey);
 
-        Country? country = Array.Find(countries, c => c.Cca2.Equals(cca2, StringComparison.OrdinalIgnoreCase));
+        Country? country = Array.Find(countries!, c => c.Cca2.Equals(cca2, StringComparison.OrdinalIgnoreCase));
         entry.Value = country;
 
         return country;

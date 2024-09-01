@@ -2,5 +2,8 @@
 @use 'utils/reset';
 @use 'utils/colors';
 @use 'utils/typography';
-@use 'utils/inputs';
-@use 'utils/images';
+
+@use 'layouts/layout';
+
+@use 'components/images';
+@use 'components/inputs';

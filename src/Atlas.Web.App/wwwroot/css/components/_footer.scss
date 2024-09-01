@@ -1,0 +1,26 @@
+footer {
+  padding: 1em;
+  font-size: var(--font-size-sm);
+  font-weight: bold;
+
+  & > ul {
+    display: flex;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+
+    & > li:not(:first-child) {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      &::before {
+        content: '';
+        display: inline-block;
+        width: 1px;
+        min-height: 1em;
+        background: var(--color-primary)
+      }
+    }
+  }
+}

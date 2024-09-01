@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup Label="Blazor test packages">
-    <PackageVersion Include="Bunit" Version="2.0.24-preview" />
+    <PackageVersion Include="Bunit" Version="2.0.33-preview" />
   </ItemGroup>
 
   <ItemGroup Label="ETL test packages">

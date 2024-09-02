@@ -11,4 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Atlas.Infrastructure.Json\Atlas.Infrastructure.Json.csproj" />
   </ItemGroup>
+  <ItemGroup Label="Exclude from code coverage">
+    <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
 </Project>

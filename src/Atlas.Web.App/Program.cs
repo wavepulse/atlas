@@ -11,7 +11,7 @@ WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>(".main-layout");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.AddServices();
+builder.AddJsRuntime();
 builder.AddSettings();
 
 builder.Services.AddApplication();

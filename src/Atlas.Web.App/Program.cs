@@ -8,8 +8,11 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 WebAssemblyHostBuilder builder = WebAssemblyHostBuilder.CreateDefault(args);
-builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<App>(".main-layout");
 builder.RootComponents.Add<HeadOutlet>("head::after");
+
+builder.AddJsRuntime();
+builder.AddSettings();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration, c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));

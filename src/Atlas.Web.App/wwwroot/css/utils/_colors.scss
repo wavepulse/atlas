@@ -1,0 +1,27 @@
+:root {
+  --color-primary: hsl(176, 96%, 69%);
+  --color-secondary: hsl(213, 24%, 16%);
+  --color-secondary-accent: hsl(213, 24%, 84%);
+  --color-accent: hsl(43, 86%, 50%);
+  --color-text: hsl(210, 2%, 78%);
+  --color-background: hsl(228, 20%, 8%);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-primary: hsl(176, 96%, 31%);
+    --color-secondary: hsl(213, 24%, 84%);
+    --color-secondary-accent: hsl(213, 24%, 16%);
+    --color-accent: hsl(43, 86%, 50%);
+    --color-text: hsl(210, 2%, 22%);
+    --color-background: hsl(228, 20%, 95%);
+  }
+}
+
+html {
+  color-scheme: dark light;
+}
+
+body {
+  background-color: var(--color-background);
+}

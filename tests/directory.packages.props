@@ -16,10 +16,6 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 
-  <ItemGroup Label="Blazor test packages">
-    <PackageVersion Include="Bunit" Version="2.0.24-preview" />
-  </ItemGroup>
-
   <ItemGroup Label="ETL test packages">
     <PackageVersion Include="skwas.MockHttp" Version="4.3.1" />
   </ItemGroup>

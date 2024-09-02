@@ -1,0 +1,52 @@
+.hamburger {
+  --animation-speed: 200ms;
+
+  display: none;
+  position: absolute;
+  right: 0.5rem;
+  background: transparent;
+  border: unset;
+  padding: 0.5em;
+
+  &:hover, &:focus-visible {
+    background: unset;
+    color: unset;
+  }
+
+  &:focus-visible {
+    outline: 1px solid var(--color-accent);
+  }
+
+  .line {
+    transition: y var(--animation-speed) ease-in var(--animation-speed), rotate var(--animation-speed) ease-in, opacity 0ms var(--animation-speed);
+    transform-origin: center;
+  }
+
+  &.expanded {
+    .line {
+      transition: y var(--animation-speed) ease-in, rotate var(--animation-speed) ease-in var(--animation-speed), opacity 0ms var(--animation-speed)
+    }
+
+    :is(.top, .bottom) {
+      y: 45px;
+    }
+
+    .top {
+      rotate: 45deg;
+    }
+
+    .middle {
+      opacity: 0;
+    }
+
+    .bottom {
+      rotate: -45deg;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .hamburger {
+    display: flex;
+  }
+}

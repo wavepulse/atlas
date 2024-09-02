@@ -5,6 +5,7 @@ using Atlas.Web.App.Services;
 using Atlas.Web.App.Settings;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Atlas.Web.App;
@@ -12,7 +13,11 @@ namespace Atlas.Web.App;
 [ExcludeFromCodeCoverage]
 internal static class DependencyInjection
 {
-    internal static void AddServices(this WebAssemblyHostBuilder builder) => builder.Services.AddSingleton<ITime, Time>();
+    internal static void AddServices(this WebAssemblyHostBuilder builder)
+    {
+        _ = builder.Services.AddSingleton<ITime, Time>();
+        _ = builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
+    }
 
     internal static void AddSettings(this WebAssemblyHostBuilder builder)
     {

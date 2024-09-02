@@ -26,3 +26,8 @@
     transform-origin: left;
   }
 }
+
+:is(a, .link):focus-visible {
+  outline: 1px solid var(--color-accent);
+  outline-offset: 0.25rem;
+}

@@ -6,11 +6,3 @@
     border: 1px solid var(--color-text);
   }
 }
-
-.image-xs {
-  @include image(80px);
-}
-
-.image-md {
-  @include image(320px);
-}

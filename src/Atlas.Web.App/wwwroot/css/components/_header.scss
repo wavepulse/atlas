@@ -1,3 +1,8 @@
+:root {
+  // represents the header height which is a magic number!
+  --header-height: 66px;
+}
+
 header {
   --border-size: 2px;
 
@@ -67,15 +72,15 @@ header.expanded > .navbar {
     align-items: flex-start;
     position: fixed;
     width: 100%;
-    height: 66px; // magic number!
+    height: var(--header-height);
     min-height: 0;
     padding-inline: 0;
     padding-block-end: 0;
+    background: var(--color-background);
     transition: min-height ease-in 750ms;
 
     &.expanded {
       min-height: calc(100svh + var(--border-size));
-      background: var(--color-background);
       z-index: 2;
     }
 

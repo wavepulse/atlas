@@ -24,7 +24,7 @@
     --item-padding-block: 0.5em;
 
     border: 1px solid var(--color-accent);
-    height: calc(((var(--item-padding-block) * 2) + var(--border-width) + var(--font-size-md) * var(--default-line-height)) * var(--max-item-count));
+    max-height: calc(((var(--item-padding-block) * 2) + var(--border-width) + var(--font-size-md) * var(--default-line-height)) * var(--max-item-count));
     overflow-y: auto;
     overscroll-behavior: contain;
     color: var(--color-text);

@@ -1,0 +1,19 @@
+@inherits FluxorComponent
+
+<div class="autocomplete-container">
+    <div class="autocomplete-input">
+        <input tabindex="0" @ref="_autocomplete"
+                            @bind="_input"
+                            @oninput="SearchCountry"
+                            @onfocus="FocusSearch"
+                            @onkeydown="HandleKeyboard"
+                            type="text" aria-label="search a country" placeholder="Canada, Italy..." />
+        <button class="btn-guess">Guess!</button>
+    </div>
+    <ul class="autocomplete-items" role="list">
+        @foreach((string code, string name) in _filteredCountries.OrderBy(c => c.Name))
+        {
+            <li class="autocomplete-item" @onclick="() => SelectCountry(code)">@name</li>
+        }
+    </ul>
+</div>

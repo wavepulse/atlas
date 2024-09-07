@@ -24,7 +24,7 @@ internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonF
 
         Country[] acceptedCountries = countries.ExceptBy(settings.ExcludedCountries, x => x.Cca2, StringComparer.OrdinalIgnoreCase).ToArray();
         Country[] excludedCountries = countries.Except(acceptedCountries).ToArray();
-        SearchCountry[] searchCountries = countries.AsSearchCountries(settings.ExcludedCountries);
+        SearchCountry[] searchCountries = acceptedCountries.AsSearchCountries(settings.ExcludedCountries);
 
         MigratingCountries(DataJsonPaths.Countries);
         await writer.WriteToAsync($"{path}/{DataJsonPaths.Countries}", acceptedCountries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);

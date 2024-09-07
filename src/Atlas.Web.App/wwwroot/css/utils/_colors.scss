@@ -5,6 +5,7 @@
   --color-accent: hsl(43, 86%, 50%);
   --color-text: hsl(210, 2%, 78%);
   --color-background: hsl(228, 20%, 8%);
+  --color-background-accent: hsl(218, 22%, 14%)
 }
 
 @media (prefers-color-scheme: light) {
@@ -15,6 +16,7 @@
     --color-accent: hsl(43, 86%, 50%);
     --color-text: hsl(210, 2%, 22%);
     --color-background: hsl(228, 20%, 95%);
+    --color-background-accent: hsl(218, 22%, 91%);
   }
 }
 

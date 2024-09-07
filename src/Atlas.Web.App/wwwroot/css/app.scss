@@ -3,11 +3,12 @@
 @use 'utils/colors';
 @use 'utils/typography';
 
+@use 'layouts/game';
 @use 'layouts/layout';
 
 @use 'components/anchors';
+@use 'components/autocomplete';
 @use 'components/footer';
 @use 'components/hamburger';
 @use 'components/header';
-@use 'components/images';
 @use 'components/inputs';

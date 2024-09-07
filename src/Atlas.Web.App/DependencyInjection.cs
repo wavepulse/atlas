@@ -2,6 +2,8 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Web.App.Settings;
+using Fluxor;
+using Fluxor.Blazor.Web.ReduxDevTools;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
@@ -22,5 +24,16 @@ internal static class DependencyInjection
         _ = builder.Services.Configure<CompanySettings>(builder.Configuration.GetSection(CompanySettings.Section))
                             .AddSingleton<IValidateOptions<CompanySettings>, CompanySettings.Validator>()
                             .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanySettings>>().Value);
+    }
+
+    internal static void AddFluxor(this WebAssemblyHostBuilder builder)
+    {
+        _ = builder.Services.AddFluxor(options =>
+        {
+            _ = options.ScanAssemblies(typeof(Program).Assembly);
+#if DEBUG
+            _ = options.UseReduxDevTools(o => o.Name = "Atlas");
+#endif
+        });
     }
 }

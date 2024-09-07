@@ -13,10 +13,9 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.AddJsRuntime();
 builder.AddSettings();
+builder.AddFluxor();
 
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration, c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
 await builder.Build().RunAsync().ConfigureAwait(false);
-
-file static partial class Program;

@@ -11,3 +11,7 @@ function clearSearch(dotNetReference) {
         }
     });
 }
+
+function focusOut(element) {
+  element.blur();
+}

@@ -3,7 +3,9 @@
 
 using Atlas.Web.App.Settings;
 using Fluxor;
+#if DEBUG
 using Fluxor.Blazor.Web.ReduxDevTools;
+#endif
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;

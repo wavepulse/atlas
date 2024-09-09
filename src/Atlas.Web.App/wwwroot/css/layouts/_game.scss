@@ -2,23 +2,22 @@
 
 .game {
   --max-width: 320px;
-
   display: grid;
   gap: 2em;
   justify-content: center;
   padding-block: 1.5rem;
   min-width: var(--max-width);
   grid-template-rows: auto 1fr;
-  grid-template-areas: 
+  grid-template-areas:
     "picture"
     "guess";
 
-    & > picture {
-      grid-area: picture;
-      @include image(var(--max-width));
-    }
+  & > picture {
+    grid-area: picture;
+    @include image(var(--max-width));
+  }
 
-    & > :nth-child(2) {
-      grid-area: guess;
-    }
+  & > :nth-child(2) {
+    grid-area: guess;
+  }
 }

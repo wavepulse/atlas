@@ -1,9 +1,12 @@
 @page "/"
 
 <div class="game">
-    <picture>
-        <source srcset="https://flagcdn.com/w640/ua.webp" type="image/webp" />
-        <img src="https://flagcdn.com/w640/ua.webp" alt="Atlas" />
-    </picture>
+    @if (!string.IsNullOrEmpty(_randomizedCca2))
+    {
+        <picture>
+            <source srcset="@GetRandomizedFlag()" type="image/webp" />
+            <img src="@GetRandomizedFlag()" alt="Flag" />
+        </picture>
+    }
     <CountryAutocomplete />
 </div>

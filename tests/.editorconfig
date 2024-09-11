@@ -40,7 +40,7 @@ dotnet_diagnostic.SA1600.severity = none
 # IDE0021: Use expression body for constructors
 # Reason: Disabled expression body to read the code easily
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0021
-csharp_style_expression_bodied_constructors = when_on_single_line:silent
+csharp_style_expression_bodied_constructors = false:silent
 
 # IDE0022: Use expression body for methods
 # Reason: Disabled expression body to read the code easily

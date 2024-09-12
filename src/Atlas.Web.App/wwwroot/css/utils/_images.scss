@@ -1,0 +1,8 @@
+@mixin image($size) {
+  width: $size;
+  aspect-ratio: 2 / 1;
+
+  img {
+    border: 1px solid var(--color-text);
+  }
+}

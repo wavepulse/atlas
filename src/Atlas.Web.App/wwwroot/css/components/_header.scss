@@ -1,0 +1,92 @@
+:root {
+  // represents the header height which is a magic number!
+  --header-height: 66px;
+}
+
+header {
+  --border-size: 2px;
+
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+  border-bottom: var(--border-size) solid currentColor;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    picture {
+      width: 48px;
+    }
+  }
+}
+
+.navigation {
+  display: flex;
+  gap: 1em;
+
+  .nav-item {
+    font-size: calc(var(--font-size-md) * 2);
+
+    .nav-link {
+      text-decoration: none;
+      color: currentColor;
+
+      i + span {
+        margin-inline-start: 0.5rem;
+      }
+  
+      & > span {
+        display: none;
+      }
+  
+      &:hover {
+        color: var(--color-accent);
+      }
+    }
+  }
+}
+
+header.expanded > .navbar {
+  display: unset;
+  width: 100%;
+  padding-block-start: 1rem;
+
+  .navigation {
+    flex-direction: column;
+    padding: 0.5em 1em;
+    text-align: center;
+
+    .nav-link > span {
+      display: unset;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+    justify-content: unset;
+    overflow: clip;
+    align-items: flex-start;
+    position: fixed;
+    width: 100%;
+    height: var(--header-height);
+    min-height: 0;
+    padding-inline: 0;
+    padding-block-end: 0;
+    background: var(--color-background);
+    transition: min-height ease-in 750ms;
+    z-index: 2;
+
+    &.expanded {
+      min-height: calc(100svh + var(--border-size));
+      z-index: 2;
+    }
+
+    .navbar {
+      display: none;
+    }
+  }
+}

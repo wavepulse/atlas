@@ -1,0 +1,33 @@
+:root {
+  --color-primary: hsl(176, 96%, 69%);
+  --color-secondary: hsl(213, 24%, 16%);
+  --color-secondary-accent: hsl(213, 24%, 84%);
+  --color-accent: hsl(43, 86%, 50%);
+  --color-text: hsl(210, 2%, 78%);
+  --color-background: hsl(228, 20%, 8%);
+  --color-background-accent: hsl(218, 22%, 14%);
+  --color-danger: hsl(0, 100%, 27%);
+  --color-success: hsl(120, 100%, 40%);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-primary: hsl(176, 96%, 31%);
+    --color-secondary: hsl(213, 24%, 84%);
+    --color-secondary-accent: hsl(213, 24%, 16%);
+    --color-accent: hsl(43, 86%, 50%);
+    --color-text: hsl(210, 2%, 22%);
+    --color-background: hsl(228, 20%, 95%);
+    --color-background-accent: hsl(218, 22%, 91%);
+    --color-danger: hsl(0, 100%, 50%);
+    --color-success: hsl(120, 100%, 27%);
+  }
+}
+
+html {
+  color-scheme: dark light;
+}
+
+body {
+  background-color: var(--color-background);
+}

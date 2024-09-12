@@ -1,0 +1,15 @@
+:root {
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-md: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --default-line-height: 1.5;
+}
+
+body {
+  font-family: 'Montserrat', system-ui;
+  font-size: var(--font-size-md);
+  line-height: var(--default-line-height);
+  color: var(--color-primary)
+}

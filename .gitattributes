@@ -43,7 +43,7 @@ codeowners  text
 *.toml      text
 *.xml       text
 *.yaml      text
-*.yml       text
+*.yml       text eol=crlf
 
 # Web files
 

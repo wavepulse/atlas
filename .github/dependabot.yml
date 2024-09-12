@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: nuget
+    target-branch: develop
+    directory: /
+    schedule:
+      interval: weekly
+      time: "01:00"
+    commit-message:
+      prefix: NuGet packages
+    labels: [ dependencies ]
+    assignees: [ beauchama ]
+    groups:
+      all:
+        patterns:
+          - "*"

@@ -1,0 +1,17 @@
+@using Atlas.Web.App.Settings
+
+@inject ProjectSettings project
+@inject CompanySettings company
+
+<footer>
+    <ul role="list">
+        <li>&copy; @GetCopyrightYears()</li>
+        <li>
+            <a class="link" href="@company.Url">
+                <i class="bi bi-github"></i>
+                <span>@company.Name</span>
+            </a>
+        </li>
+        <li>@project.Version</li>
+    </ul>
+</footer>

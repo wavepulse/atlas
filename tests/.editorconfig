@@ -20,6 +20,11 @@ dotnet_diagnostic.VSTHRD200.severity = none
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA0001.md
 dotnet_diagnostic.SA0001.severity = none
 
+# SA1202: An element within a C# code file is out of order within regard to access level, in relation to other elements in the code.
+# Reason: Don't need to order the elements in the test projects
+# https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1202.md
+dotnet_diagnostic.SA1202.severity = none
+
 # SA1402: File may only contain a single type
 # Reason: Can have multiple types in a single file for better reading
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1402.md
@@ -32,6 +37,11 @@ dotnet_diagnostic.SA1600.severity = none
 
 # Disabled rules
 
+# IDE0021: Use expression body for constructors
+# Reason: Disabled expression body to read the code easily
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0021
+csharp_style_expression_bodied_constructors = false:silent
+
 # IDE0022: Use expression body for methods
 # Reason: Disabled expression body to read the code easily
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0022
@@ -40,4 +50,5 @@ csharp_style_expression_bodied_methods = when_on_single_line:silent
 # IDE0058: Expression value is never used
 # Reason: No need to use the value from the expression
 # https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0058
-dotnet_diagnostic.IDE0058.severity = silent
+dotnet_diagnostic.IDE0058.severity = none
+csharp_style_unused_value_expression_statement_preference = unused_local_variable

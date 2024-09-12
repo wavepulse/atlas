@@ -1,0 +1,11 @@
+{
+  "profiles": {
+    "Atlas.Etl": {
+      "commandName": "Project",
+      "commandLineArgs": "--root src --output Atlas.Web.App/wwwroot",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

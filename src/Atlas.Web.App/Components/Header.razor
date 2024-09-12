@@ -1,0 +1,39 @@
+@using Atlas.Web.App.Settings
+@using Microsoft.JSInterop
+
+@inject ProjectSettings project
+@inject IJSInProcessRuntime jsRuntime
+
+<header aria-expanded="false">
+    <div class="logo">
+        <picture>
+            <source type="image/webp" srcset="assets/images/atlas.webp 2x" media="(min-width: 960)" />
+            <source type="image/webp" srcset="assets/images/atlas.webp">
+            <img src="assets/images/atlas.webp" alt="Logo">
+        </picture>
+        <h2><a class="link" href="/">Atlas</a></h2>
+    </div>
+    <button class="hamburger" @onclick="@(() => jsRuntime.InvokeVoid("toggleNavigation"))" aria-controls="primary-navigation" aria-expanded="false" aria-label="navigation">
+        <svg fill="var(--color-primary)" viewBox="0 0 100 100" width="32" aria-label="hamburger">
+            <rect class="line top" width="80" height="10" x="10" y="25" rx="5"></rect>
+            <rect class="line middle" width="80" height="10" x="10" y="45" rx="5"></rect>
+            <rect class="line bottom" width="80" height="10" x="10" y="65" rx="5"></rect>
+        </svg>
+    </button>
+    <nav class="navbar">
+        <ul class="navigation" role="list">
+            <li class="nav-item">
+                <a class="nav-link" href="@project.Url">
+                    <i class="bi bi-github"></i>
+                    <span>Project</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@project.BugUrl">
+                    <i class="bi bi-bug-fill"></i>
+                    <span>Report a bug</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>

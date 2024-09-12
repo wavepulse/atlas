@@ -78,6 +78,7 @@ header.expanded > .navbar {
     padding-block-end: 0;
     background: var(--color-background);
     transition: min-height ease-in 750ms;
+    z-index: 2;
 
     &.expanded {
       min-height: calc(100svh + var(--border-size));

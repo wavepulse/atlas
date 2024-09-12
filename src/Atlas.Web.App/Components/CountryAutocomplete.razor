@@ -6,14 +6,15 @@
                             @bind="_input"
                             @oninput="SearchCountry"
                             @onfocus="FocusSearch"
-                            @onkeydown="HandleKeyboard"
+                            @onkeydown="HandleKeyboardAsync"
+                            disabled="@HasWonGame"
                             type="text" aria-label="search a country" placeholder="Canada, Italy..." />
-        <button class="btn-guess">Guess!</button>
+        <button class="btn-guess" disabled="@HasWonGame" @onclick="GuessAsync">Guess!</button>
     </div>
     <ul class="autocomplete-items" role="list">
         @foreach((string code, string name) in _filteredCountries.OrderBy(c => c.Name))
         {
-            <li class="autocomplete-item" @onclick="() => SelectCountry(code)">@name</li>
+            <li class="autocomplete-item" @onclick="() => SelectCountryAsync(code)">@name</li>
         }
     </ul>
 </div>

@@ -1,0 +1,33 @@
+<ul class="guess-container" role="list">
+    @foreach (var guess in _guesses)
+    {
+        <li class="guess @HasSuccess(guess.Success)">
+            <img class="img-sm" src="@GetFlag(guess.Cca2)" alt="@guess.Name" />
+            <div class="information">
+                <div class="content">
+                    <span title="@guess.Name" class="country-name">@guess.Name</span>
+                    <div class="continent">
+                        <span>Continent</span>
+                        <i class="same-continent bi @IsSameContinent(guess.IsSameContinent)"></i>
+                    </div>
+                </div>
+                <div class="vr"></div>
+                <div class="content">
+                    <span>@guess.Kilometers.ToString("N0", _numberFormat) Km</span>
+                    <div class="direction">
+                        <span>Direction</span>
+                        <span>
+                            <i style="transform: rotate(@(guess.Direction)deg)" class="arrow bi @HasFound(guess.Success)"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+    @for (int index = _guesses.Count; index < MaxGuesses; index++)
+    {
+        <li class="guess empty @HasWonGame()">
+            <span> @(index + 1) / @MaxGuesses</span>
+        </li>
+    }
+</ul>

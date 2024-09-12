@@ -53,7 +53,7 @@ public sealed class AppCacheTests
     }
 
     [Fact]
-    public void TryGetValueShouldOutputThevalue()
+    public void TryGetValueShouldOutputTheValue()
     {
         _cache.TryGetValue("key", out _).Returns(x =>
         {

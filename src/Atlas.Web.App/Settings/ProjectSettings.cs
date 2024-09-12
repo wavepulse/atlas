@@ -16,6 +16,9 @@ public sealed partial class ProjectSettings
     [Required, Url]
     public required string Url { get; set; }
 
+    [Required, Url]
+    public required string BugUrl { get; set; }
+
     [OptionsValidator]
     internal sealed partial class Validator : IValidateOptions<ProjectSettings>;
 }

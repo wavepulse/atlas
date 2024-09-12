@@ -5,7 +5,7 @@ using Atlas.Domain.Extensions;
 
 namespace Atlas.Domain.Geography;
 
-internal static class Direction
+public static class Direction
 {
     public static double Calculate(Coordinate from, Coordinate to)
     {

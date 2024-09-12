@@ -4,7 +4,6 @@
   --max-width: 320px;
   display: grid;
   gap: 2em;
-  justify-content: center;
   padding-block: 1.5rem;
   min-width: var(--max-width);
   grid-template-rows: auto 1fr;
@@ -14,10 +13,22 @@
 
   & > picture {
     grid-area: picture;
+    place-self: center;
     @include image(var(--max-width));
   }
 
-  & > :nth-child(2) {
+  & > .guess {
     grid-area: guess;
+    display: flex;
+    justify-content: center;
+  }
+
+  .lose {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    place-self: center;
+    width: var(--max-width);
   }
 }

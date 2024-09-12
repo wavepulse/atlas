@@ -38,7 +38,7 @@ public sealed class GuessFlagTests
         guessedFlag.Success.Should().BeFalse();
         guessedFlag.IsSameContinent.Should().BeFalse();
         guessedFlag.Direction.Should().Be(104);
-        guessedFlag.Kilometers.Should().Be(6843.324526938063);
+        guessedFlag.Kilometers.Should().Be(6843);
     }
 
     [Fact]

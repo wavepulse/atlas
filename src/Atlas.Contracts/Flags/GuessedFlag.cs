@@ -11,7 +11,7 @@ public sealed record GuessedFlag
 
     public required bool IsSameContinent { get; init; }
 
-    public required double Kilometers { get; init; }
+    public required int Kilometers { get; init; }
 
     public required double Direction { get; init; }
 

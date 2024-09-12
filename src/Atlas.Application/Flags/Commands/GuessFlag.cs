@@ -25,11 +25,11 @@ public static class GuessFlag
 
         private static GuessedFlag Guess(Country country, Country guessedCountry) => new()
         {
-            Cca2 = country.Cca2,
+            Cca2 = guessedCountry.Cca2,
             Success = string.Equals(country.Cca2, guessedCountry.Cca2, StringComparison.OrdinalIgnoreCase),
             Name = guessedCountry.Translations.First().Name,
             Direction = Direction.Calculate(guessedCountry.Coordinate, country.Coordinate),
-            Kilometers = Distance.Calculate(guessedCountry.Coordinate, country.Coordinate).Kilometers,
+            Kilometers = (int)Math.Round(Distance.Calculate(guessedCountry.Coordinate, country.Coordinate).Kilometers),
             IsSameContinent = guessedCountry.Continent == country.Continent
         };
     }

@@ -8,5 +8,15 @@
             <img src="@GetRandomizedFlag()" alt="Flag" />
         </picture>
     }
-    <CountryAutocomplete />
+    <div class="guess">
+        <CountryAutocomplete Guess="Guess" />
+        <FlagGuesses />
+    </div>
+    @if (_hasLoseGame)
+    {
+        <div class="lose">
+            <p>@_randomizedName</p>
+            <button class="btn-restart" @onclick="@RestartGame">Restart</button>
+        </div>
+    }
 </div>

@@ -1,0 +1,108 @@
+.guess-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: calc(var(--max-width) + 1em);
+  padding-inline: 1rem;
+  margin-block-start: 3.5rem !important;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+
+  .guess {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 8px 12px;
+    border: 1px solid var(--color-secondary);
+    border-radius: 8px;
+    height: 64px;
+
+    &.success {
+      border-color: var(--color-success);
+      box-shadow: 0px 0px 10px var(--color-success);
+    }
+
+    &.wrong {
+      border-color: var(--color-danger);
+    }
+
+    &.empty {
+      height: 30px;
+      background: var(--color-secondary);
+      font-style: italic;
+      font-weight: bold;
+      justify-content: center;
+
+      &.has-won {
+        opacity: 0.5;
+      }
+    }
+
+    .img-sm {
+      width: 48px;
+    }
+
+    .vr {
+      border-right: 1px solid var(--color-secondary);
+      min-height: 100%;
+    }
+
+    .information {
+      display: flex;
+      gap: 8px;
+      flex: 1 0 0;
+
+      .content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        text-wrap: nowrap;
+
+        .country-name {
+          width: 130px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        .continent {
+          display: flex;
+          gap: 12px;
+          align-items: center;
+
+          .same-continent {
+            display: flex;
+            font-size: 2em;
+
+            &.success {
+              color: var(--color-success);
+            }
+
+            &.wrong {
+              color: var(--color-danger);
+            }
+          }
+        }
+
+        .direction {
+          display: flex;
+          gap: 16px;
+          align-items: center;
+          flex: 1 0 0;
+
+          .arrow {
+            display: flex;
+            font-size: 1.2em;
+            color: var(--color-accent);
+
+            &.success {
+              transform: unset;
+              color: var(--color-success);
+              font-size: 2em;
+            }
+          }
+        }
+      }
+    }
+  }
+}

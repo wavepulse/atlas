@@ -37,7 +37,7 @@ public sealed partial class Index(IDispatcher dispatcher, IActionSubscriber subs
         });
     }
 
-    private string GetRandomizedFlag() => $"https://flagcdn.com/w640/{_randomizedCca2.ToLowerInvariant()}.webp";
+    private string GetRandomizedFlag() => $"https://flagcdn.com/{_randomizedCca2.ToLowerInvariant()}.svg";
 
     private void Guess(string guessedCca2)
         => dispatcher.Dispatch(new CountryActions.Guess(guessedCca2, _randomizedCca2));

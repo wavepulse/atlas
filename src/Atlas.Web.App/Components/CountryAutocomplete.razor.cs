@@ -24,7 +24,7 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
     [Parameter]
     public EventCallback<string> Guess { get; init; }
 
-    public bool HasWonGame => _hasWonGame || _hasLoseGame;
+    public bool IsGameFinished => _hasWonGame || _hasLoseGame;
 
     [JSInvokable]
     public void ClearSearch()
@@ -121,10 +121,14 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
             ClearSearch();
             FocusOut();
         }
-        else if (e.Key is Keyboard.Enter && _filteredCountries.Length == 1)
+        else if (e.Key is Keyboard.Enter && (HasOneElement() || HasExactName()))
         {
             await SelectCountryAsync(_filteredCountries[0].Cca2);
         }
+
+        bool HasOneElement() => _filteredCountries.Length == 1;
+
+        bool HasExactName() => _filteredCountries.Length > 0 && _filteredCountries[0].Name.Equals(_input, StringComparison.OrdinalIgnoreCase);
     }
 
     private void FocusOut() => jsRuntime.InvokeVoid("focusOut", _autocomplete);

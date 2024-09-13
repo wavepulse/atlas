@@ -9,3 +9,10 @@ All available games are listed below:
 ### [Random flag challenge](https://atlas.pulsewave.dev/flags/random)
 
 In this game, you will be presented with a random flag and you have to guess the country it belongs to.
+
+## Mentions
+
+Thanks to the following projects for providing the data used in this app:
+
+- [Flagpedia](https://flagpedia.net/)
+- [Rest Countries](https://restcountries.com/)

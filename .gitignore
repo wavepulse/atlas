@@ -5,6 +5,10 @@
 # Ignore *.css files because they are generated from *.scss files
 *.css
 
+# Ignore *.js and *.js.map files because they are generated from *.ts files
+*.js
+*.js.map
+
 # Visual studio
 
 ## User-specific files

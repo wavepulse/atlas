@@ -2,7 +2,7 @@ function clearSearch(dotnet: any) {
   document.addEventListener('click', (event: MouseEvent) => {
     const autocomplete = document.querySelector('.autocomplete-container');
 
-    if (!event || !event.target || !(event.target instanceof HTMLElement)) {
+    if (!event || !event.target || !(event.target instanceof Element)) {
       return;
     }
 
@@ -14,6 +14,18 @@ function clearSearch(dotnet: any) {
       dotnet.invokeMethod('ClearSearch');
     }
   });
+}
+
+function scrollToAutocomplete() {
+  const element = document.querySelector('.autocomplete-container');
+
+  if (!element) {
+    return;
+  }
+
+  const y = element.getBoundingClientRect().top + window.scrollY;
+
+  window.scrollTo({ top: y, behavior: 'smooth' });
 }
 
 function focusOut(element: HTMLElement) {

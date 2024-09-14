@@ -14,8 +14,4 @@ public static class CountryActions
     public sealed record Guess(string GuessedCca2, string RandomizedCca2);
 
     public sealed record GuessResult(GuessedFlag Flag);
-
-    public sealed record LoseGame;
-
-    public sealed record Reset;
 }

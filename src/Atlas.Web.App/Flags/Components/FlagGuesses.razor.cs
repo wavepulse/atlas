@@ -7,7 +7,7 @@ using Atlas.Web.App.Stores.Games;
 using Fluxor;
 using System.Globalization;
 
-namespace Atlas.Web.App.Components;
+namespace Atlas.Web.App.Flags.Components;
 
 public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatcher dispatcher) : IDisposable
 {

@@ -18,12 +18,10 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
 {
     private readonly List<string> _selectedCountries = [];
 
-    private bool _isGameFinished;
     private string _input = string.Empty;
     private DotNetObjectReference<CountryAutocomplete>? _reference;
     private ElementReference _autocomplete;
     private SearchCountry[] _filteredCountries = [];
-    private string _answer = string.Empty;
 
     [Parameter]
     public EventCallback<string> Guess { get; init; }
@@ -47,18 +45,18 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
         SubscribeToAction<CountryActions.GuessResult>(action =>
         {
             if (action.Flag.Success)
-            {
-                _isGameFinished = true;
-                _answer = string.Empty;
-
                 return;
-            }
 
             _selectedCountries.Add(action.Flag.Cca2);
         });
 
-        SubscribeToAction<GameActions.GameOver>(_ => _isGameFinished = true);
-        SubscribeToAction<CountryActions.RandomizeResult>(action => _answer = action.Cca2);
+        SubscribeToAction<GameActions.Restart>(_ =>
+        {
+            _selectedCountries.Clear();
+
+            _input = string.Empty;
+            _filteredCountries = [];
+        });
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -99,7 +97,7 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
     private SearchCountry[] GetFilteredCountries()
     {
         string input = RemoveDiacritics(_input);
-        SearchCountry[] availableCountries = countries.Value.ExceptBy(_selectedCountries, c => c.Cca2).ToArray();
+        SearchCountry[] availableCountries = [.. countries.Value.ExceptBy(_selectedCountries, c => c.Cca2).OrderBy(c => c.Name)];
 
         return Array.FindAll(availableCountries, c => RemoveDiacritics(c.Name).Contains(input, StringComparison.OrdinalIgnoreCase));
 
@@ -161,20 +159,6 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
 
         bool HasExactName() => _filteredCountries.Length > 0 && _filteredCountries[0].Name.Equals(_input, StringComparison.OrdinalIgnoreCase);
     }
-
-    private void RestartGame()
-    {
-        _isGameFinished = false;
-        _selectedCountries.Clear();
-        _input = string.Empty;
-        _filteredCountries = [];
-
-        dispatcher.Dispatch(new GameActions.Restart());
-        dispatcher.Dispatch(new CountryActions.Randomize());
-    }
-
-    private string GetAnswer()
-        => countries.Value.First(countries => string.Equals(countries.Cca2, _answer, StringComparison.OrdinalIgnoreCase)).Name;
 
     private static class Keyboard
     {

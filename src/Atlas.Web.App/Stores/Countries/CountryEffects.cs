@@ -3,6 +3,7 @@
 
 using Atlas.Application.Countries.Queries;
 using Atlas.Application.Flags.Commands;
+using Atlas.Contracts.Countries;
 using Atlas.Contracts.Flags;
 using Fluxor;
 using Mediator;
@@ -14,9 +15,9 @@ internal sealed class CountryEffects(ISender sender)
     [EffectMethod(typeof(CountryActions.Randomize))]
     public async Task RandomizeAsync(IDispatcher dispatcher)
     {
-        string randomizedCca2 = await sender.Send(new RandomizeCountry.Query()).ConfigureAwait(false);
+        RandomizedCountry country = await sender.Send(new RandomizeCountry.Query()).ConfigureAwait(false);
 
-        dispatcher.Dispatch(new CountryActions.RandomizeResult(randomizedCca2));
+        dispatcher.Dispatch(new CountryActions.RandomizeResult(country));
     }
 
     [EffectMethod]

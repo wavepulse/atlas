@@ -1,0 +1,15 @@
+<div class="game-over">
+    <div class="answer-container">
+        @if (!string.IsNullOrEmpty(Answer))
+        {
+            <span>Flag:</span>
+            <span class="answer">@Answer</span>
+        }
+        else
+        {
+            <span>Congratulations!</span>
+        }
+    </div>
+    <button type="button" @onclick="RestartGame">Restart</button>
+</div>
+

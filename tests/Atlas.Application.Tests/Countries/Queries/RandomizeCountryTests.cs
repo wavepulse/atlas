@@ -2,12 +2,16 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Application.Services;
+using Atlas.Contracts.Countries;
+using Atlas.Domain.Countries;
+using Atlas.Domain.Geography;
+using Atlas.Domain.Languages;
 
 namespace Atlas.Application.Countries.Queries;
 
 public sealed class RandomizeCountryTests
 {
-    private readonly string[] _codes = ["CA"];
+    private readonly Country[] _countries = [CreateCanada()];
 
     private readonly IRandomizer _randomizer = new Randomizer();
     private readonly ICountryRepository _countryRepository = Substitute.For<ICountryRepository>();
@@ -17,7 +21,7 @@ public sealed class RandomizeCountryTests
 
     public RandomizeCountryTests()
     {
-        _countryRepository.GetAllCodesAsync(CancellationToken.None).Returns(_codes);
+        _countryRepository.GetAllAsync(CancellationToken.None).Returns(_countries);
 
         _handler = new RandomizeCountry.Handler(_randomizer, _countryRepository);
     }
@@ -27,14 +31,26 @@ public sealed class RandomizeCountryTests
     {
         _ = await _handler.Handle(_query, CancellationToken.None);
 
-        await _countryRepository.Received(1).GetAllCodesAsync(CancellationToken.None);
+        await _countryRepository.Received(1).GetAllAsync(CancellationToken.None);
     }
 
     [Fact]
     public async Task HandleShouldReturnTheRandomizedCountry()
     {
-        string code = await _handler.Handle(_query, CancellationToken.None);
+        RandomizedCountry country = await _handler.Handle(_query, CancellationToken.None);
 
-        code.Should().Be(_codes[0]);
+        country.Should().Be(_countries[0]);
     }
+
+    private static Country CreateCanada() => new()
+    {
+        Cca2 = "CA",
+        Area = new Area(9984670),
+        Borders = ["USA"],
+        Capitals = [new Capital("Ottawa", new Coordinate(42, 42))],
+        Continent = Continent.NorthAmerica,
+        Coordinate = new Coordinate(60, 95),
+        Population = 38008005,
+        Translations = [new Translation("eng", "Canada")]
+    };
 }

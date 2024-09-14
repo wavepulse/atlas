@@ -1,18 +1,20 @@
+@use '../utils/media' as *;
+
 .main-layout {
   display: grid;
   min-height: 100svh;
   grid-template-columns: auto minmax(auto, 512px) auto;
   grid-template-rows: var(--header-height) 1fr auto;
   grid-template-areas:
-    "header header header"
+    ". header ."
     ". main ."
     ". footer .";
 }
 
-@media only screen and (min-width: 768px) {
+@include media-breakpoint-down(md) {
   .main-layout {
     grid-template-areas:
-    ". header ."
+    "header header header"
     ". main ."
     ". footer .";
   }

@@ -1,3 +1,5 @@
+@use '../utils/media' as *;
+
 .autocomplete-container {
   display: flex;
   flex-direction: column;
@@ -52,14 +54,14 @@
   }
 }
 
-@media only screen and (max-width: 768px) {
+@include media-breakpoint-down(md) {
   .autocomplete-container {
     .autocomplete-input button {
       display: unset;
     }
 
     .autocomplete-items {
-      --max-item-count: 5
+      --max-item-count: 5;
     }
   }
 }

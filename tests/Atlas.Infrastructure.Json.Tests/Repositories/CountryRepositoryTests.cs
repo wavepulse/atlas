@@ -91,7 +91,7 @@ public sealed class CountryRepositoryTests : IDisposable
     [Fact]
     public async Task GetAllCodesAsyncShouldGetWhenEntryExists()
     {
-        _appCache.TryGetValue<string[]>("country:codes", out _).Returns(returnThis: true);
+        _appCache.TryGetValue<Country[]>("country:codes", out _).Returns(returnThis: true);
 
         const string body = "[]";
 
@@ -101,7 +101,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _ = await _repository.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Never);
-        _appCache.Received(1).TryGetValue<string[]>("country:codes", out _);
+        _appCache.Received(1).TryGetValue<Country[]>("country:codes", out _);
     }
 
     [Fact]

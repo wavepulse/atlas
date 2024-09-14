@@ -39,7 +39,7 @@ public sealed class RandomizeCountryTests
     {
         RandomizedCountry country = await _handler.Handle(_query, CancellationToken.None);
 
-        country.Should().Be(_countries[0]);
+        country.Cca2.Should().Be(_countries[0].Cca2);
     }
 
     private static Country CreateCanada() => new()

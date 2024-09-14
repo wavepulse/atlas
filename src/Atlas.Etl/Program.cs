@@ -18,5 +18,3 @@ builder.AddCountries();
 builder.AddEtlApplication();
 
 await builder.Build().RunAsync().ConfigureAwait(false);
-
-file static partial class Program;

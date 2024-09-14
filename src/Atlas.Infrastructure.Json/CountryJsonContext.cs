@@ -11,7 +11,6 @@ namespace Atlas.Infrastructure.Json;
 [JsonSerializable(typeof(SearchCountry[]))]
 [JsonSourceGenerationOptions(
     Converters = [typeof(AreaJsonConverter)],
-    GenerationMode = JsonSourceGenerationMode.Metadata,
     PropertyNameCaseInsensitive = true,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     UseStringEnumConverter = true)]

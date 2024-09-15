@@ -32,3 +32,10 @@ footer {
   grid-area: footer;
   place-self: center;
 }
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-block-start: 1em;
+}

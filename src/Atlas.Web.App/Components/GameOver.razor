@@ -1,15 +1,20 @@
 <div class="game-over">
-    <div class="answer-container">
-        @if (!string.IsNullOrEmpty(Answer))
-        {
-            <span>Flag:</span>
-            <span class="answer">@Answer</span>
-        }
-        else
-        {
+    @if (!string.IsNullOrEmpty(Country))
+    {
+        <a class="link" href="@MapUri">
+            <i class="bi bi-globe-americas"></i>
+            <span class="answer">@Country</span>
+        </a>
+    }
+    else
+    {
+        <div class="congratulations">
             <span>Congratulations!</span>
-        }
-    </div>
+            <a class="link" href="@MapUri">
+                <i class="bi bi-globe-americas"></i>
+                <span class="answer">See on map</span>
+            </a>
+        </div>
+    }
     <button type="button" @onclick="RestartGame">Restart</button>
 </div>
-

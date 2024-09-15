@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change javascript to typescript ([#25])
 - Rename Atlas.Etl to Prometheus ([#14])
 - Simplify language code for translations ([#20])
+- Improve icons usage ([#36])
 
 ### Fixed
 
@@ -39,6 +40,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#20]: https://github.com/wavepulse/atlas/issues/20
 [#25]: https://github.com/wavepulse/atlas/issues/25
 [#32]: https://github.com/wavepulse/atlas/issues/32
+[#36]: https://github.com/wavepulse/atlas/issues/36
 [#37]: https://github.com/wavepulse/atlas/issues/37
 [#38]: https://github.com/wavepulse/atlas/issues/38
 [#46]: https://github.com/wavepulse/atlas/issues/46

@@ -2,6 +2,7 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Contracts.Flags;
+using Atlas.Web.App.Components;
 using Atlas.Web.App.Stores.Countries;
 using Atlas.Web.App.Stores.Games;
 using Fluxor;
@@ -47,9 +48,9 @@ public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatche
 
     private static string HasSuccess(bool success) => success ? "success" : "wrong";
 
-    private static string HasFound(bool success) => success ? "success bi-check" : "bi-arrow-up";
+    private static string HasFound(bool success) => success ? $"success {Icons.Check}" : Icons.ArrowUp;
 
-    private static string IsSameContinent(bool isSameContinent) => isSameContinent ? "success bi-check" : "wrong bi-x";
+    private static string IsSameContinent(bool isSameContinent) => isSameContinent ? $"success {Icons.Check}" : $"wrong {Icons.Times}";
 
     private string HasWonGame() => _hasWonGame ? "has-won" : string.Empty;
 }

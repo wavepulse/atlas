@@ -2,7 +2,7 @@
     @if (!string.IsNullOrEmpty(Country))
     {
         <a class="link" href="@MapUri">
-            <i class="bi bi-globe-americas"></i>
+            <i class="@Icons.Earth"></i>
             <span class="answer">@Country</span>
         </a>
     }
@@ -11,7 +11,7 @@
         <div class="congratulations">
             <span>Congratulations!</span>
             <a class="link" href="@MapUri">
-                <i class="bi bi-globe-americas"></i>
+                <i class="@Icons.Earth"></i>
                 <span class="answer">See on map</span>
             </a>
         </div>

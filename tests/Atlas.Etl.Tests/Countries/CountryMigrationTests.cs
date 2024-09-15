@@ -106,6 +106,8 @@ public sealed class CountryMigrationTests
         Region = RegionDto.Americas,
         SubRegion = SubRegionDto.NorthAmerica,
         Borders = ["USA"],
-        Translations = [new TranslationDto("fra", "Canada"), new TranslationDto("eng", "Canada"), new TranslationDto("deu", "Kanada")]
+        Translations = [new TranslationDto("fra", "Canada"), new TranslationDto("eng", "Canada"), new TranslationDto("deu", "Kanada")],
+        Maps = new MapsDto(new Uri("https://example.com/maps.com")),
+        Flags = new FlagsDto(new Uri("https://example.com/flags.com"))
     };
 }

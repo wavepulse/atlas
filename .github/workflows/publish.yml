@@ -35,7 +35,7 @@ jobs:
       run: dotnet publish ./src/Atlas.Etl/Atlas.Etl.csproj --output .
 
     - name: Run ETL
-      run: ./venom.exe --root atlas --output src/Atlas.Web.App/wwwroot
+      run: ./Atlas.Etl.exe --root atlas --output src/Atlas.Web.App/wwwroot
 
     - name: Publish web app
       run: dotnet publish ./src/Atlas.Web.App/Atlas.Web.App.csproj --output ./artifacts

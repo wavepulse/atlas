@@ -22,7 +22,7 @@ public static class RandomizeCountry
 
             string name = randomizedCountry.Translations.First(t => t.Code.Equals("eng", StringComparison.OrdinalIgnoreCase)).Name;
 
-            return new RandomizedCountry(randomizedCountry.Cca2, name);
+            return new RandomizedCountry(randomizedCountry.Cca2, name, randomizedCountry.FlagSvgUri);
         }
     }
 }

@@ -21,7 +21,9 @@ public sealed class CountryMapperTests
         Region = RegionDto.Americas,
         SubRegion = SubRegionDto.NorthAmerica,
         CapitalInfo = new CapitalInfoDto { Coordinate = new CoordinateDto(45.4215, 75.6972) },
-        Translations = [new TranslationDto("fra", "Canada")]
+        Translations = [new TranslationDto("fra", "Canada")],
+        Maps = new MapsDto(new Uri("https://www.google.com/maps/place/Canada")),
+        Flags = new FlagsDto(new Uri("https://www.countryflags.io/ca/flat/64.png"))
     };
 
     [Fact]
@@ -51,6 +53,9 @@ public sealed class CountryMapperTests
 
         country.Translations.Should().Contain(t => t.Code == "fra" && t.Name == "Canada");
         country.Translations.Should().Contain(t => t.Code == "eng" && t.Name == "Canada");
+
+        country.MapUri.Should().Be(new Uri("https://www.google.com/maps/place/Canada"));
+        country.FlagSvgUri.Should().Be(new Uri("https://www.countryflags.io/ca/flat/64.png"));
     }
 
     [Fact]

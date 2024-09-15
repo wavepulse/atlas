@@ -46,6 +46,8 @@ public sealed class SearchCountryMapperTests
         Continent = Continent.NorthAmerica,
         Coordinate = new Coordinate(56.1304, -106.3468),
         Borders = ["USA"],
-        Translations = [new Translation("fra", "Canada")]
+        Translations = [new Translation("fra", "Canada")],
+        FlagSvgUri = new Uri("https://www.countryflags.io/ca/flat/64.png"),
+        MapUri = new Uri("https://www.google.com/maps/place/Canada")
     };
 }

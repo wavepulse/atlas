@@ -20,6 +20,8 @@ internal static class CountryMapper
         Continent = dto.Region.AsDomain(dto.SubRegion),
         Area = new Area(dto.Area),
         Borders = dto.Borders ?? [],
-        Population = dto.Population
+        Population = dto.Population,
+        MapUri = dto.Maps.GoogleMaps,
+        FlagSvgUri = dto.Flags.Svg
     };
 }

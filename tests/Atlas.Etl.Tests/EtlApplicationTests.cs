@@ -13,6 +13,7 @@ public sealed class EtlApplicationTests
     private readonly IDataDirectory _dataDirectory = Substitute.For<IDataDirectory>();
     private readonly IMigration _migration = Substitute.For<IMigration>();
     private readonly IHostApplicationLifetime _lifetime = Substitute.For<IHostApplicationLifetime>();
+    private readonly IHostEnvironment _environment = Substitute.For<IHostEnvironment>();
 
     private readonly EtlApplication _application;
 
@@ -20,7 +21,7 @@ public sealed class EtlApplicationTests
     {
         ILogger<EtlApplication> logger = Substitute.For<ILogger<EtlApplication>>();
 
-        _application = new EtlApplication(_dataDirectory, [_migration], _lifetime, logger);
+        _application = new EtlApplication(_dataDirectory, [_migration], _lifetime, _environment, logger);
     }
 
     [Fact]

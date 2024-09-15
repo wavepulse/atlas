@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Atlas.Etl;
 
@@ -50,8 +51,10 @@ internal sealed partial class EtlApplication(IDataDirectory dataDirectory, IEnum
 
     private void DisplayBanner()
     {
-        string name = GetType().Assembly.GetName().Name!;
-        Version version = GetType().Assembly.GetName().Version!;
+        Assembly assembly = Assembly.GetExecutingAssembly();
+
+        string name = assembly.GetCustomAttribute<AssemblyProductAttribute>()!.Product;
+        Version version = assembly.GetName().Version!;
         string information = $"{name} - {version.Major}.{version.Minor}.{version.Revision} - {environment.EnvironmentName}";
 
         Console.WriteLine(information);

@@ -183,6 +183,8 @@ public sealed class CountryRepositoryTests : IDisposable
         Translations = [new Translation("eng", "Canada")],
         Borders = ["US"],
         Continent = Continent.NorthAmerica,
-        Coordinate = new Coordinate(0, 0)
+        Coordinate = new Coordinate(0, 0),
+        FlagSvgUri = new Uri("https://www.countryflags.io/ca/flat/64.svg"),
+        MapUri = new Uri("https://www.google.com/maps/place/Canada")
     };
 }

@@ -16,4 +16,6 @@ public sealed record GuessedFlag
     public required double Direction { get; init; }
 
     public required bool Success { get; init; }
+
+    public required Uri FlagSvgUri { get; init; }
 }

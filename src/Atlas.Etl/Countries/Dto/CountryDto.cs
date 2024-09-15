@@ -30,4 +30,8 @@ internal sealed record CountryDto
     public required int Population { get; init; }
 
     public required CapitalInfoDto CapitalInfo { get; init; }
+
+    public required MapsDto Maps { get; init; }
+
+    public required FlagsDto Flags { get; init; }
 }

@@ -2,6 +2,7 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Domain.Countries;
+using Atlas.Domain.Languages;
 using Atlas.Infrastructure.Json;
 using Microsoft.Extensions.Logging;
 using Prometheus.Countries.Dto;
@@ -59,7 +60,7 @@ public sealed class CountryMigrationTests
     {
         await _migration.MigrateAsync(Path, CancellationToken.None);
 
-        await _jsonFileWriter.Received(1).WriteToAsync(Arg.Any<string>(), Arg.Is<Country[]>(c => c.Any(x => x.Translations.Any(t => _settings.Languages.Contains(t.Code)))), Arg.Any<JsonTypeInfo<Country[]>>(), CancellationToken.None);
+        await _jsonFileWriter.Received(1).WriteToAsync(Arg.Any<string>(), Arg.Is<Country[]>(c => c.Any(x => x.Translations.Any(t => t.Language == Language.French || t.Language == Language.English))), Arg.Any<JsonTypeInfo<Country[]>>(), CancellationToken.None);
     }
 
     [Fact]

@@ -20,12 +20,12 @@ public sealed class TranslationMapperTests
 
         Translation english = translations[0];
 
-        english.Code.Should().Be("eng");
+        english.Language.Should().Be(Language.English);
         english.Name.Should().Be("Canada");
 
         Translation french = translations[1];
 
-        french.Code.Should().Be("fra");
+        french.Language.Should().Be(Language.French);
         french.Name.Should().Be("Canada");
     }
 
@@ -37,5 +37,13 @@ public sealed class TranslationMapperTests
         Translation[] translations = dto.AsDomain(_name, _languages);
 
         translations.Should().ContainSingle();
+    }
+
+    [Fact]
+    public void AsDomainShouldThrowNotSupportedExceptionForUnsupportedLanguage()
+    {
+        TranslationDto[] dto = [new("deu", "Kanada")];
+        Action action = () => dto.AsDomain(_name, ["deu"]);
+        action.Should().Throw<NotSupportedException>().WithMessage("Language code 'deu' is not supported.");
     }
 }

@@ -21,7 +21,7 @@ public sealed class SearchCountryMapperTests
         SearchCountry searchCountry = searchCountries[0];
 
         searchCountry.Cca2.Should().Be("CA");
-        searchCountry.Translations.Should().Contain(t => t.Code == "fra" && t.Name == "Canada");
+        searchCountry.Translations.Should().Contain(t => t.Language == Language.French && t.Name == "Canada");
         searchCountry.IsExcluded.Should().BeFalse();
     }
 
@@ -46,7 +46,7 @@ public sealed class SearchCountryMapperTests
         Continent = Continent.NorthAmerica,
         Coordinate = new Coordinate(56.1304, -106.3468),
         Borders = ["USA"],
-        Translations = [new Translation("fra", "Canada")],
+        Translations = [new Translation(Language.French, "Canada")],
         FlagSvgUri = new Uri("https://www.countryflags.io/ca/flat/64.png"),
         MapUri = new Uri("https://www.google.com/maps/place/Canada")
     };

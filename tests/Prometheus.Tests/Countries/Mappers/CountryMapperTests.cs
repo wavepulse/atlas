@@ -3,6 +3,7 @@
 
 using Atlas.Domain.Countries;
 using Atlas.Domain.Geography;
+using Atlas.Domain.Languages;
 using Prometheus.Countries.Dto;
 
 namespace Prometheus.Countries.Mappers;
@@ -51,8 +52,8 @@ public sealed class CountryMapperTests
         capital.Coordinate.Latitude.Should().Be(_dto.CapitalInfo.Coordinate!.Latitude);
         capital.Coordinate.Longitude.Should().Be(_dto.CapitalInfo.Coordinate.Longitude);
 
-        country.Translations.Should().Contain(t => t.Code == "fra" && t.Name == "Canada");
-        country.Translations.Should().Contain(t => t.Code == "eng" && t.Name == "Canada");
+        country.Translations.Should().Contain(t => t.Language == Language.French && t.Name == "Canada");
+        country.Translations.Should().Contain(t => t.Language == Language.English && t.Name == "Canada");
 
         country.MapUri.Should().Be(new Uri("https://www.google.com/maps/place/Canada"));
         country.FlagSvgUri.Should().Be(new Uri("https://www.countryflags.io/ca/flat/64.png"));

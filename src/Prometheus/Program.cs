@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Prometheus;
 using Prometheus.Configurations;
 using Prometheus.Countries;
+using System.Diagnostics.CodeAnalysis;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
 
@@ -18,3 +19,6 @@ builder.AddCountries();
 builder.AddEtlApplication();
 
 await builder.Build().RunAsync().ConfigureAwait(false);
+
+[ExcludeFromCodeCoverage]
+file static partial class Program;

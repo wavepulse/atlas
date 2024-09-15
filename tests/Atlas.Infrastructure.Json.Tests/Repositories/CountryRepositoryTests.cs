@@ -180,7 +180,7 @@ public sealed class CountryRepositoryTests : IDisposable
         Capitals = [new Capital("Ottawa", new Coordinate(0, 0))],
         Area = new Area(1),
         Population = 1,
-        Translations = [new Translation("eng", "Canada")],
+        Translations = [new Translation(Language.English, "Canada")],
         Borders = ["US"],
         Continent = Continent.NorthAmerica,
         Coordinate = new Coordinate(0, 0),

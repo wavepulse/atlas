@@ -9,12 +9,14 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Atlas.Etl;
 
-internal sealed partial class EtlApplication(IDataDirectory dataDirectory, IEnumerable<IMigration> migrations, IHostApplicationLifetime lifetime, ILogger<EtlApplication> logger) : IHostedService
+internal sealed partial class EtlApplication(IDataDirectory dataDirectory, IEnumerable<IMigration> migrations, IHostApplicationLifetime lifetime, IHostEnvironment environment, ILogger<EtlApplication> logger) : IHostedService
 {
     private readonly Stopwatch _stopwatch = new();
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
+        DisplayBanner();
+
         string? path = dataDirectory.Create();
 
         if (string.IsNullOrEmpty(path))
@@ -45,6 +47,16 @@ internal sealed partial class EtlApplication(IDataDirectory dataDirectory, IEnum
 
     [ExcludeFromCodeCoverage]
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+    private void DisplayBanner()
+    {
+        string name = GetType().Assembly.GetName().Name!;
+        Version version = GetType().Assembly.GetName().Version!;
+        string information = $"{name} - {version.Major}.{version.Minor}.{version.Revision} - {environment.EnvironmentName}";
+
+        Console.WriteLine(information);
+        Console.WriteLine(new string('=', information.Length));
+    }
 
     [LoggerMessage(LogLevel.Error, "Failed to create the data directory")]
     private partial void FailedToCreateDataDirectory();

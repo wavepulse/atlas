@@ -23,9 +23,9 @@ function scrollToAutocomplete() {
     return;
   }
 
-  const y = element.getBoundingClientRect().top + window.scrollY;
-
-  window.scrollTo({ top: y, behavior: 'smooth' });
+  setTimeout(() => {
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 300);
 }
 
 function focusOut(element: HTMLElement) {

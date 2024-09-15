@@ -3,4 +3,4 @@
 
 namespace Atlas.Contracts.Countries;
 
-public sealed record RandomizedCountry(string Cca2, string Name);
+public sealed record RandomizedCountry(string Cca2, string Name, Uri FlagSvgUri, Uri MapUri);

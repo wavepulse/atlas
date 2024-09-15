@@ -6,8 +6,8 @@
     @if (!string.IsNullOrEmpty(_randomizedCca2))
     {
         <picture>
-            <source srcset="@GetRandomizedFlag()" type="image/svg+xml" />
-            <img src="@GetRandomizedFlag()" alt="Randomized flag" />
+            <source srcset="@_flagSvgUri" type="image/svg+xml" />
+            <img src="@_flagSvgUri" alt="Randomized flag" />
         </picture>
     }
     <div class="guess">
@@ -17,7 +17,7 @@
         }
         else
         {
-            <GameOver Answer="@_answer"  />
+            <GameOver Country="@_answer" MapUri="@_mapUri"  />
         }
         <FlagGuesses />
     </div>

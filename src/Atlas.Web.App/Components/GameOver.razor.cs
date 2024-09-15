@@ -12,7 +12,11 @@ public sealed partial class GameOver(IDispatcher dispatcher)
 {
     [Parameter]
     [EditorRequired]
-    public required string? Answer { get; init; }
+    public required string? Country { get; init; }
+
+    [Parameter]
+    [EditorRequired]
+    public required Uri MapUri { get; init; }
 
     private void RestartGame()
     {

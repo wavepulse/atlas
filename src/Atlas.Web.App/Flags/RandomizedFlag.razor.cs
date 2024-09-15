@@ -11,6 +11,9 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 {
     private string _randomizedCca2 = string.Empty;
     private string? _answer;
+    private Uri _flagSvgUri = default!;
+    private Uri _mapUri = default!;
+
     private bool _isGameFinished;
 
     public void Dispose() => subscriber.UnsubscribeFromAllActions(this);
@@ -21,10 +24,12 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 
         subscriber.SubscribeToAction<CountryActions.RandomizeResult>(this, action =>
         {
-            (string cca2, string name) = action.Country;
+            (string cca2, string name, Uri flagSvgUri, Uri mapUri) = action.Country;
 
             _randomizedCca2 = cca2;
             _answer = name;
+            _flagSvgUri = flagSvgUri;
+            _mapUri = mapUri;
 
             StateHasChanged();
         });
@@ -52,8 +57,6 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
             StateHasChanged();
         });
     }
-
-    private string GetRandomizedFlag() => $"https://flagcdn.com/{_randomizedCca2.ToLowerInvariant()}.svg";
 
     private void Guess(string guessedCca2)
         => dispatcher.Dispatch(new CountryActions.Guess(guessedCca2, _randomizedCca2));

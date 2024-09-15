@@ -45,8 +45,6 @@ public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatche
         });
     }
 
-    private static string GetFlag(string cca2) => $"https://flagcdn.com/{cca2.ToLowerInvariant()}.svg";
-
     private static string HasSuccess(bool success) => success ? "success" : "wrong";
 
     private static string HasFound(bool success) => success ? "success bi-check" : "bi-arrow-up";

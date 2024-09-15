@@ -35,7 +35,7 @@ public sealed class GetAllSearchCountriesTests
         SearchCountry country = new()
         {
             Cca2 = "CA",
-            Translations = [new Translation("eng", "Canada")]
+            Translations = [new Translation(Language.English, "Canada")]
         };
 
         _repository.GetAllAsync(CancellationToken.None).Returns([country]);

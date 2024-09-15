@@ -51,6 +51,8 @@ public sealed class RandomizeCountryTests
         Continent = Continent.NorthAmerica,
         Coordinate = new Coordinate(60, 95),
         Population = 38008005,
-        Translations = [new Translation("eng", "Canada")]
+        Translations = [new Translation(Language.English, "Canada")],
+        FlagSvgUri = new Uri("https://www.countryflags.io/ca/flat/64.svg"),
+        MapUri = new Uri("https://www.google.com/maps/place/Canada")
     };
 }

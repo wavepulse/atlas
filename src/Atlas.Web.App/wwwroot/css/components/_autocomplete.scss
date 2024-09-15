@@ -65,20 +65,3 @@
     }
   }
 }
-
-.game-over {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 1em;
-
-  .answer-container {
-    border: 1px solid var(--color-primary);
-    border-radius: 8px;
-    padding: 4px 12px;
-
-    .answer {
-      font-weight: bold;
-    }
-  }
-}

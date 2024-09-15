@@ -4,6 +4,7 @@
 using Atlas.Application.Services;
 using Atlas.Contracts.Countries;
 using Atlas.Domain.Countries;
+using Atlas.Domain.Languages;
 using Mediator;
 
 namespace Atlas.Application.Countries.Queries;
@@ -20,9 +21,9 @@ public static class RandomizeCountry
 
             Country randomizedCountry = randomizer.Randomize<Country>(countries);
 
-            string name = randomizedCountry.Translations.First(t => t.Code.Equals("eng", StringComparison.OrdinalIgnoreCase)).Name;
+            string name = randomizedCountry.Translations.First(t => t.Language == Language.English).Name;
 
-            return new RandomizedCountry(randomizedCountry.Cca2, name);
+            return new RandomizedCountry(randomizedCountry.Cca2, name, randomizedCountry.FlagSvgUri, randomizedCountry.MapUri);
         }
     }
 }

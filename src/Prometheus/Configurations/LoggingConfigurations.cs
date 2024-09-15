@@ -24,6 +24,7 @@ internal static class LoggingConfigurations
     }
 }
 
+[ExcludeFromCodeCoverage]
 file sealed class CustomConsoleFormatter : ConsoleFormatter
 {
     private const string DefaultForegroundColor = "\e[39m\e[22m";

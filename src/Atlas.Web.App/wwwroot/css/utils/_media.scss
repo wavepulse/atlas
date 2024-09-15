@@ -1,0 +1,19 @@
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+:root {
+  --screen-sm: #{map-get($breakpoints, sm)};
+  --screen-md: #{map-get($breakpoints, md)};
+  --screen-lg: #{map-get($breakpoints, lg)};
+  --screen-xl: #{map-get($breakpoints, xl)};
+}
+
+@mixin media-breakpoint-down($name, $breakpoint: $breakpoints) {
+  @media only screen and (max-width: map-get($breakpoint, $name)) {
+    @content;
+  }
+}

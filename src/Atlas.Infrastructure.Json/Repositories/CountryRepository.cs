@@ -11,12 +11,12 @@ namespace Atlas.Infrastructure.Json.Repositories;
 
 internal sealed class CountryRepository(HttpClient client, IAppCache appCache) : ICountryRepository
 {
-    private const string CountryCodesKey = "country:codes";
+    private const string CountriesKey = "country:codes";
 
-    public async Task<string[]> GetAllCodesAsync(CancellationToken cancellationToken)
+    public async Task<Country[]> GetAllAsync(CancellationToken cancellationToken)
     {
-        if (appCache.TryGetValue(CountryCodesKey, out string[]? cachedCodes))
-            return cachedCodes;
+        if (appCache.TryGetValue(CountriesKey, out Country[]? cachedCountries))
+            return cachedCountries;
 
         string endpoint = Path.Combine(DataJsonPaths.BaseDirectory, DataJsonPaths.Countries);
         using HttpResponseMessage response = await client.GetAsync(endpoint, cancellationToken).ConfigureAwait(false);
@@ -27,12 +27,11 @@ internal sealed class CountryRepository(HttpClient client, IAppCache appCache) :
         Country[]? countries = await response.Content.ReadFromJsonAsync(CountryJsonContext.Default.CountryArray, cancellationToken)
                                                      .ConfigureAwait(false);
 
-        using ICacheEntry entry = appCache.CreateEntry(CountryCodesKey);
+        using ICacheEntry entry = appCache.CreateEntry(CountriesKey);
 
-        string[] codes = countries!.Select(c => c.Cca2).ToArray();
-        entry.Value = codes;
+        entry.Value = countries;
 
-        return codes;
+        return countries!;
     }
 
     public async Task<Country?> GetByCodeAsync(string cca2, CancellationToken cancellationToken)

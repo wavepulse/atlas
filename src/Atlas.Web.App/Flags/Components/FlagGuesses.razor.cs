@@ -3,10 +3,11 @@
 
 using Atlas.Contracts.Flags;
 using Atlas.Web.App.Stores.Countries;
+using Atlas.Web.App.Stores.Games;
 using Fluxor;
 using System.Globalization;
 
-namespace Atlas.Web.App.Components;
+namespace Atlas.Web.App.Flags.Components;
 
 public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatcher dispatcher) : IDisposable
 {
@@ -29,13 +30,13 @@ public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatche
             _hasWonGame = action.Flag.Success;
             _guesses.Add(action.Flag);
 
-            if (_guesses.Count == MaxGuesses)
-                dispatcher.Dispatch(new CountryActions.LoseGame());
+            if (_guesses.Count == MaxGuesses && !_hasWonGame)
+                dispatcher.Dispatch(new GameActions.GameOver());
 
             StateHasChanged();
         });
 
-        subscriber.SubscribeToAction<CountryActions.Reset>(this, _ =>
+        subscriber.SubscribeToAction<GameActions.Restart>(this, _ =>
         {
             _guesses.Clear();
             _hasWonGame = false;

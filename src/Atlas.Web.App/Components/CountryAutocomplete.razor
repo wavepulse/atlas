@@ -1,22 +1,19 @@
 @inherits FluxorComponent
 
-@if (!IsGameFinished)
-{
-    <div class="autocomplete-container">
-        <div class="autocomplete-input">
-            <input tabindex="0" @ref="_autocomplete"
-                   @bind="_input"
-                   @oninput="SearchCountry"
-                   @onfocus="FocusSearch"
-                   @onkeydown="HandleKeyboardAsync"
-                   type="text" aria-label="search a country" placeholder="Canada, Italy..." />
-            <button class="btn-guess" @onclick="GuessAsync">Guess!</button>
-        </div>
-        <ul class="autocomplete-items" role="list">
-            @foreach ((string code, string name) in _filteredCountries.OrderBy(c => c.Name))
-            {
-                <li class="autocomplete-item" @onclick="() => SelectCountryAsync(code)">@name</li>
-            }
-        </ul>
+<div class="autocomplete-container">
+    <div class="autocomplete-input">
+        <input tabindex="0" @ref="_autocomplete"
+               @bind="_input"
+               @oninput="SearchCountry"
+               @onfocus="FocusSearch"
+               @onkeydown="HandleKeyboardAsync"
+               type="text" aria-label="search a country" placeholder="Canada, Italy..." />
+        <button type="button" class="btn-guess" @onclick="GuessAsync">Guess!</button>
     </div>
-}
+    <ul class="autocomplete-items" role="list">
+        @foreach ((string code, string name) in _filteredCountries)
+        {
+            <li class="autocomplete-item" @onclick="() => SelectCountryAsync(code)">@name</li>
+        }
+    </ul>
+</div>

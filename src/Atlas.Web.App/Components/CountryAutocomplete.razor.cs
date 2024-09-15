@@ -3,10 +3,12 @@
 
 using Atlas.Contracts.Countries;
 using Atlas.Web.App.Stores.Countries;
+using Atlas.Web.App.Stores.Games;
 using Fluxor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 
@@ -14,8 +16,8 @@ namespace Atlas.Web.App.Components;
 
 public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, IDispatcher dispatcher, IStateSelection<SearchCountryState, SearchCountry[]> countries) : IDisposable
 {
-    private bool _hasWonGame;
-    private bool _hasLoseGame;
+    private readonly List<string> _selectedCountries = [];
+
     private string _input = string.Empty;
     private DotNetObjectReference<CountryAutocomplete>? _reference;
     private ElementReference _autocomplete;
@@ -23,8 +25,6 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
 
     [Parameter]
     public EventCallback<string> Guess { get; init; }
-
-    public bool IsGameFinished => _hasWonGame || _hasLoseGame;
 
     [JSInvokable]
     public void ClearSearch()
@@ -42,20 +42,20 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
         countries.Select(c => c.Countries);
         dispatcher.Dispatch(new SearchCountryActions.GetAll());
 
-        SubscribeToAction<CountryActions.GuessResult>(action => _hasWonGame = action.Flag.Success);
-        SubscribeToAction<CountryActions.LoseGame>(_ =>
+        SubscribeToAction<CountryActions.GuessResult>(action =>
         {
-            _hasLoseGame = true;
-            _input = string.Empty;
-            _filteredCountries = [];
+            if (action.Flag.Success)
+                return;
 
-            StateHasChanged();
+            _selectedCountries.Add(action.Flag.Cca2);
         });
 
-        SubscribeToAction<CountryActions.Reset>(_ =>
+        SubscribeToAction<GameActions.Restart>(_ =>
         {
-            _hasWonGame = false;
-            _hasLoseGame = false;
+            _selectedCountries.Clear();
+
+            _input = string.Empty;
+            _filteredCountries = [];
         });
     }
 
@@ -80,7 +80,11 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
         _filteredCountries = GetFilteredCountries();
     }
 
-    private void FocusSearch() => _filteredCountries = GetFilteredCountries();
+    private void FocusSearch()
+    {
+        jsRuntime.InvokeVoid("scrollToAutocomplete");
+        _filteredCountries = GetFilteredCountries();
+    }
 
     private Task SelectCountryAsync(string cca2)
     {
@@ -93,8 +97,9 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
     private SearchCountry[] GetFilteredCountries()
     {
         string input = RemoveDiacritics(_input);
+        SearchCountry[] availableCountries = [.. countries.Value.ExceptBy(_selectedCountries, c => c.Cca2).OrderBy(c => c.Name)];
 
-        return Array.FindAll(countries.Value, c => RemoveDiacritics(c.Name).Contains(input, StringComparison.OrdinalIgnoreCase));
+        return Array.FindAll(availableCountries, c => RemoveDiacritics(c.Name).Contains(input, StringComparison.OrdinalIgnoreCase));
 
         static string RemoveDiacritics(string value)
         {
@@ -119,34 +124,40 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
         if (e.Key is Keyboard.Escape)
         {
             ClearSearch();
-            FocusOut();
+            jsRuntime.InvokeVoid("focusOut", _autocomplete);
         }
-        else if (e.Key is Keyboard.Enter && (HasOneElement() || HasExactName()))
+        else if (e.Key is Keyboard.Enter && TrySelectCountry(out string? cca2))
         {
-            await SelectCountryAsync(_filteredCountries[0].Cca2);
+            await SelectCountryAsync(cca2);
         }
-
-        bool HasOneElement() => _filteredCountries.Length == 1;
-
-        bool HasExactName() => _filteredCountries.Length > 0 && _filteredCountries[0].Name.Equals(_input, StringComparison.OrdinalIgnoreCase);
     }
-
-    private void FocusOut() => jsRuntime.InvokeVoid("focusOut", _autocomplete);
 
     private Task GuessAsync()
     {
         if (string.IsNullOrWhiteSpace(_input))
             return Task.CompletedTask;
 
-        if (_filteredCountries.Length == 1)
-            return SelectCountryAsync(_filteredCountries[0].Cca2);
-
-        SearchCountry[] filteredCountries = GetFilteredCountries();
-
-        if (filteredCountries.Length == 1)
-            return SelectCountryAsync(filteredCountries[0].Cca2);
+        if (TrySelectCountry(out string? cca2))
+            return SelectCountryAsync(cca2);
 
         return Task.CompletedTask;
+    }
+
+    private bool TrySelectCountry([NotNullWhen(true)] out string? cca2)
+    {
+        cca2 = null;
+
+        if (HasOneElement() || HasExactName())
+        {
+            cca2 = _filteredCountries[0].Cca2;
+            return true;
+        }
+
+        return false;
+
+        bool HasOneElement() => _filteredCountries.Length == 1;
+
+        bool HasExactName() => _filteredCountries.Length > 0 && _filteredCountries[0].Name.Equals(_input, StringComparison.OrdinalIgnoreCase);
     }
 
     private static class Keyboard

@@ -10,7 +10,6 @@ namespace Atlas.Etl.Countries.Json;
 [JsonSerializable(typeof(CountryDto[]))]
 [JsonSourceGenerationOptions(
     Converters = [typeof(CoordinateDtoJsonConverter), typeof(SubRegionDtoJsonConverter), typeof(TranslationDtoJsonConverter)],
-    GenerationMode = JsonSourceGenerationMode.Metadata,
     PropertyNameCaseInsensitive = true,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     UseStringEnumConverter = true)]

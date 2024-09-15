@@ -1,22 +1,4 @@
 @page "/"
+@using Atlas.Web.App.Flags
 
-<div class="game">
-    @if (!string.IsNullOrEmpty(_randomizedCca2))
-    {
-        <picture>
-            <source srcset="@GetRandomizedFlag()" type="image/svg+xml" />
-            <img src="@GetRandomizedFlag()" alt="Flag" />
-        </picture>
-    }
-    <div class="guess">
-        <CountryAutocomplete Guess="Guess" />
-        <FlagGuesses />
-    </div>
-    @if (_hasLoseGame)
-    {
-        <div class="lose">
-            <p>@_randomizedName</p>
-            <button class="btn-restart" @onclick="@RestartGame">Restart</button>
-        </div>
-    }
-</div>
+<RandomizedFlag />

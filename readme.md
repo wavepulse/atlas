@@ -12,7 +12,8 @@ In this game, you will be presented with a random flag and you have to guess the
 
 ## Mentions
 
-Thanks to the following projects for providing the data used in this app:
+Thanks to the following projects for providing the data and icons used in this app:
 
 - [Flagpedia](https://flagpedia.net/)
 - [Rest Countries](https://restcountries.com/)
+- [font-gis](https://github.com/Viglino/font-gis)

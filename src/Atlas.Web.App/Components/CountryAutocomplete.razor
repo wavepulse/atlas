@@ -11,7 +11,7 @@
         <button type="button" class="btn-guess" @onclick="GuessAsync">Guess!</button>
     </div>
     <ul class="autocomplete-items" role="list">
-        @foreach ((string code, string name) in _filteredCountries)
+        @foreach ((string code, string name) in _filteredCountries.OrderBy(c => c.Name))
         {
             <li class="autocomplete-item" @onclick="() => SelectCountryAsync(code)">@name</li>
         }

@@ -20,6 +20,11 @@ dotnet_diagnostic.SA1127.severity = none
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1128.md
 dotnet_diagnostic.SA1128.severity = none
 
+# SA1204: Static members should appear before instance members
+# No need to put static members before instance members
+# https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1204.md
+dotnet_diagnostic.SA1204.severity = none
+
 # SA1205: Partial elements should declare an access modifier
 # Cannot declare an access modifier on a file level
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1205.md

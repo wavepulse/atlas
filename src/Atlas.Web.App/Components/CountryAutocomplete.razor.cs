@@ -97,26 +97,9 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
     private SearchCountry[] GetFilteredCountries()
     {
         string input = RemoveDiacritics(_input);
-        SearchCountry[] availableCountries = [.. countries.Value.ExceptBy(_selectedCountries, c => c.Cca2).OrderBy(c => c.Name)];
+        SearchCountry[] availableCountries = [.. countries.Value.ExceptBy(_selectedCountries, c => c.Cca2)];
 
         return Array.FindAll(availableCountries, c => RemoveDiacritics(c.Name).Contains(input, StringComparison.OrdinalIgnoreCase));
-
-        static string RemoveDiacritics(string value)
-        {
-            ReadOnlySpan<char> normalized = value.Normalize(NormalizationForm.FormD);
-            Span<char> builder = stackalloc char[normalized.Length];
-            int i = 0;
-
-            foreach (char c in normalized)
-            {
-                UnicodeCategory unicode = CharUnicodeInfo.GetUnicodeCategory(c);
-
-                if (unicode != UnicodeCategory.NonSpacingMark)
-                    builder[i++] = c;
-            }
-
-            return builder[..i].ToString();
-        }
     }
 
     private async Task HandleKeyboardAsync(KeyboardEventArgs e)
@@ -147,17 +130,42 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
     {
         cca2 = null;
 
-        if (HasOneElement() || HasExactName())
+        if (HasOneElement())
         {
             cca2 = _filteredCountries[0].Cca2;
             return true;
+        }
+
+        if (HaveElements())
+        {
+            SearchCountry? country = Array.Find(_filteredCountries, c => RemoveDiacritics(_input).Equals(c.Name, StringComparison.OrdinalIgnoreCase));
+
+            cca2 = country?.Cca2;
+            return cca2 is not null;
         }
 
         return false;
 
         bool HasOneElement() => _filteredCountries.Length == 1;
 
-        bool HasExactName() => _filteredCountries.Length > 0 && _filteredCountries[0].Name.Equals(_input, StringComparison.OrdinalIgnoreCase);
+        bool HaveElements() => _filteredCountries.Length > 0;
+    }
+
+    private static string RemoveDiacritics(string value)
+    {
+        ReadOnlySpan<char> normalized = value.Normalize(NormalizationForm.FormD);
+        Span<char> builder = stackalloc char[normalized.Length];
+        int i = 0;
+
+        foreach (char c in normalized)
+        {
+            UnicodeCategory unicode = CharUnicodeInfo.GetUnicodeCategory(c);
+
+            if (unicode != UnicodeCategory.NonSpacingMark)
+                builder[i++] = c;
+        }
+
+        return builder[..i].ToString();
     }
 
     private static class Keyboard

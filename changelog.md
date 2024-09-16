@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.2.1 &#8212; 2024-09-16
+
+### Fixed
+
+- Hide logs in production ([#44])
+- Pressing `Enter` key will select the exact country name in any order from the list ([#70])
+- External links will open in a new tab ([#71])
+
+<!-- 0.2.1 -->
+[#44]: https://github.com/wavepulse/atlas/issues/44
+[#70]: https://github.com/wavepulse/atlas/issues/70
+[#71]: https://github.com/wavepulse/atlas/issues/71
+ 
 ## 0.2.0 &#8212; 2024-09-16
 
 ### Added
@@ -32,13 +45,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pressing `Enter` key on an exact country name will select the first country in the list corresponding to the name ([#48])
 - Hide logs in production ([#44])
 
-## 0.1.0 &#8212; 2024-09-11
-
-### Added
-
-- Initial release
-- Add randomized flag game
-
 <!-- 0.2.0 -->
 [#14]: https://github.com/wavepulse/atlas/issues/14
 [#20]: https://github.com/wavepulse/atlas/issues/20
@@ -56,3 +62,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#51]: https://github.com/wavepulse/atlas/issues/51
 [#58]: https://github.com/wavepulse/atlas/issues/58
 [#59]: https://github.com/wavepulse/atlas/issues/59
+
+## 0.1.0 &#8212; 2024-09-11
+
+### Added
+
+- Initial release
+- Add randomized flag game

@@ -1,7 +1,7 @@
 <div class="game-over">
     @if (!string.IsNullOrEmpty(Country))
     {
-        <a class="link" href="@MapUri">
+        <a class="link" target="_blank" href="@MapUri">
             <i class="@Icons.Earth"></i>
             <span class="answer">@Country</span>
         </a>
@@ -10,7 +10,7 @@
     {
         <div class="congratulations">
             <span>Congratulations!</span>
-            <a class="link" href="@MapUri">
+            <a class="link" target="_blank" href="@MapUri">
                 <i class="@Icons.Earth"></i>
                 <span class="answer">See on map</span>
             </a>

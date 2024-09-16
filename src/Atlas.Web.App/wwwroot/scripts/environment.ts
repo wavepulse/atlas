@@ -4,7 +4,7 @@ declare var Blazor: {
 
 window.addEventListener('DOMContentLoaded', () => {
     const url = window.location.hostname;
-    const previewRegex = /^([a-zA-Z0-9]+)\.([\w].+)$/;
+    const previewRegex = /^(?!atlas)([\w]+)\.([\w].+)$/;
 
     if (url.includes('localhost') || previewRegex.test(url)) {
         Blazor.start({

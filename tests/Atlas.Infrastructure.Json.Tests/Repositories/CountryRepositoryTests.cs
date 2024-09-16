@@ -45,7 +45,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllCodesAsync(CancellationToken.None);
+        _ = await _repository.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Once);
     }
@@ -56,9 +56,9 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.NotFound));
 
-        string[] codes = await _repository.GetAllCodesAsync(CancellationToken.None);
+        Country[] countries = await _repository.GetAllAsync(CancellationToken.None);
 
-        codes.Should().BeEmpty();
+        countries.Should().BeEmpty();
     }
 
     [Fact]
@@ -70,9 +70,9 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(json));
 
-        string[] codes = await _repository.GetAllCodesAsync(CancellationToken.None);
+        Country[] countries = await _repository.GetAllAsync(CancellationToken.None);
 
-        codes.Should().Contain(c => c == country.Cca2);
+        countries.Should().Contain(c => c.Cca2 == country.Cca2);
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllCodesAsync(CancellationToken.None);
+        _ = await _repository.GetAllAsync(CancellationToken.None);
 
         _appCache.Received(1).CreateEntry("country:codes");
     }
@@ -91,17 +91,17 @@ public sealed class CountryRepositoryTests : IDisposable
     [Fact]
     public async Task GetAllCodesAsyncShouldGetWhenEntryExists()
     {
-        _appCache.TryGetValue<string[]>("country:codes", out _).Returns(returnThis: true);
+        _appCache.TryGetValue<Country[]>("country:codes", out _).Returns(returnThis: true);
 
         const string body = "[]";
 
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllCodesAsync(CancellationToken.None);
+        _ = await _repository.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Never);
-        _appCache.Received(1).TryGetValue<string[]>("country:codes", out _);
+        _appCache.Received(1).TryGetValue<Country[]>("country:codes", out _);
     }
 
     [Fact]
@@ -180,9 +180,11 @@ public sealed class CountryRepositoryTests : IDisposable
         Capitals = [new Capital("Ottawa", new Coordinate(0, 0))],
         Area = new Area(1),
         Population = 1,
-        Translations = [new Translation("eng", "Canada")],
+        Translations = [new Translation(Language.English, "Canada")],
         Borders = ["US"],
         Continent = Continent.NorthAmerica,
-        Coordinate = new Coordinate(0, 0)
+        Coordinate = new Coordinate(0, 0),
+        FlagSvgUri = new Uri("https://www.countryflags.io/ca/flat/64.svg"),
+        MapUri = new Uri("https://www.google.com/maps/place/Canada")
     };
 }

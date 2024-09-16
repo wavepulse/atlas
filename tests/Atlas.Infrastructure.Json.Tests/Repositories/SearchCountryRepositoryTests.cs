@@ -106,6 +106,6 @@ public sealed class SearchCountryRepositoryTests : IDisposable
     private static SearchCountry CreateSearchCountry() => new()
     {
         Cca2 = "CA",
-        Translations = [new Translation("fra", "Canada")]
+        Translations = [new Translation(Language.French, "Canada")]
     };
 }

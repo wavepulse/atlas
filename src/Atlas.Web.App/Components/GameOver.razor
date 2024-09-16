@@ -1,0 +1,20 @@
+<div class="game-over">
+    @if (!string.IsNullOrEmpty(Country))
+    {
+        <a class="link" href="@MapUri">
+            <i class="@Icons.Earth"></i>
+            <span class="answer">@Country</span>
+        </a>
+    }
+    else
+    {
+        <div class="congratulations">
+            <span>Congratulations!</span>
+            <a class="link" href="@MapUri">
+                <i class="@Icons.Earth"></i>
+                <span class="answer">See on map</span>
+            </a>
+        </div>
+    }
+    <button type="button" @onclick="RestartGame">Restart</button>
+</div>

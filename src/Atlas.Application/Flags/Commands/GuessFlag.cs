@@ -30,7 +30,8 @@ public static class GuessFlag
             Name = guessedCountry.Translations.First().Name,
             Direction = Direction.Calculate(guessedCountry.Coordinate, country.Coordinate),
             Kilometers = (int)Math.Round(Distance.Calculate(guessedCountry.Coordinate, country.Coordinate).Kilometers),
-            IsSameContinent = guessedCountry.Continent == country.Continent
+            IsSameContinent = guessedCountry.Continent == country.Continent,
+            FlagSvgUri = guessedCountry.FlagSvgUri
         };
     }
 }

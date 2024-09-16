@@ -28,6 +28,14 @@ internal static class DependencyInjection
                             .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanySettings>>().Value);
     }
 
+    internal static void ConfigureLoggings(this WebAssemblyHostBuilder builder)
+    {
+        if (!builder.HostEnvironment.IsProduction())
+            return;
+
+        _ = builder.Logging.ClearProviders();
+    }
+
     internal static void AddFluxor(this WebAssemblyHostBuilder builder)
     {
         _ = builder.Services.AddFluxor(options =>

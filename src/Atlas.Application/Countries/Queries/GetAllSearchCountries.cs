@@ -2,6 +2,7 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Domain.Countries;
+using Atlas.Domain.Languages;
 using Mediator;
 using SearchCountryResponse = Atlas.Contracts.Countries.SearchCountry;
 
@@ -22,7 +23,7 @@ public static class GetAllSearchCountries
 
         private static SearchCountryResponse Map(SearchCountry country)
         {
-            (_, string name) = country.Translations.First(t => t.Code.Equals("eng", StringComparison.OrdinalIgnoreCase));
+            (_, string name) = country.Translations.First(t => t.Language == Language.English);
 
             return new SearchCountryResponse(country.Cca2, name);
         }

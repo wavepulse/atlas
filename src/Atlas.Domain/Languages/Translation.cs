@@ -3,4 +3,4 @@
 
 namespace Atlas.Domain.Languages;
 
-public sealed record Translation(string Code, string Name);
+public sealed record Translation(Language Language, string Name);

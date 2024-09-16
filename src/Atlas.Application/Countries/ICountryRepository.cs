@@ -7,7 +7,7 @@ namespace Atlas.Application.Countries;
 
 public interface ICountryRepository
 {
-    Task<string[]> GetAllCodesAsync(CancellationToken cancellationToken);
+    Task<Country[]> GetAllAsync(CancellationToken cancellationToken);
 
     Task<Country?> GetByCodeAsync(string cca2, CancellationToken cancellationToken);
 }

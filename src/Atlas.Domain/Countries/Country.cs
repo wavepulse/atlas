@@ -23,4 +23,8 @@ public sealed record Country
     public required Area Area { get; init; }
 
     public required int Population { get; init; }
+
+    public required Uri MapUri { get; init; }
+
+    public required Uri FlagSvgUri { get; init; }
 }

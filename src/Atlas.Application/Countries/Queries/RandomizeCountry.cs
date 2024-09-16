@@ -2,21 +2,28 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Application.Services;
+using Atlas.Contracts.Countries;
+using Atlas.Domain.Countries;
+using Atlas.Domain.Languages;
 using Mediator;
 
 namespace Atlas.Application.Countries.Queries;
 
 public static class RandomizeCountry
 {
-    public sealed record Query : IQuery<string>;
+    public sealed record Query : IQuery<RandomizedCountry>;
 
-    internal sealed class Handler(IRandomizer randomizer, ICountryRepository repository) : IQueryHandler<Query, string>
+    internal sealed class Handler(IRandomizer randomizer, ICountryRepository repository) : IQueryHandler<Query, RandomizedCountry>
     {
-        public async ValueTask<string> Handle(Query query, CancellationToken cancellationToken)
+        public async ValueTask<RandomizedCountry> Handle(Query query, CancellationToken cancellationToken)
         {
-            string[] codes = await repository.GetAllCodesAsync(cancellationToken).ConfigureAwait(false);
+            Country[] countries = await repository.GetAllAsync(cancellationToken).ConfigureAwait(false);
 
-            return randomizer.Randomize<string>(codes);
+            Country randomizedCountry = randomizer.Randomize<Country>(countries);
+
+            string name = randomizedCountry.Translations.First(t => t.Language == Language.English).Name;
+
+            return new RandomizedCountry(randomizedCountry.Cca2, name, randomizedCountry.FlagSvgUri, randomizedCountry.MapUri);
         }
     }
 }

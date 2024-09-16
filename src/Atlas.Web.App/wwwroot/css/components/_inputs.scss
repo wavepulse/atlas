@@ -19,12 +19,6 @@ input, textarea {
     font-weight: normal;
     color: var(--color-secondary-accent);
   }
-
-  &:disabled {
-    background: var(--color-secondary-accent);
-    color: var(--color-secondary);
-    opacity: 0.7;
-  }
 }
 
 button {
@@ -34,15 +28,8 @@ button {
   transition: background 250ms;
   outline: none;
 
-  &:not(:disabled, .hamburger):hover, &:not(:disabled, .hamburger):focus-visible {
+  &:hover, &:focus-visible {
     background: var(--color-secondary-accent);
     color: var(--color-secondary);
-  }
-
-  &:disabled {
-    background: var(--color-secondary-accent);
-    color: var(--color-secondary);
-    cursor: unset;
-    opacity: 0.7;
   }
 }

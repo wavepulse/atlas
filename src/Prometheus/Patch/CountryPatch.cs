@@ -12,6 +12,8 @@ namespace Prometheus.Patch;
 [ExcludeFromCodeCoverage]
 internal sealed class CountryPatch : ICountryPatch
 {
+    private readonly Dictionary<string, Operation<CountryDto>[]> _patches = new(settings.Patches, StringComparer.OrdinalIgnoreCase);
+
     public void ApplyTo(ReadOnlySpan<CountryDto> countries)
     {
         Dictionary<string, Operation<CountryDto>[]> patches = GetCountryPatches();

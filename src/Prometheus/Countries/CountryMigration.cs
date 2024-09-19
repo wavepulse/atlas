@@ -9,16 +9,20 @@ using Prometheus.Countries.Endpoints;
 using Prometheus.Countries.Mappers;
 using Prometheus.Countries.Settings;
 using Prometheus.Json;
+using Prometheus.Patch;
 
 namespace Prometheus.Countries;
 
-internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonFileWriter writer, ILogger<CountryMigration> logger, CountryFilterSettings settings) : IMigration
+internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonFileWriter writer, ICountryPatch countryPatch, ILogger<CountryMigration> logger, CountryFilterSettings settings) : IMigration
 {
     public string Name { get; } = "Countries";
 
     public async Task MigrateAsync(string path, CancellationToken cancellationToken)
     {
         CountryDto[] dto = await endpoint.GetAllAsync(cancellationToken).ConfigureAwait(false);
+
+        PatchingCountries();
+        countryPatch.ApplyTo(dto);
 
         Country[] countries = dto.AsDomain(settings.Languages);
 
@@ -35,6 +39,9 @@ internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonF
         MigratingCountriesForSearch(DataJsonPaths.SearchCountries);
         await writer.WriteToAsync($"{path}/{DataJsonPaths.SearchCountries}", searchCountries, CountryJsonContext.Default.SearchCountryArray, cancellationToken).ConfigureAwait(false);
     }
+
+    [LoggerMessage(LogLevel.Information, "Patching countries")]
+    private partial void PatchingCountries();
 
     [LoggerMessage(LogLevel.Information, "Migrating countries to {jsonFile}")]
     private partial void MigratingCountries(string jsonFile);

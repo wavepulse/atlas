@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Prometheus;
 using Prometheus.Configurations;
 using Prometheus.Countries;
+using Prometheus.Patch;
 using System.Diagnostics.CodeAnalysis;
 
 HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);
@@ -14,6 +15,7 @@ builder.ConfigureHttpClients();
 
 builder.AddJsonServices();
 builder.AddFileServices();
+builder.AddPatchServices();
 
 builder.AddCountries();
 builder.AddEtlApplication();

@@ -9,6 +9,7 @@ using Prometheus.Countries.Dto;
 using Prometheus.Countries.Endpoints;
 using Prometheus.Countries.Settings;
 using Prometheus.Json;
+using Prometheus.Patch;
 using System.Text.Json.Serialization.Metadata;
 
 namespace Prometheus.Countries;
@@ -27,6 +28,7 @@ public sealed class CountryMigrationTests
 
     private readonly ICountryEndpoint _endpoint = Substitute.For<ICountryEndpoint>();
     private readonly IJsonFileWriter _jsonFileWriter = Substitute.For<IJsonFileWriter>();
+    private readonly ICountryPatch _countryPatch = new CountryPatch();
 
     private readonly CountryMigration _migration;
 
@@ -36,7 +38,7 @@ public sealed class CountryMigrationTests
 
         ILogger<CountryMigration> logger = Substitute.For<ILogger<CountryMigration>>();
 
-        _migration = new CountryMigration(_endpoint, _jsonFileWriter, logger, _settings);
+        _migration = new CountryMigration(_endpoint, _jsonFileWriter, _countryPatch, logger, _settings);
     }
 
     [Fact]

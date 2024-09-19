@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Version>0.2.0</Version>
+    <Version>0.3.0</Version>
     <OutputType>Exe</OutputType>
     <PublishAot>true</PublishAot>
     <InvariantGlobalization>true</InvariantGlobalization>
@@ -11,16 +11,6 @@
     <DebugType>none</DebugType>
     <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="patch.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="patch.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />

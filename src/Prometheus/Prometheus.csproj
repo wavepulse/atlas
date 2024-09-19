@@ -13,9 +13,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="patch.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="patch.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />
     <PackageReference Include="Microsoft.Extensions.Http" />
+    <PackageReference Include="SystemTextJsonPatch" />
   </ItemGroup>
 
   <ItemGroup>

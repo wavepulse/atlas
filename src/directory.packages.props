@@ -13,6 +13,7 @@
 
   <ItemGroup Label="ETL packages">
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.0-preview.6.24327.7" />
+    <PackageVersion Include="SystemTextJsonPatch" Version="3.2.1" />
   </ItemGroup>
 
   <ItemGroup Label="Infrastructure packages">

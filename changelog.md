@@ -1,9 +1,18 @@
-# Changelog
+# Atlas changelog
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## 0.3.0 &#8212; 2024-10-xx
+
+### Changed
+
+- Improve the links to be more intuitive ([#72])
+
+<!-- 0.3.0 -->
+[#72]: https://github.com/wavepulse/atlas/issues/72
 
 ## 0.2.1 &#8212; 2024-09-16
 
@@ -14,17 +23,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - External links will open in a new tab ([#71])
 
 <!-- 0.2.1 -->
-[#44]: https://github.com/wavepulse/atlas/issues/44
 [#70]: https://github.com/wavepulse/atlas/issues/70
 [#71]: https://github.com/wavepulse/atlas/issues/71
- 
+
 ## 0.2.0 &#8212; 2024-09-16
 
 ### Added
 
 - Mentions used projects in the `README.md` file ([#50])
 - Scroll to the autocomplete input when having the focus for mobile devices ([#32])
-- Added metadata to Prometheus ([#14])
 - Extract flag image uri and map uri from API to use in the game ([#51])
 - Distinct environment between preview and production ([#58])
 - Added 404 page ([#59])
@@ -34,10 +41,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Filter guessed countries from the autocomplete list ([#38])
 - Hide the autocomplete and display answer or congralute you when the game is over ([#37], [#46])
 - Change javascript to typescript ([#25])
-- Rename Atlas.Etl to Prometheus ([#14])
 - Simplify language code for translations ([#20])
 - Improve icons usage ([#36])
-- Improve logging in Prometheus ([#28])
 
 ### Fixed
 
@@ -46,10 +51,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Hide logs in production ([#44])
 
 <!-- 0.2.0 -->
-[#14]: https://github.com/wavepulse/atlas/issues/14
 [#20]: https://github.com/wavepulse/atlas/issues/20
 [#25]: https://github.com/wavepulse/atlas/issues/25
-[#28]: https://github.com/wavepulse/atlas/issues/28
 [#32]: https://github.com/wavepulse/atlas/issues/32
 [#36]: https://github.com/wavepulse/atlas/issues/36
 [#37]: https://github.com/wavepulse/atlas/issues/37

@@ -5,6 +5,8 @@ namespace Atlas.Web.App.Components;
 
 public static class Icons
 {
+    public const string ArrowLeftCircle = "bi bi-arrow-left-circle";
+
     public const string ArrowUp = "bi bi-arrow-up";
 
     public const string Bug = "bi bi-bug";

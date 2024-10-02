@@ -39,9 +39,6 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
     {
         base.OnInitialized();
 
-        countries.Select(c => c.Countries);
-        dispatcher.Dispatch(new SearchCountryActions.GetAll());
-
         SubscribeToAction<CountryActions.GuessResult>(action =>
         {
             if (action.Flag.Success)
@@ -57,6 +54,9 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
             _input = string.Empty;
             _filteredCountries = [];
         });
+
+        countries.Select(c => c.Countries);
+        dispatcher.Dispatch(new SearchCountryActions.GetAll());
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -154,18 +154,16 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
     private static string RemoveDiacritics(string value)
     {
         ReadOnlySpan<char> normalized = value.Normalize(NormalizationForm.FormD);
-        Span<char> builder = stackalloc char[normalized.Length];
-        int i = 0;
 
-        foreach (char c in normalized)
+        return string.Create(value.Length, normalized, (buffer, state) =>
         {
-            UnicodeCategory unicode = CharUnicodeInfo.GetUnicodeCategory(c);
-
-            if (unicode != UnicodeCategory.NonSpacingMark)
-                builder[i++] = c;
-        }
-
-        return builder[..i].ToString();
+            int i = 0;
+            foreach (char c in state)
+            {
+                if (char.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                    buffer[i++] = c;
+            }
+        });
     }
 
     private static class Keyboard

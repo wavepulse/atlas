@@ -2,15 +2,15 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Application.Countries;
-using Atlas.Infrastructure.Json.Caching;
-using Atlas.Infrastructure.Json.Repositories;
-using Atlas.Infrastructure.Json.Settings;
+using Atlas.Infrastructure.Http.Caching;
+using Atlas.Infrastructure.Http.Repositories;
+using Atlas.Infrastructure.Http.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Atlas.Infrastructure.Json;
+namespace Atlas.Infrastructure.Http;
 
 [ExcludeFromCodeCoverage]
 public static class DependencyInjection

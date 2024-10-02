@@ -3,11 +3,12 @@
 
 using Atlas.Application.Countries;
 using Atlas.Domain.Countries;
-using Atlas.Infrastructure.Json.Caching;
+using Atlas.Infrastructure.Http.Caching;
+using Atlas.Infrastructure.Json;
 using Microsoft.Extensions.Caching.Memory;
 using System.Net.Http.Json;
 
-namespace Atlas.Infrastructure.Json.Repositories;
+namespace Atlas.Infrastructure.Http.Repositories;
 
 internal sealed class CountryRepository(HttpClient client, IAppCache appCache) : ICountryRepository
 {

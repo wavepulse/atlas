@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Add mecanism to patch country data ([#45])
+- Manage errors ([#82])
+
+### Changed
+
+- Improve the logging ([#81])
 
 ### Fixed
 
@@ -17,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- 1.0.0 -->
 [#45]: https://github.com/wavepulse/atlas/issues/45
+[#81]: https://github.com/wavepulse/atlas/issues/81
+[#82]: https://github.com/wavepulse/atlas/issues/82
 [#84]: https://github.com/wavepulse/atlas/issues/84
 
 ## 0.2.0 &#8212; 2024-09-16

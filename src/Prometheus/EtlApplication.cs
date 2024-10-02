@@ -16,7 +16,8 @@ internal sealed partial class EtlApplication(IDataDirectory dataDirectory, IEnum
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        DisplayBanner();
+        (string name, string version) = GetApplicationInformation();
+        DisplayBanner(name, version, environment.EnvironmentName);
 
         string? path = dataDirectory.Create();
 
@@ -49,17 +50,18 @@ internal sealed partial class EtlApplication(IDataDirectory dataDirectory, IEnum
     [ExcludeFromCodeCoverage]
     public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-    private void DisplayBanner()
+    private static (string Name, string Version) GetApplicationInformation()
     {
         AssemblyName assembly = Assembly.GetExecutingAssembly().GetName();
 
         string name = assembly.Name!;
         Version version = assembly.Version!;
-        string information = $"{name} - {version.Major}.{version.Minor}.{version.Revision} - {environment.EnvironmentName}";
 
-        Console.WriteLine(information);
-        Console.WriteLine(new string('=', information.Length));
+        return (name, $"{version.Major}.{version.Minor}.{version.Revision}");
     }
+
+    [LoggerMessage(LogLevel.Information, "{name} - {version} - {environment}")]
+    private partial void DisplayBanner(string name, string version, string environment);
 
     [LoggerMessage(LogLevel.Error, "Failed to create the data directory")]
     private partial void FailedToCreateDataDirectory();

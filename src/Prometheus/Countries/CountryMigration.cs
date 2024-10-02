@@ -21,6 +21,9 @@ internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonF
     {
         CountryDto[] dto = await endpoint.GetAllAsync(cancellationToken).ConfigureAwait(false);
 
+        if (dto.Length == 0)
+            return;
+
         PatchingCountries();
         countryPatch.ApplyTo(dto);
 
@@ -30,25 +33,25 @@ internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonF
         Country[] excludedCountries = countries.Except(acceptedCountries).ToArray();
         SearchCountry[] searchCountries = acceptedCountries.AsSearchCountries(settings.ExcludedCountries);
 
-        MigratingCountries(DataJsonPaths.Countries);
+        MigratingCountries(acceptedCountries.Length, DataJsonPaths.Countries);
         await writer.WriteToAsync($"{path}/{DataJsonPaths.Countries}", acceptedCountries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);
 
-        MigratingExcludedCountries(DataJsonPaths.ExcludedCountries);
+        MigratingExcludedCountries(excludedCountries.Length, DataJsonPaths.ExcludedCountries);
         await writer.WriteToAsync($"{path}/{DataJsonPaths.ExcludedCountries}", excludedCountries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);
 
-        MigratingCountriesForSearch(DataJsonPaths.SearchCountries);
+        MigratingCountriesForSearch(searchCountries.Length, DataJsonPaths.SearchCountries);
         await writer.WriteToAsync($"{path}/{DataJsonPaths.SearchCountries}", searchCountries, CountryJsonContext.Default.SearchCountryArray, cancellationToken).ConfigureAwait(false);
     }
 
     [LoggerMessage(LogLevel.Information, "Patching countries")]
     private partial void PatchingCountries();
 
-    [LoggerMessage(LogLevel.Information, "Migrating countries to {jsonFile}")]
-    private partial void MigratingCountries(string jsonFile);
+    [LoggerMessage(LogLevel.Information, "Migrating {length} country to {jsonFile}")]
+    private partial void MigratingCountries(int length, string jsonFile);
 
-    [LoggerMessage(LogLevel.Information, "Migrating excluded countries to {jsonFile}")]
-    private partial void MigratingExcludedCountries(string jsonFile);
+    [LoggerMessage(LogLevel.Information, "Migrating {length} excluded countries to {jsonFile}")]
+    private partial void MigratingExcludedCountries(int length, string jsonFile);
 
-    [LoggerMessage(LogLevel.Information, "Migrating countries for search to {jsonFile}")]
-    private partial void MigratingCountriesForSearch(string jsonFile);
+    [LoggerMessage(LogLevel.Information, "Migrating {length} countries for search to {jsonFile}")]
+    private partial void MigratingCountriesForSearch(int length, string jsonFile);
 }

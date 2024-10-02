@@ -20,8 +20,6 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 
     protected override void OnInitialized()
     {
-        dispatcher.Dispatch(new CountryActions.Randomize());
-
         subscriber.SubscribeToAction<CountryActions.RandomizeResult>(this, action =>
         {
             (string cca2, string name, Uri flagSvgUri, Uri mapUri) = action.Country;
@@ -56,6 +54,8 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 
             StateHasChanged();
         });
+
+        dispatcher.Dispatch(new CountryActions.Randomize());
     }
 
     private void Guess(string guessedCca2)

@@ -7,12 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.3.0 &#8212; 2024-10-xx
 
+### Added
+
+- Added a game list on the index page ([#90])
+
 ### Changed
 
 - Improve the links to be more intuitive ([#72])
+- Improve the algorithm to remove diacritics from the country names when guessing ([#91])
+
+### Fixed
+
+- Fixed Random flag game where the flag wasn't displayed when navigating back to the game ([#77])
 
 <!-- 0.3.0 -->
 [#72]: https://github.com/wavepulse/atlas/issues/72
+[#77]: https://github.com/wavepulse/atlas/issues/77
+[#90]: https://github.com/wavepulse/atlas/issues/90
+[#91]: https://github.com/wavepulse/atlas/issues/91
 
 ## 0.2.1 &#8212; 2024-09-16
 

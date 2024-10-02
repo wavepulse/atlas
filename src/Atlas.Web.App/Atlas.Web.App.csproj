@@ -13,10 +13,10 @@
   <ItemGroup Condition="$(Configuration) == 'Debug'">
     <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Atlas.Infrastructure.Json\Atlas.Infrastructure.Json.csproj" />
-  </ItemGroup>
   <ItemGroup Label="Exclude from code coverage">
     <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Atlas.Infrastructure.Http\Atlas.Infrastructure.Http.csproj" />
   </ItemGroup>
 </Project>

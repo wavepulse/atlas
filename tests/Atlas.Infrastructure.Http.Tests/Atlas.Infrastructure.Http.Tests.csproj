@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
-    <ProjectReference Include="..\Atlas.Domain\Atlas.Domain.csproj" />
+    <PackageReference Include="skwas.MockHttp" />
   </ItemGroup>
 </Project>

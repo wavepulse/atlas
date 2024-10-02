@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Caching.Memory;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Atlas.Infrastructure.Json.Caching;
+namespace Atlas.Infrastructure.Http.Caching;
 
 internal interface IAppCache
 {

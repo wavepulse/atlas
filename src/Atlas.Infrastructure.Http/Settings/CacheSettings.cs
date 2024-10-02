@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 
-namespace Atlas.Infrastructure.Json.Settings;
+namespace Atlas.Infrastructure.Http.Settings;
 
 internal sealed partial class CacheSettings
 {

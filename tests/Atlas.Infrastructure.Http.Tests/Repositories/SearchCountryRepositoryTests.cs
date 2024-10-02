@@ -3,12 +3,13 @@
 
 using Atlas.Domain.Countries;
 using Atlas.Domain.Languages;
-using Atlas.Infrastructure.Json.Caching;
+using Atlas.Infrastructure.Http.Caching;
+using Atlas.Infrastructure.Json;
 using MockHttp;
 using System.Net;
 using System.Text.Json;
 
-namespace Atlas.Infrastructure.Json.Repositories;
+namespace Atlas.Infrastructure.Http.Repositories;
 
 public sealed class SearchCountryRepositoryTests : IDisposable
 {

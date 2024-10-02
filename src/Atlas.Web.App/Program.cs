@@ -2,7 +2,7 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Application;
-using Atlas.Infrastructure.Json;
+using Atlas.Infrastructure.Http;
 using Atlas.Web.App;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

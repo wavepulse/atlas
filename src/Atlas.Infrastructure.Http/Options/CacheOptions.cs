@@ -4,9 +4,9 @@
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 
-namespace Atlas.Infrastructure.Http.Settings;
+namespace Atlas.Infrastructure.Http.Options;
 
-internal sealed partial class CacheSettings
+internal sealed partial class CacheOptions
 {
     public const string Section = "cache";
 
@@ -14,5 +14,5 @@ internal sealed partial class CacheSettings
     public required int ExpirationTimeInMinutes { get; set; }
 
     [OptionsValidator]
-    internal sealed partial class Validator : IValidateOptions<CacheSettings>;
+    internal sealed partial class Validator : IValidateOptions<CacheOptions>;
 }

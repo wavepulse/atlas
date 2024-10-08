@@ -3,8 +3,8 @@
 
 using Atlas.Application.Countries;
 using Atlas.Infrastructure.Http.Caching;
+using Atlas.Infrastructure.Http.Options;
 using Atlas.Infrastructure.Http.Repositories;
-using Atlas.Infrastructure.Http.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -15,12 +15,12 @@ namespace Atlas.Infrastructure.Http;
 [ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration, Action<HttpClient> configure)
+    public static void AddHttpInfrastructure(this IServiceCollection services, IConfiguration configuration, Action<HttpClient> configure)
     {
-        _ = services.Configure<CacheSettings>(configuration.GetSection(CacheSettings.Section))
-                    .AddSingleton<IValidateOptions<CacheSettings>, CacheSettings.Validator>()
-                    .AddSingleton(sp => sp.GetRequiredService<IOptions<CacheSettings>>().Value)
-                    .AddOptionsWithValidateOnStart<CacheSettings>();
+        _ = services.Configure<CacheOptions>(configuration.GetSection(CacheOptions.Section))
+                    .AddSingleton<IValidateOptions<CacheOptions>, CacheOptions.Validator>()
+                    .AddSingleton(sp => sp.GetRequiredService<IOptions<CacheOptions>>().Value)
+                    .AddOptionsWithValidateOnStart<CacheOptions>();
 
         _ = services.ConfigureHttpClientDefaults(c => c.ConfigureHttpClient(configure));
 

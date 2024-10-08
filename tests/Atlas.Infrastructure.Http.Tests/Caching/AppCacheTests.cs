@@ -1,14 +1,14 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
-using Atlas.Infrastructure.Http.Settings;
+using Atlas.Infrastructure.Http.Options;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Atlas.Infrastructure.Http.Caching;
 
 public sealed class AppCacheTests
 {
-    private readonly CacheSettings _settings = new()
+    private readonly CacheOptions _options = new()
     {
         ExpirationTimeInMinutes = 3600
     };
@@ -19,7 +19,7 @@ public sealed class AppCacheTests
 
     public AppCacheTests()
     {
-        _appCache = new AppCache(_cache, _settings);
+        _appCache = new AppCache(_cache, _options);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public sealed class AppCacheTests
 
         _ = _appCache.CreateEntry("key");
 
-        entry.AbsoluteExpirationRelativeToNow.Should().Be(TimeSpan.FromMinutes(_settings.ExpirationTimeInMinutes));
+        entry.AbsoluteExpirationRelativeToNow.Should().Be(TimeSpan.FromMinutes(_options.ExpirationTimeInMinutes));
     }
 
     [Fact]

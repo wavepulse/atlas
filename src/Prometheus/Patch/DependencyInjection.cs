@@ -11,5 +11,5 @@ namespace Prometheus.Patch;
 internal static class DependencyInjection
 {
     internal static void AddPatchServices(this IHostApplicationBuilder builder)
-        => _ = builder.Services.AddTransient<ICountryPatch, CountryPatch>();
+        => builder.Services.AddTransient<ICountryPatch, CountryPatch>();
 }

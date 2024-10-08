@@ -46,7 +46,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllAsync(CancellationToken.None);
+        await _repository.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Once);
     }
@@ -84,7 +84,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllAsync(CancellationToken.None);
+        await _repository.GetAllAsync(CancellationToken.None);
 
         _appCache.Received(1).CreateEntry("country:codes");
     }
@@ -99,7 +99,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllAsync(CancellationToken.None);
+        await _repository.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Never);
         _appCache.Received(1).TryGetValue<Country[]>("country:codes", out _);
@@ -113,7 +113,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetByCodeAsync(string.Empty, CancellationToken.None);
+        await _repository.GetByCodeAsync(string.Empty, CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Once);
     }
@@ -152,7 +152,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetByCodeAsync(cca2, CancellationToken.None);
+        await _repository.GetByCodeAsync(cca2, CancellationToken.None);
 
         _appCache.Received(1).CreateEntry($"country:{cca2}");
     }
@@ -169,7 +169,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetByCodeAsync(cca2, CancellationToken.None);
+        await _repository.GetByCodeAsync(cca2, CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Never);
         _appCache.Received(1).TryGetValue<Country>($"country:{cca2}", out _);

@@ -29,7 +29,7 @@ public sealed class DataDirectoryTests
     [Fact]
     public void CreateShouldGetTheRootPath()
     {
-        _ = _dataDirectory.Create();
+        _dataDirectory.Create();
 
         _directory.Received(1).GetRootPath(_options.Root);
     }
@@ -39,7 +39,7 @@ public sealed class DataDirectoryTests
     {
         _directory.GetRootPath(_options.Root).Returns(_options.Root);
 
-        _ = _dataDirectory.Create();
+        _dataDirectory.Create();
 
         _directory.Received(1).Create(_expectedPath);
     }
@@ -70,7 +70,7 @@ public sealed class DataDirectoryTests
     {
         _directory.GetRootPath(_options.Root).ReturnsNull();
 
-        _ = _dataDirectory.Create();
+        _dataDirectory.Create();
 
         _directory.DidNotReceive().Create(_expectedPath);
     }

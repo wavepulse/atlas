@@ -17,9 +17,11 @@ internal static class LoggingConfigurations
 {
     internal static void ConfigureLoggings(this IHostApplicationBuilder builder)
     {
-        _ = builder.Services.Configure<ConsoleLifetimeOptions>(o => o.SuppressStatusMessages = true);
-        _ = builder.Logging.ClearProviders();
-        _ = builder.Logging.AddConsole(options => options.FormatterName = "custom");
+        builder.Services.Configure<ConsoleLifetimeOptions>(o => o.SuppressStatusMessages = true);
+
+        builder.Logging.ClearProviders();
+        builder.Logging.AddConsole(options => options.FormatterName = "custom");
+
         builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<ConsoleFormatter, CustomConsoleFormatter>());
     }
 }

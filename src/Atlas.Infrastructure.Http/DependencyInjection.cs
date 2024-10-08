@@ -17,17 +17,17 @@ public static class DependencyInjection
 {
     public static void AddHttpInfrastructure(this IServiceCollection services, IConfiguration configuration, Action<HttpClient> configure)
     {
-        _ = services.Configure<CacheOptions>(configuration.GetSection(CacheOptions.Section))
-                    .AddSingleton<IValidateOptions<CacheOptions>, CacheOptions.Validator>()
-                    .AddSingleton(sp => sp.GetRequiredService<IOptions<CacheOptions>>().Value)
-                    .AddOptionsWithValidateOnStart<CacheOptions>();
+        services.Configure<CacheOptions>(configuration.GetSection(CacheOptions.Section))
+                .AddSingleton<IValidateOptions<CacheOptions>, CacheOptions.Validator>()
+                .AddSingleton(sp => sp.GetRequiredService<IOptions<CacheOptions>>().Value)
+                .AddOptionsWithValidateOnStart<CacheOptions>();
 
-        _ = services.ConfigureHttpClientDefaults(c => c.ConfigureHttpClient(configure));
+        services.ConfigureHttpClientDefaults(c => c.ConfigureHttpClient(configure));
 
-        _ = services.AddHttpClient<ISearchCountryRepository, SearchCountryRepository>();
-        _ = services.AddHttpClient<ICountryRepository, CountryRepository>();
+        services.AddHttpClient<ISearchCountryRepository, SearchCountryRepository>();
+        services.AddHttpClient<ICountryRepository, CountryRepository>();
 
-        _ = services.AddMemoryCache()
-                    .AddScoped<IAppCache, AppCache>();
+        services.AddMemoryCache()
+                .AddScoped<IAppCache, AppCache>();
     }
 }

@@ -37,7 +37,7 @@ public sealed class AppCacheTests
 
         _cache.CreateEntry("key").Returns(entry);
 
-        _ = _appCache.CreateEntry("key");
+        _appCache.CreateEntry("key");
 
         entry.AbsoluteExpirationRelativeToNow.Should().Be(TimeSpan.FromMinutes(_options.ExpirationTimeInMinutes));
     }

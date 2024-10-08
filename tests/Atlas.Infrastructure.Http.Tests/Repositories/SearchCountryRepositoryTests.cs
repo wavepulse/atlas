@@ -45,7 +45,7 @@ public sealed class SearchCountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllAsync(CancellationToken.None);
+        await _repository.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Once);
     }
@@ -83,7 +83,7 @@ public sealed class SearchCountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllAsync(CancellationToken.None);
+        await _repository.GetAllAsync(CancellationToken.None);
 
         _appCache.Received(1).CreateEntry("country:search");
     }
@@ -98,7 +98,7 @@ public sealed class SearchCountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _repository.GetAllAsync(CancellationToken.None);
+        await _repository.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Never);
         _appCache.Received(1).TryGetValue<SearchCountry[]>("country:search", out _);

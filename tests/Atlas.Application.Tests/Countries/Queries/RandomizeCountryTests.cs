@@ -29,7 +29,7 @@ public sealed class RandomizeCountryTests
     [Fact]
     public async Task HandleShouldGetAllCodes()
     {
-        _ = await _handler.Handle(_query, CancellationToken.None);
+        await _handler.Handle(_query, CancellationToken.None);
 
         await _countryRepository.Received(1).GetAllAsync(CancellationToken.None);
     }

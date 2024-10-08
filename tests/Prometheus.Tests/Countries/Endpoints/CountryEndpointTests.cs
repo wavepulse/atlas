@@ -46,7 +46,7 @@ public sealed class CountryEndpointTests : IClassFixture<CountriesJson>, IDispos
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _endpoint.GetAllAsync(CancellationToken.None);
+        await _endpoint.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Once);
     }

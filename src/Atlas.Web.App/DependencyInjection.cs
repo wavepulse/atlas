@@ -19,13 +19,13 @@ internal static class DependencyInjection
 
     internal static void AddOptions(this WebAssemblyHostBuilder builder)
     {
-        _ = builder.Services.Configure<ProjectOptions>(builder.Configuration.GetSection(ProjectOptions.Section))
-                            .AddSingleton<IValidateOptions<ProjectOptions>, ProjectOptions.Validator>()
-                            .AddSingleton(sp => sp.GetRequiredService<IOptions<ProjectOptions>>().Value);
+        builder.Services.Configure<ProjectOptions>(builder.Configuration.GetSection(ProjectOptions.Section))
+                        .AddSingleton<IValidateOptions<ProjectOptions>, ProjectOptions.Validator>()
+                        .AddSingleton(sp => sp.GetRequiredService<IOptions<ProjectOptions>>().Value);
 
-        _ = builder.Services.Configure<CompanyOptions>(builder.Configuration.GetSection(CompanyOptions.Section))
-                            .AddSingleton<IValidateOptions<CompanyOptions>, CompanyOptions.Validator>()
-                            .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanyOptions>>().Value);
+        builder.Services.Configure<CompanyOptions>(builder.Configuration.GetSection(CompanyOptions.Section))
+                        .AddSingleton<IValidateOptions<CompanyOptions>, CompanyOptions.Validator>()
+                        .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanyOptions>>().Value);
     }
 
     internal static void ConfigureLoggings(this WebAssemblyHostBuilder builder)
@@ -33,16 +33,16 @@ internal static class DependencyInjection
         if (!builder.HostEnvironment.IsProduction())
             return;
 
-        _ = builder.Logging.ClearProviders();
+        builder.Logging.ClearProviders();
     }
 
     internal static void AddFluxor(this WebAssemblyHostBuilder builder)
     {
-        _ = builder.Services.AddFluxor(options =>
+        builder.Services.AddFluxor(options =>
         {
-            _ = options.ScanAssemblies(typeof(Program).Assembly);
+            options.ScanAssemblies(typeof(Program).Assembly);
 #if DEBUG
-            _ = options.UseReduxDevTools(o => o.Name = "Atlas");
+            options.UseReduxDevTools(o => o.Name = "Atlas");
 #endif
         });
     }

@@ -45,7 +45,7 @@ public sealed class TranslationDtoJsonConverterTests
     {
         Utf8JsonReader reader = CreateJsonReader(Json);
 
-        _ = _converter.Read(ref reader, typeof(IEnumerable<TranslationDto>), _options);
+        _converter.Read(ref reader, typeof(IEnumerable<TranslationDto>), _options);
 
         reader.TokenType.Should().Be(JsonTokenType.EndObject);
     }

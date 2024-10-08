@@ -4,9 +4,9 @@
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 
-namespace Atlas.Web.App.Settings;
+namespace Atlas.Web.App.Options;
 
-public sealed partial class CompanySettings
+public sealed partial class CompanyOptions
 {
     public const string Section = "project:company";
 
@@ -17,5 +17,5 @@ public sealed partial class CompanySettings
     public required string Url { get; set; }
 
     [OptionsValidator]
-    internal sealed partial class Validator : IValidateOptions<CompanySettings>;
+    internal sealed partial class Validator : IValidateOptions<CompanyOptions>;
 }

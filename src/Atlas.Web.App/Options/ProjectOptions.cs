@@ -4,9 +4,9 @@
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 
-namespace Atlas.Web.App.Settings;
+namespace Atlas.Web.App.Options;
 
-public sealed partial class ProjectSettings
+public sealed partial class ProjectOptions
 {
     public const string Section = "project";
 
@@ -20,5 +20,5 @@ public sealed partial class ProjectSettings
     public required string BugUrl { get; set; }
 
     [OptionsValidator]
-    internal sealed partial class Validator : IValidateOptions<ProjectSettings>;
+    internal sealed partial class Validator : IValidateOptions<ProjectOptions>;
 }

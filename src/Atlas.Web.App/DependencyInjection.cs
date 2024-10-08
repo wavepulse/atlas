@@ -1,7 +1,7 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
-using Atlas.Web.App.Settings;
+using Atlas.Web.App.Options;
 using Fluxor;
 #if DEBUG
 using Fluxor.Blazor.Web.ReduxDevTools;
@@ -17,15 +17,15 @@ internal static class DependencyInjection
     internal static void AddJsRuntime(this WebAssemblyHostBuilder builder)
         => builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
 
-    internal static void AddSettings(this WebAssemblyHostBuilder builder)
+    internal static void AddOptions(this WebAssemblyHostBuilder builder)
     {
-        _ = builder.Services.Configure<ProjectSettings>(builder.Configuration.GetSection(ProjectSettings.Section))
-                            .AddSingleton<IValidateOptions<ProjectSettings>, ProjectSettings.Validator>()
-                            .AddSingleton(sp => sp.GetRequiredService<IOptions<ProjectSettings>>().Value);
+        _ = builder.Services.Configure<ProjectOptions>(builder.Configuration.GetSection(ProjectOptions.Section))
+                            .AddSingleton<IValidateOptions<ProjectOptions>, ProjectOptions.Validator>()
+                            .AddSingleton(sp => sp.GetRequiredService<IOptions<ProjectOptions>>().Value);
 
-        _ = builder.Services.Configure<CompanySettings>(builder.Configuration.GetSection(CompanySettings.Section))
-                            .AddSingleton<IValidateOptions<CompanySettings>, CompanySettings.Validator>()
-                            .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanySettings>>().Value);
+        _ = builder.Services.Configure<CompanyOptions>(builder.Configuration.GetSection(CompanyOptions.Section))
+                            .AddSingleton<IValidateOptions<CompanyOptions>, CompanyOptions.Validator>()
+                            .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanyOptions>>().Value);
     }
 
     internal static void ConfigureLoggings(this WebAssemblyHostBuilder builder)

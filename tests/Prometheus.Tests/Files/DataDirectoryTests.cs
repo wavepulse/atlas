@@ -3,7 +3,7 @@
 
 using Atlas.Infrastructure.Json;
 using NSubstitute.ReturnsExtensions;
-using Prometheus.Settings;
+using Prometheus.Options;
 
 namespace Prometheus.Files;
 
@@ -11,7 +11,7 @@ public sealed class DataDirectoryTests
 {
     private readonly string _expectedPath;
     private readonly IDirectory _directory = Substitute.For<IDirectory>();
-    private readonly PathSettings _settings = new()
+    private readonly PathOptions _options = new()
     {
         Root = "root",
         Output = "output"
@@ -21,9 +21,9 @@ public sealed class DataDirectoryTests
 
     public DataDirectoryTests()
     {
-        _expectedPath = Path.Combine(_settings.Root, _settings.Output, DataJsonPaths.BaseDirectory);
+        _expectedPath = Path.Combine(_options.Root, _options.Output, DataJsonPaths.BaseDirectory);
 
-        _dataDirectory = new DataDirectory(_directory, _settings);
+        _dataDirectory = new DataDirectory(_directory, _options);
     }
 
     [Fact]
@@ -31,13 +31,13 @@ public sealed class DataDirectoryTests
     {
         _ = _dataDirectory.Create();
 
-        _directory.Received(1).GetRootPath(_settings.Root);
+        _directory.Received(1).GetRootPath(_options.Root);
     }
 
     [Fact]
     public void CreateShouldCreateDataFolder()
     {
-        _directory.GetRootPath(_settings.Root).Returns(_settings.Root);
+        _directory.GetRootPath(_options.Root).Returns(_options.Root);
 
         _ = _dataDirectory.Create();
 
@@ -47,7 +47,7 @@ public sealed class DataDirectoryTests
     [Fact]
     public void CreateShouldReturnThePath()
     {
-        _directory.GetRootPath(_settings.Root).Returns(_settings.Root);
+        _directory.GetRootPath(_options.Root).Returns(_options.Root);
         _directory.Create(_expectedPath).Returns(_expectedPath);
 
         string? path = _dataDirectory.Create();
@@ -58,7 +58,7 @@ public sealed class DataDirectoryTests
     [Fact]
     public void CreateShouldReturnNullWhenDoesNotFoundRootPath()
     {
-        _directory.GetRootPath(_settings.Root).ReturnsNull();
+        _directory.GetRootPath(_options.Root).ReturnsNull();
 
         string? path = _dataDirectory.Create();
 
@@ -68,7 +68,7 @@ public sealed class DataDirectoryTests
     [Fact]
     public void CreateShouldNotCreateTheDirectoryWhenDoesNotFoundRootPath()
     {
-        _directory.GetRootPath(_settings.Root).ReturnsNull();
+        _directory.GetRootPath(_options.Root).ReturnsNull();
 
         _ = _dataDirectory.Create();
 

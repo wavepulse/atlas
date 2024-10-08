@@ -4,9 +4,9 @@
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 
-namespace Prometheus.Countries.Settings;
+namespace Prometheus.Countries.Options;
 
-internal sealed partial class CountryEndpointSettings
+internal sealed partial class CountryEndpointOptions
 {
     public const string Section = "country";
 
@@ -14,5 +14,5 @@ internal sealed partial class CountryEndpointSettings
     public required string Endpoint { get; set; }
 
     [OptionsValidator]
-    internal sealed partial class Validator : IValidateOptions<CountryEndpointSettings>;
+    internal sealed partial class Validator : IValidateOptions<CountryEndpointOptions>;
 }

@@ -4,9 +4,9 @@
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 
-namespace Prometheus.Settings;
+namespace Prometheus.Options;
 
-internal sealed partial class PathSettings
+internal sealed partial class PathOptions
 {
     [Required]
     public required string Root { get; set; }
@@ -15,5 +15,5 @@ internal sealed partial class PathSettings
     public required string Output { get; set; }
 
     [OptionsValidator]
-    internal sealed partial class Validator : IValidateOptions<PathSettings>;
+    internal sealed partial class Validator : IValidateOptions<PathOptions>;
 }

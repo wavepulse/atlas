@@ -7,7 +7,7 @@ using Atlas.Infrastructure.Json;
 using Microsoft.Extensions.Logging;
 using Prometheus.Countries.Dto;
 using Prometheus.Countries.Endpoints;
-using Prometheus.Countries.Settings;
+using Prometheus.Countries.Options;
 using Prometheus.Json;
 using Prometheus.Patch;
 using System.Text.Json.Serialization.Metadata;
@@ -20,7 +20,7 @@ public sealed class CountryMigrationTests
     private const string CountriesPath = $"{Path}/{DataJsonPaths.Countries}";
 
     private readonly CountryDto _canada = CreateCanada();
-    private readonly CountryFilterSettings _settings = new()
+    private readonly CountryFilterOptions _options = new()
     {
         Languages = ["fra", "eng"],
         ExcludedCountries = []
@@ -38,7 +38,7 @@ public sealed class CountryMigrationTests
 
         ILogger<CountryMigration> logger = Substitute.For<ILogger<CountryMigration>>();
 
-        _migration = new CountryMigration(_endpoint, _jsonFileWriter, _countryPatch, logger, _settings);
+        _migration = new CountryMigration(_endpoint, _jsonFileWriter, _countryPatch, logger, _options);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public sealed class CountryMigrationTests
     [Fact]
     public async Task MigrateAsyncShouldExcludeExcludedCountriesForCountriesFile()
     {
-        _settings.ExcludedCountries = ["CA"];
+        _options.ExcludedCountries = ["CA"];
 
         await _migration.MigrateAsync(Path, CancellationToken.None);
 
@@ -80,7 +80,7 @@ public sealed class CountryMigrationTests
     {
         const string excludedCountriesPath = $"{Path}/{DataJsonPaths.ExcludedCountries}";
 
-        _settings.ExcludedCountries = ["CA"];
+        _options.ExcludedCountries = ["CA"];
 
         await _migration.MigrateAsync(Path, CancellationToken.None);
 

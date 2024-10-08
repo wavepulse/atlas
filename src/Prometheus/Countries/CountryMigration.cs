@@ -7,13 +7,13 @@ using Microsoft.Extensions.Logging;
 using Prometheus.Countries.Dto;
 using Prometheus.Countries.Endpoints;
 using Prometheus.Countries.Mappers;
-using Prometheus.Countries.Settings;
+using Prometheus.Countries.Options;
 using Prometheus.Json;
 using Prometheus.Patch;
 
 namespace Prometheus.Countries;
 
-internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonFileWriter writer, ICountryPatch countryPatch, ILogger<CountryMigration> logger, CountryFilterSettings settings) : IMigration
+internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonFileWriter writer, ICountryPatch countryPatch, ILogger<CountryMigration> logger, CountryFilterOptions options) : IMigration
 {
     public string Name { get; } = "Countries";
 
@@ -27,11 +27,11 @@ internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonF
         PatchingCountries();
         countryPatch.ApplyTo(dto);
 
-        Country[] countries = dto.AsDomain(settings.Languages);
+        Country[] countries = dto.AsDomain(options.Languages);
 
-        Country[] acceptedCountries = countries.ExceptBy(settings.ExcludedCountries, x => x.Cca2, StringComparer.OrdinalIgnoreCase).ToArray();
+        Country[] acceptedCountries = countries.ExceptBy(options.ExcludedCountries, x => x.Cca2, StringComparer.OrdinalIgnoreCase).ToArray();
         Country[] excludedCountries = countries.Except(acceptedCountries).ToArray();
-        SearchCountry[] searchCountries = acceptedCountries.AsSearchCountries(settings.ExcludedCountries);
+        SearchCountry[] searchCountries = acceptedCountries.AsSearchCountries(options.ExcludedCountries);
 
         MigratingCountries(acceptedCountries.Length, DataJsonPaths.Countries);
         await writer.WriteToAsync($"{path}/{DataJsonPaths.Countries}", acceptedCountries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);

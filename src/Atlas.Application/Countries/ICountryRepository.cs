@@ -9,5 +9,5 @@ public interface ICountryRepository
 {
     Task<Country[]> GetAllAsync(CancellationToken cancellationToken);
 
-    Task<Country?> GetByCodeAsync(string cca2, CancellationToken cancellationToken);
+    Task<Country?> GetByCodeAsync(Cca2 cca2, CancellationToken cancellationToken);
 }

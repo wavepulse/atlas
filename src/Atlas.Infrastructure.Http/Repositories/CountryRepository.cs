@@ -35,7 +35,7 @@ internal sealed class CountryRepository(HttpClient client, IAppCache appCache) :
         return countries!;
     }
 
-    public async Task<Country?> GetByCodeAsync(string cca2, CancellationToken cancellationToken)
+    public async Task<Country?> GetByCodeAsync(Cca2 cca2, CancellationToken cancellationToken)
     {
         string countryKey = $"country:{cca2}";
 
@@ -53,7 +53,7 @@ internal sealed class CountryRepository(HttpClient client, IAppCache appCache) :
 
         using ICacheEntry entry = appCache.CreateEntry(countryKey);
 
-        Country? country = Array.Find(countries!, c => c.Cca2.Equals(cca2, StringComparison.OrdinalIgnoreCase));
+        Country? country = Array.Find(countries!, c => c.Cca2 == cca2);
         entry.Value = country;
 
         return country;

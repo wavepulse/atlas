@@ -17,8 +17,8 @@ public static class GuessFlag
     {
         public async ValueTask<GuessedFlag> Handle(Command command, CancellationToken cancellationToken)
         {
-            Country? country = await repository.GetByCodeAsync(command.Cca2, cancellationToken).ConfigureAwait(false);
-            Country? guessedCountry = await repository.GetByCodeAsync(command.GuessedCca2, cancellationToken).ConfigureAwait(false);
+            Country? country = await repository.GetByCodeAsync(new Cca2(command.Cca2), cancellationToken).ConfigureAwait(false);
+            Country? guessedCountry = await repository.GetByCodeAsync(new Cca2(command.GuessedCca2), cancellationToken).ConfigureAwait(false);
 
             return Guess(country!, guessedCountry!);
         }

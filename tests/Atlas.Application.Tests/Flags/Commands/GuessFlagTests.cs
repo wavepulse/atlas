@@ -58,7 +58,7 @@ public sealed class GuessFlagTests
 
     private static Country CreateCanada() => new()
     {
-        Cca2 = "CA",
+        Cca2 = new Cca2("CA"),
         Area = new Area(9984670),
         Borders = [],
         Capitals = [],
@@ -72,7 +72,7 @@ public sealed class GuessFlagTests
 
     private static Country CreateItaly() => new()
     {
-        Cca2 = "IT",
+        Cca2 = new Cca2("IT"),
         Area = new Area(301336),
         Borders = [],
         Capitals = [],

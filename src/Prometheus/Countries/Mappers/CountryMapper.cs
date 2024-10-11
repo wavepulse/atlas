@@ -13,7 +13,7 @@ internal static class CountryMapper
 
     private static Country AsDomain(this CountryDto dto, IEnumerable<string> languages) => new()
     {
-        Cca2 = dto.Cca2,
+        Cca2 = new Cca2(dto.Cca2),
         Capitals = dto.CapitalInfo.AsDomain(dto.Capitals, dto.Coordinate),
         Coordinate = dto.Coordinate.AsDomain(),
         Translations = dto.Translations.AsDomain(dto.Name, languages),

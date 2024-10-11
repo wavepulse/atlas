@@ -44,7 +44,7 @@ public sealed class RandomizeCountryTests
 
     private static Country CreateCanada() => new()
     {
-        Cca2 = "CA",
+        Cca2 = new Cca2("CA"),
         Area = new Area(9984670),
         Borders = ["USA"],
         Capitals = [new Capital("Ottawa", new Coordinate(42, 42))],

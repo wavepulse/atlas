@@ -36,7 +36,7 @@ public sealed class CountryMapperTests
 
         Country country = countries[0];
 
-        country.Cca2.Should().Be("CA");
+        country.Cca2.Value.Should().Be("CA");
         country.Borders.Should().Contain(_dto.Borders);
         country.Population.Should().Be(_dto.Population);
         country.Continent.Should().Be(Continent.NorthAmerica);

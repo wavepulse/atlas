@@ -113,7 +113,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        await _repository.GetByCodeAsync(string.Empty, CancellationToken.None);
+        await _repository.GetByCodeAsync(default, CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Once);
     }
@@ -124,7 +124,7 @@ public sealed class CountryRepositoryTests : IDisposable
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.NotFound));
 
-        Country? country = await _repository.GetByCodeAsync(string.Empty, CancellationToken.None);
+        Country? country = await _repository.GetByCodeAsync(default, CancellationToken.None);
 
         country.Should().BeNull();
     }
@@ -146,7 +146,7 @@ public sealed class CountryRepositoryTests : IDisposable
     [Fact]
     public async Task GetByCodeAsyncShouldCreateTheEntry()
     {
-        const string cca2 = "CA";
+        Cca2 cca2 = new("CA");
         const string body = "[]";
 
         _handler.When(h => h.RequestUri(EndpointUrl))
@@ -160,7 +160,7 @@ public sealed class CountryRepositoryTests : IDisposable
     [Fact]
     public async Task GetByCodeAsyncShouldGetWhenEntryExists()
     {
-        const string cca2 = "CA";
+        Cca2 cca2 = new("CA");
 
         _appCache.TryGetValue<Country>($"country:{cca2}", out _).Returns(returnThis: true);
 
@@ -177,7 +177,7 @@ public sealed class CountryRepositoryTests : IDisposable
 
     private static Country CreateCountry() => new()
     {
-        Cca2 = "CA",
+        Cca2 = new Cca2("CA"),
         Capitals = [new Capital("Ottawa", new Coordinate(0, 0))],
         Area = new Area(1),
         Population = 1,

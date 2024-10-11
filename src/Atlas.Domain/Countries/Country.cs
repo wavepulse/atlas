@@ -8,7 +8,7 @@ namespace Atlas.Domain.Countries;
 
 public sealed record Country
 {
-    public required string Cca2 { get; init; }
+    public required Cca2 Cca2 { get; init; }
 
     public required IEnumerable<Translation> Translations { get; init; }
 

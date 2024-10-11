@@ -16,7 +16,7 @@ body:
       description: Which browser are you using?
       placeholder: Firefox
     validations:
-      required: true
+      required: false
   - type: textarea
     id: bug-description
     attributes:

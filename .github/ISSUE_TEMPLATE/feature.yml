@@ -17,4 +17,4 @@ body:
       description: A clear and concise description of what the feature is.
       placeholder: I want a game about flags from provinces in Canada.
     validations:
-      required: true
+      required: false

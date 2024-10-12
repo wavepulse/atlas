@@ -19,4 +19,8 @@
   <ItemGroup Label="ETL test packages">
     <PackageVersion Include="skwas.MockHttp" Version="4.3.1" />
   </ItemGroup>
+
+  <ItemGroup Label="Web test packages">
+    <PackageVersion Include="bunit" Version="1.33.3" />
+  </ItemGroup>
 </Project>

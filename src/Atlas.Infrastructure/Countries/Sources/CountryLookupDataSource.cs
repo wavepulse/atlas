@@ -1,12 +1,14 @@
-﻿// Copyright (c) Pulsewave. All rights reserved.
+// Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
 using Atlas.Domain.Countries;
 using Atlas.Infrastructure.Json;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http.Json;
 
 namespace Atlas.Infrastructure.Countries.Sources;
 
+[ExcludeFromCodeCoverage]
 internal sealed class CountryLookupDataSource(HttpClient client) : IDataSource<CountryLookup>
 {
     public async Task<CountryLookup[]> QueryAllAsync(CancellationToken cancellationToken)

@@ -1,7 +1,7 @@
-﻿// Copyright (c) Pulsewave. All rights reserved.
+// Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
-using Atlas.Infrastructure.Options;
+using Atlas.Infrastructure.Caching.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

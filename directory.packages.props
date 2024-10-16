@@ -9,10 +9,10 @@
   <!-- https://learn.microsoft.com/en-us/nuget/consume-packages/central-package-management#global-package-references -->
   <ItemGroup Label="Global analyzers">
     <GlobalPackageReference Include="AsyncFixer" Version="1.6.0" />
-    <GlobalPackageReference Include="Meziantou.Analyzer" Version="2.0.162" />
-    <GlobalPackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.11.19-preview" />
-    <GlobalPackageReference Include="Roslynator.Analyzers" Version="4.12.4" />
-    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.30.0.95878" />
+    <GlobalPackageReference Include="Meziantou.Analyzer" Version="2.0.169" />
+    <GlobalPackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.11.20" />
+    <GlobalPackageReference Include="Roslynator.Analyzers" Version="4.12.8" />
+    <GlobalPackageReference Include="SonarAnalyzer.CSharp" Version="9.32.0.97167" />
     <GlobalPackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556" />
   </ItemGroup>
 </Project>

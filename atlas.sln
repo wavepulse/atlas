@@ -85,6 +85,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure.Http.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Web.App.Tests", "tests\Atlas.Web.App.Tests\Atlas.Web.App.Tests.csproj", "{FAD47D29-4628-40D5-B265-BCEA46B911BE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure", "src\Atlas.Infrastructure\Atlas.Infrastructure.csproj", "{CEEB80DE-1498-47C0-95FA-C45D62A9949B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atlas.Infrastructure.Tests", "tests\Atlas.Infrastructure.Tests\Atlas.Infrastructure.Tests.csproj", "{F6753BFA-4A44-478D-8A7F-F709B67B07E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -143,6 +147,14 @@ Global
 		{FAD47D29-4628-40D5-B265-BCEA46B911BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FAD47D29-4628-40D5-B265-BCEA46B911BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FAD47D29-4628-40D5-B265-BCEA46B911BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEEB80DE-1498-47C0-95FA-C45D62A9949B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEEB80DE-1498-47C0-95FA-C45D62A9949B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEEB80DE-1498-47C0-95FA-C45D62A9949B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEEB80DE-1498-47C0-95FA-C45D62A9949B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6753BFA-4A44-478D-8A7F-F709B67B07E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6753BFA-4A44-478D-8A7F-F709B67B07E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6753BFA-4A44-478D-8A7F-F709B67B07E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6753BFA-4A44-478D-8A7F-F709B67B07E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -162,6 +174,8 @@ Global
 		{725B03D9-7526-43C0-AF5E-F7E915EB5C8E} = {FCEA8836-A284-4A97-AECE-E07685D53A74}
 		{04A4DE08-F25E-424B-AA66-DCBCF3453691} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{FAD47D29-4628-40D5-B265-BCEA46B911BE} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{CEEB80DE-1498-47C0-95FA-C45D62A9949B} = {FCEA8836-A284-4A97-AECE-E07685D53A74}
+		{F6753BFA-4A44-478D-8A7F-F709B67B07E3} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BD34E4C3-1BB6-49BA-AD59-5C4C8D56DEC5}

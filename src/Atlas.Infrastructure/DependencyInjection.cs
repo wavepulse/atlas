@@ -2,10 +2,9 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Infrastructure.Caching;
-using Atlas.Infrastructure.Options;
+using Atlas.Infrastructure.Countries;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Atlas.Infrastructure;
@@ -13,14 +12,9 @@ namespace Atlas.Infrastructure;
 [ExcludeFromCodeCoverage]
 public static class DependencyInjection
 {
-    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static void AddInfrastructure(this IServiceCollection services, IConfiguration configuration, Action<HttpClient> configure)
     {
-        services.Configure<CacheOptions>(configuration.GetSection(CacheOptions.Section))
-                .AddSingleton<IValidateOptions<CacheOptions>, CacheOptions.Validator>()
-                .AddSingleton(sp => sp.GetRequiredService<IOptions<CacheOptions>>().Value)
-                .AddOptionsWithValidateOnStart<CacheOptions>();
-
-        services.AddMemoryCache()
-                .AddScoped<ICache, Cache>();
+        services.AddCaching(configuration);
+        services.AddCountries(configure);
     }
 }

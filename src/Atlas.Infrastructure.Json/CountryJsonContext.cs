@@ -9,6 +9,7 @@ namespace Atlas.Infrastructure.Json;
 
 [JsonSerializable(typeof(Country[]))]
 [JsonSerializable(typeof(SearchCountry[]))]
+[JsonSerializable(typeof(CountryLookup[]))]
 [JsonSourceGenerationOptions(
     Converters = [typeof(AreaJsonConverter), typeof(Cca2JsonConverter)],
     PropertyNameCaseInsensitive = true,

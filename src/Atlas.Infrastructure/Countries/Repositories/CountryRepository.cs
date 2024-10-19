@@ -12,7 +12,7 @@ internal sealed class CountryRepository(IDataSource<Country> dataSource, ICache 
 {
     private const string Key = "countries";
 
-    public void Cache(Country country) => cache.Save($"{Key}:{country.Cca2}", country);
+    public void Cache(Country country) => cache.Save(AsKey(country.Cca2), country);
 
     public async ValueTask<Country[]> GetAllAsync(CancellationToken cancellationToken)
     {
@@ -28,7 +28,7 @@ internal sealed class CountryRepository(IDataSource<Country> dataSource, ICache 
 
     public async ValueTask<Country?> GetAsync(Cca2 cca2, CancellationToken cancellationToken)
     {
-        string countryKey = $"{Key}:{cca2}";
+        string countryKey = AsKey(cca2);
 
         if (cache.TryGet(countryKey, out Country? cachedCountry))
             return cachedCountry;
@@ -44,4 +44,6 @@ internal sealed class CountryRepository(IDataSource<Country> dataSource, ICache 
 
         return country;
     }
+
+    private static string AsKey(Cca2 cca2) => $"{Key}:{cca2}";
 }

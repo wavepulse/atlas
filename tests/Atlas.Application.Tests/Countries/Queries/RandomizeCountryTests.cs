@@ -1,8 +1,9 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
+using Atlas.Application.Countries.Repositories;
+using Atlas.Application.Countries.Responses;
 using Atlas.Application.Services;
-using Atlas.Contracts.Countries;
 using Atlas.Domain.Countries;
 using Atlas.Domain.Geography;
 using Atlas.Domain.Languages;
@@ -27,7 +28,7 @@ public sealed class RandomizeCountryTests
     }
 
     [Fact]
-    public async Task HandleShouldGetAllCodes()
+    public async Task HandleShouldGetAllCountries()
     {
         await _handler.Handle(_query, CancellationToken.None);
 
@@ -37,9 +38,17 @@ public sealed class RandomizeCountryTests
     [Fact]
     public async Task HandleShouldReturnTheRandomizedCountry()
     {
-        RandomizedCountry country = await _handler.Handle(_query, CancellationToken.None);
+        RandomizedCountryResponse country = await _handler.Handle(_query, CancellationToken.None);
 
         country.Cca2.Should().Be(_countries[0].Cca2);
+    }
+
+    [Fact]
+    public async Task HandleShouldCacheTheRandomizedCountry()
+    {
+        await _handler.Handle(_query, CancellationToken.None);
+
+        _countryRepository.Received(1).Cache(Arg.Is<Country>(c => c.Cca2 == _countries[0].Cca2));
     }
 
     private static Country CreateCanada() => new()

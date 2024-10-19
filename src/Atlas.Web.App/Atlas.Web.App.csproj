@@ -14,6 +14,6 @@
     <PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Atlas.Infrastructure.Http\Atlas.Infrastructure.Http.csproj" />
+    <ProjectReference Include="..\Atlas.Infrastructure\Atlas.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

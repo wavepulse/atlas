@@ -2,7 +2,7 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Application;
-using Atlas.Infrastructure.Http;
+using Atlas.Infrastructure;
 using Atlas.Web.App;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
@@ -17,6 +17,6 @@ builder.AddOptions();
 builder.AddFluxor();
 
 builder.Services.AddApplication();
-builder.Services.AddHttpInfrastructure(builder.Configuration, c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
+builder.Services.AddInfrastructure(builder.Configuration, c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
 await builder.Build().RunAsync().ConfigureAwait(false);

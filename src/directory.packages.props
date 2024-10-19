@@ -11,7 +11,7 @@
   </ItemGroup>
   <ItemGroup Label="ETL packages">
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.0-rc.2.24473.5" />
-    <PackageVersion Include="SystemTextJsonPatch" Version="3.3.0" />
+    <PackageVersion Include="SystemTextJsonPatch" Version="4.0.0" />
   </ItemGroup>
   <ItemGroup Label="Infrastructure packages">
     <PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="9.0.0-rc.2.24473.5" />

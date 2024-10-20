@@ -27,20 +27,14 @@ internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonF
         PatchingCountries();
         countryPatch.ApplyTo(dto);
 
-        Country[] countries = dto.AsDomain(options.Languages);
+        Country[] countries = dto.AsDomain(options.Languages, options.ExcludedCountries);
+        CountryLookup[] countryLookups = countries.AsLookups();
 
-        Country[] acceptedCountries = countries.ExceptBy(options.ExcludedCountries, x => x.Cca2, StringComparer.OrdinalIgnoreCase).ToArray();
-        Country[] excludedCountries = countries.Except(acceptedCountries).ToArray();
-        SearchCountry[] searchCountries = acceptedCountries.AsSearchCountries(options.ExcludedCountries);
+        MigratingCountries(countries.Length, DataJsonPaths.Countries);
+        await writer.WriteToAsync($"{path}/{DataJsonPaths.Countries}", countries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);
 
-        MigratingCountries(acceptedCountries.Length, DataJsonPaths.Countries);
-        await writer.WriteToAsync($"{path}/{DataJsonPaths.Countries}", acceptedCountries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);
-
-        MigratingExcludedCountries(excludedCountries.Length, DataJsonPaths.ExcludedCountries);
-        await writer.WriteToAsync($"{path}/{DataJsonPaths.ExcludedCountries}", excludedCountries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);
-
-        MigratingCountriesForSearch(searchCountries.Length, DataJsonPaths.SearchCountries);
-        await writer.WriteToAsync($"{path}/{DataJsonPaths.SearchCountries}", searchCountries, CountryJsonContext.Default.SearchCountryArray, cancellationToken).ConfigureAwait(false);
+        MigratingCountriesForSearch(countryLookups.Length, DataJsonPaths.LookupCountries);
+        await writer.WriteToAsync($"{path}/{DataJsonPaths.LookupCountries}", countryLookups, CountryJsonContext.Default.CountryLookupArray, cancellationToken).ConfigureAwait(false);
     }
 
     [LoggerMessage(LogLevel.Information, "Patching countries")]
@@ -48,9 +42,6 @@ internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonF
 
     [LoggerMessage(LogLevel.Information, "Migrating {length} country to {jsonFile}")]
     private partial void MigratingCountries(int length, string jsonFile);
-
-    [LoggerMessage(LogLevel.Information, "Migrating {length} excluded countries to {jsonFile}")]
-    private partial void MigratingExcludedCountries(int length, string jsonFile);
 
     [LoggerMessage(LogLevel.Information, "Migrating {length} countries for search to {jsonFile}")]
     private partial void MigratingCountriesForSearch(int length, string jsonFile);

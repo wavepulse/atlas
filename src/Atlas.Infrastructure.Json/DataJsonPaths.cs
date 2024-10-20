@@ -9,7 +9,5 @@ public static class DataJsonPaths
 
     public const string Countries = "countries.json";
 
-    public const string ExcludedCountries = "excluded-countries.json";
-
-    public const string SearchCountries = "search-countries.json";
+    public const string LookupCountries = "lookup.countries.json";
 }

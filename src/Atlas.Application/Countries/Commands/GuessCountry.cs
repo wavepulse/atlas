@@ -18,8 +18,8 @@ public static class GuessCountry
     {
         public async ValueTask<GuessedCountryResponse> Handle(Command command, CancellationToken cancellationToken)
         {
-            Country? country = await repository.GetAsync(new Cca2(command.RandomizedCca2), cancellationToken);
-            Country? guessedCountry = await repository.GetAsync(new Cca2(command.GuessedCca2), cancellationToken);
+            Country? country = await repository.GetAsync(new Cca2(command.RandomizedCca2), cancellationToken).ConfigureAwait(false);
+            Country? guessedCountry = await repository.GetAsync(new Cca2(command.GuessedCca2), cancellationToken).ConfigureAwait(false);
 
             return Guess(country!, guessedCountry!);
         }
@@ -32,7 +32,7 @@ public static class GuessCountry
             Direction = Direction.Calculate(guessedCountry.Coordinate, country.Coordinate),
             Kilometers = (int)Math.Round(Distance.Calculate(guessedCountry.Coordinate, country.Coordinate).Kilometers),
             IsSameContinent = guessedCountry.Continent == country.Continent,
-            FlagUri = guessedCountry.FlagSvgUri
+            Flag = new ImageResponse(guessedCountry.Resources.Flag.Uri, guessedCountry.Resources.Flag.MediaType)
         };
     }
 }

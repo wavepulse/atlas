@@ -7,6 +7,7 @@ using Atlas.Application.Services;
 using Atlas.Domain.Countries;
 using Atlas.Domain.Geography;
 using Atlas.Domain.Languages;
+using Atlas.Domain.Resources;
 
 namespace Atlas.Application.Countries.Queries;
 
@@ -61,7 +62,11 @@ public sealed class RandomizeCountryTests
         Coordinate = new Coordinate(60, 95),
         Population = 38008005,
         Translations = [new Translation(Language.English, "Canada")],
-        FlagSvgUri = new Uri("https://www.countryflags.io/ca/flat/64.svg"),
-        MapUri = new Uri("https://www.google.com/maps/place/Canada")
+        IsExcluded = false,
+        Resources = new CountryResources()
+        {
+            Flag = new Image(new Uri("https://www.countryflags.io/ca/flat/64.png"), "image/png"),
+            Map = new Uri("https://www.google.com/maps/place/Canada")
+        }
     };
 }

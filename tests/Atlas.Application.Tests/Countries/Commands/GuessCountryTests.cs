@@ -6,6 +6,7 @@ using Atlas.Application.Countries.Responses;
 using Atlas.Domain.Countries;
 using Atlas.Domain.Geography;
 using Atlas.Domain.Languages;
+using Atlas.Domain.Resources;
 
 namespace Atlas.Application.Countries.Commands;
 
@@ -39,7 +40,8 @@ public sealed class GuessCountryTests
         guessedCountry.IsSameContinent.Should().BeFalse();
         guessedCountry.Direction.Should().Be(104);
         guessedCountry.Kilometers.Should().Be(6843);
-        guessedCountry.FlagUri.Should().Be(_canada.FlagSvgUri);
+        guessedCountry.Flag.Uri.Should().Be(_canada.Resources.Flag.Uri);
+        guessedCountry.Flag.MediaType.Should().Be(_canada.Resources.Flag.MediaType);
     }
 
     [Fact]
@@ -55,7 +57,8 @@ public sealed class GuessCountryTests
         guessedCountry.IsSameContinent.Should().BeTrue();
         guessedCountry.Direction.Should().Be(0);
         guessedCountry.Kilometers.Should().Be(0);
-        guessedCountry.FlagUri.Should().Be(_canada.FlagSvgUri);
+        guessedCountry.Flag.Uri.Should().Be(_canada.Resources.Flag.Uri);
+        guessedCountry.Flag.MediaType.Should().Be(_canada.Resources.Flag.MediaType);
     }
 
     private static Country CreateCanada() => new()
@@ -68,8 +71,12 @@ public sealed class GuessCountryTests
         Coordinate = new Coordinate(60, -95),
         Population = 38005238,
         Translations = [new Translation(Language.English, "Canada")],
-        FlagSvgUri = new Uri("https://www.countryflags.io/ca/flat/64.svg"),
-        MapUri = new Uri("https://www.google.com/maps/place/Canada")
+        IsExcluded = false,
+        Resources = new CountryResources()
+        {
+            Map = new Uri("https://www.google.com/maps/place/Canada"),
+            Flag = new Image(new Uri("https://www.countryflags.io/ca/flat/64.svg"), "svg")
+        }
     };
 
     private static Country CreateItaly() => new()
@@ -82,7 +89,11 @@ public sealed class GuessCountryTests
         Coordinate = new Coordinate(42.83333333, 12.83333333),
         Population = 59554023,
         Translations = [new Translation(Language.English, "Italy")],
-        FlagSvgUri = new Uri("https://www.countryflags.io/it/flat/64.svg"),
-        MapUri = new Uri("https://www.google.com/maps/place/Italy")
+        IsExcluded = false,
+        Resources = new CountryResources()
+        {
+            Map = new Uri("https://www.google.com/maps/place/Italy"),
+            Flag = new Image(new Uri("https://www.countryflags.io/it/flat/64.svg"), "svg")
+        }
     };
 }

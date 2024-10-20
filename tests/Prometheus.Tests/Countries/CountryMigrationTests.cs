@@ -66,35 +66,23 @@ public sealed class CountryMigrationTests
     }
 
     [Fact]
-    public async Task MigrateAsyncShouldExcludeExcludedCountriesForCountriesFile()
+    public async Task MigrateAsyncShouldHaveCountryWithIsExcludedWhenCountryIsExcluded()
     {
         _options.ExcludedCountries = ["CA"];
 
         await _migration.MigrateAsync(Path, CancellationToken.None);
 
-        await _jsonFileWriter.Received(1).WriteToAsync(CountriesPath, Arg.Is<Country[]>(c => !c.Any()), Arg.Any<JsonTypeInfo<Country[]>>(), CancellationToken.None);
+        await _jsonFileWriter.Received(1).WriteToAsync(CountriesPath, Arg.Is<Country[]>(c => c.Any(x => x.IsExcluded)), Arg.Any<JsonTypeInfo<Country[]>>(), CancellationToken.None);
     }
 
     [Fact]
-    public async Task MigrateAsyncShouldWriteToExcludedCountriesFile()
+    public async Task MigrateAsyncShouldWriteToLookupCountriesFile()
     {
-        const string excludedCountriesPath = $"{Path}/{DataJsonPaths.ExcludedCountries}";
-
-        _options.ExcludedCountries = ["CA"];
+        const string searchCountriesPath = $"{Path}/{DataJsonPaths.LookupCountries}";
 
         await _migration.MigrateAsync(Path, CancellationToken.None);
 
-        await _jsonFileWriter.Received(1).WriteToAsync(excludedCountriesPath, Arg.Is<Country[]>(c => c.Any(x => x.Cca2 == _canada.Cca2)), Arg.Any<JsonTypeInfo<Country[]>>(), CancellationToken.None);
-    }
-
-    [Fact]
-    public async Task MigrateAsyncShouldWriteToSearchCountriesFile()
-    {
-        const string searchCountriesPath = $"{Path}/{DataJsonPaths.SearchCountries}";
-
-        await _migration.MigrateAsync(Path, CancellationToken.None);
-
-        await _jsonFileWriter.Received(1).WriteToAsync(searchCountriesPath, Arg.Is<SearchCountry[]>(c => c.Any(x => x.Cca2 == _canada.Cca2)), Arg.Any<JsonTypeInfo<SearchCountry[]>>(), CancellationToken.None);
+        await _jsonFileWriter.Received(1).WriteToAsync(searchCountriesPath, Arg.Is<CountryLookup[]>(c => c.Any(x => x.Cca2 == _canada.Cca2)), Arg.Any<JsonTypeInfo<CountryLookup[]>>(), CancellationToken.None);
     }
 
     [Fact]

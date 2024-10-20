@@ -6,8 +6,8 @@
     @if (!string.IsNullOrEmpty(_randomizedCca2))
     {
         <picture>
-            <source srcset="@_flagSvgUri" type="image/svg+xml" />
-            <img src="@_flagSvgUri" alt="Randomized flag" />
+            <source srcset="@_flag.Uri" type="@_flag.MediaType" />
+            <img src="@_flag.Uri" alt="Randomized flag" />
         </picture>
     }
     <div class="guess">

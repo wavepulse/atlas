@@ -32,7 +32,7 @@ public sealed class CountryEffectTests
     [Fact]
     public async Task RandomizeAsyncShouldDispatchRandomizeResult()
     {
-        RandomizedCountryResponse country = new("CA", "Canada", new Uri("https://image.com"), new Uri("https://image.com"));
+        RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
 
         _sender.Send(Arg.Any<RandomizeCountry.Query>()).Returns(country);
 
@@ -61,7 +61,7 @@ public sealed class CountryEffectTests
             Kilometers = 100,
             Direction = 90,
             Success = true,
-            FlagUri = new Uri("https://image.com")
+            Flag = new ImageResponse(new Uri("https://image.com"), "image/png")
         };
 
         _sender.Send(Arg.Any<GuessCountry.Command>()).Returns(guessedCountry);

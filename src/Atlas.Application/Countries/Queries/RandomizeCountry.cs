@@ -6,6 +6,7 @@ using Atlas.Application.Countries.Responses;
 using Atlas.Application.Services;
 using Atlas.Domain.Countries;
 using Atlas.Domain.Languages;
+using Atlas.Domain.Resources;
 using Mediator;
 
 namespace Atlas.Application.Countries.Queries;
@@ -24,9 +25,15 @@ public static class RandomizeCountry
 
             repository.Cache(randomizedCountry);
 
-            string name = randomizedCountry.Translations.First(t => t.Language == Language.English).Name;
+            return ToResponse(randomizedCountry);
+        }
 
-            return new RandomizedCountryResponse(randomizedCountry.Cca2, name, randomizedCountry.FlagSvgUri, randomizedCountry.MapUri);
+        private static RandomizedCountryResponse ToResponse(Country country)
+        {
+            string name = country.Translations.First(t => t.Language == Language.English).Name;
+            (Uri map, Image flag) = country.Resources;
+
+            return new(country.Cca2, name, new ImageResponse(flag.Uri, flag.MediaType), map);
         }
     }
 }

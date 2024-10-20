@@ -4,6 +4,7 @@
 using Atlas.Domain.Countries;
 using Atlas.Domain.Geography;
 using Atlas.Domain.Languages;
+using Atlas.Domain.Resources;
 using Atlas.Infrastructure.Caching;
 using Atlas.Infrastructure.Countries.Sources;
 
@@ -131,7 +132,11 @@ public sealed class CountryRepositoryTests
         Borders = ["US"],
         Continent = Continent.NorthAmerica,
         Coordinate = new Coordinate(0, 0),
-        FlagSvgUri = new Uri("https://www.countryflags.io/ca/flat/64.svg"),
-        MapUri = new Uri("https://www.google.com/maps/place/Canada")
+        IsExcluded = false,
+        Resources = new CountryResources()
+        {
+            Flag = new Image(new Uri("https://www.countryflags.io/ca/flat/64.svg"), "image/svg+xml"),
+            Map = new Uri("https://www.google.com/maps/place/Canada")
+        }
     };
 }

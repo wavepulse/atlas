@@ -17,5 +17,5 @@ public sealed record GuessedCountryResponse
 
     public required bool Success { get; init; }
 
-    public required Uri FlagUri { get; init; }
+    public required ImageResponse Flag { get; init; }
 }

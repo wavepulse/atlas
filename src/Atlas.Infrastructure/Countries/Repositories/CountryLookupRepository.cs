@@ -1,4 +1,4 @@
-﻿// Copyright (c) Pulsewave. All rights reserved.
+// Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
 using Atlas.Application.Countries.Repositories;
@@ -9,6 +9,10 @@ namespace Atlas.Infrastructure.Countries.Repositories;
 
 internal sealed class CountryLookupRepository(IDataSource<CountryLookup> dataSource) : ICountryLookupRepository
 {
-    public Task<CountryLookup[]> LookupAsync(CancellationToken cancellationToken)
-        => dataSource.QueryAllAsync(cancellationToken);
+    public async Task<CountryLookup[]> LookupAsync(CancellationToken cancellationToken)
+    {
+        CountryLookup[] countries = await dataSource.QueryAllAsync(cancellationToken).ConfigureAwait(false);
+
+        return countries.Where(c => !c.IsExcluded).ToArray();
+    }
 }

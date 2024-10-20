@@ -1,6 +1,7 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
+using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Stores.Countries;
 using Atlas.Web.App.Stores.Games;
 using Fluxor;
@@ -11,7 +12,7 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 {
     private string _randomizedCca2 = string.Empty;
     private string? _answer;
-    private Uri _flagSvgUri = default!;
+    private ImageResponse _flag = default!;
     private Uri _mapUri = default!;
 
     private bool _isGameFinished;
@@ -22,11 +23,11 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
     {
         subscriber.SubscribeToAction<CountryActions.RandomizeResult>(this, action =>
         {
-            (string cca2, string name, Uri flagSvgUri, Uri mapUri) = action.Country;
+            (string cca2, string name, ImageResponse flag, Uri mapUri) = action.Country;
 
             _randomizedCca2 = cca2;
             _answer = name;
-            _flagSvgUri = flagSvgUri;
+            _flag = flag;
             _mapUri = mapUri;
 
             StateHasChanged();

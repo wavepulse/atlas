@@ -5,6 +5,7 @@ using Atlas.Domain.Countries;
 using Atlas.Domain.Geography;
 using Atlas.Domain.Languages;
 using Prometheus.Countries.Dto;
+using System.Net.Mime;
 
 namespace Prometheus.Countries.Mappers;
 
@@ -32,7 +33,7 @@ public sealed class CountryMapperTests
     {
         CountryDto[] dtos = [_dto];
 
-        Country[] countries = dtos.AsDomain(["fra", "eng"]);
+        Country[] countries = dtos.AsDomain(["fra", "eng"], []);
 
         Country country = countries[0];
 
@@ -55,8 +56,23 @@ public sealed class CountryMapperTests
         country.Translations.Should().Contain(t => t.Language == Language.French && t.Name == "Canada");
         country.Translations.Should().Contain(t => t.Language == Language.English && t.Name == "Canada");
 
-        country.MapUri.Should().Be(new Uri("https://www.google.com/maps/place/Canada"));
-        country.FlagSvgUri.Should().Be(new Uri("https://www.countryflags.io/ca/flat/64.png"));
+        country.IsExcluded.Should().BeFalse();
+
+        country.Resources.Map.Should().Be(new Uri("https://www.google.com/maps/place/Canada"));
+        country.Resources.Flag.Uri.Should().Be(new Uri("https://www.countryflags.io/ca/flat/64.png"));
+        country.Resources.Flag.MediaType.Should().Be(MediaTypeNames.Image.Svg);
+    }
+
+    [Fact]
+    public void DtoWhichIsExcludedShouldMapToDomainWithIsExcluded()
+    {
+        CountryDto[] dtos = [_dto];
+
+        Country[] countries = dtos.AsDomain(["fra", "eng"], [_dto.Cca2]);
+
+        Country country = countries[0];
+
+        country.IsExcluded.Should().BeTrue();
     }
 
     [Fact]
@@ -66,7 +82,7 @@ public sealed class CountryMapperTests
 
         CountryDto[] dtos = [countryWithoutBorder];
 
-        Country[] countries = dtos.AsDomain(["fra", "eng"]);
+        Country[] countries = dtos.AsDomain(["fra", "eng"], []);
 
         Country country = countries[0];
 

@@ -13,7 +13,7 @@ internal sealed class CountryLookupDataSource(HttpClient client) : IDataSource<C
 {
     public async Task<CountryLookup[]> QueryAllAsync(CancellationToken cancellationToken)
     {
-        string endpoint = Path.Combine(DataJsonPaths.BaseDirectory, DataJsonPaths.SearchCountries);
+        string endpoint = Path.Combine(DataJsonPaths.BaseDirectory, DataJsonPaths.LookupCountries);
         using HttpResponseMessage response = await client.GetAsync(endpoint, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)

@@ -6,4 +6,6 @@ namespace Atlas.Application.Services;
 internal interface IRandomizer
 {
     T Randomize<T>(ReadOnlySpan<T> items);
+
+    void Shuffle<T>(Span<T> items);
 }

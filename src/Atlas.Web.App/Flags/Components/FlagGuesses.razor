@@ -2,7 +2,7 @@
     @foreach (var guess in _guesses)
     {
         <li class="guess @HasSuccess(guess.Success)">
-            <img class="img-sm" src="@guess.FlagSvgUri" alt="@guess.Name" />
+            <img class="img-sm" src="@guess.FlagUri" alt="@guess.Name" />
             <div class="information">
                 <div class="content">
                     <span title="@guess.Name" class="country-name">@guess.Name</span>

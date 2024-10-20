@@ -9,9 +9,11 @@ using Fluxor.Blazor.Web.ReduxDevTools;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Atlas.Web.App;
 
+[ExcludeFromCodeCoverage]
 internal static class DependencyInjection
 {
     internal static void AddJsRuntime(this WebAssemblyHostBuilder builder)

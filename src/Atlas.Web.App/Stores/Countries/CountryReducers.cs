@@ -5,9 +5,9 @@ using Fluxor;
 
 namespace Atlas.Web.App.Stores.Countries;
 
-internal static class SearchCountryReducers
+internal static class CountryReducers
 {
     [ReducerMethod]
-    public static SearchCountryState ReduceGetAllResult(SearchCountryState state, SearchCountryActions.GetAllResult action)
+    public static CountryState ReduceLookupResult(CountryState state, CountryActions.LookupResult action)
         => state with { Countries = action.Countries };
 }

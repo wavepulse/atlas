@@ -1,7 +1,7 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
-using Atlas.Contracts.Countries;
+using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Stores.Countries;
 using Atlas.Web.App.Stores.Games;
 using Fluxor;
@@ -14,14 +14,14 @@ using System.Text;
 
 namespace Atlas.Web.App.Components;
 
-public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, IDispatcher dispatcher, IStateSelection<SearchCountryState, SearchCountry[]> countries) : IDisposable
+public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, IDispatcher dispatcher, IStateSelection<CountryState, CountryLookupResponse[]> countries) : IDisposable
 {
     private readonly List<string> _selectedCountries = [];
 
     private string _input = string.Empty;
     private DotNetObjectReference<CountryAutocomplete>? _reference;
     private ElementReference _autocomplete;
-    private SearchCountry[] _filteredCountries = [];
+    private CountryLookupResponse[] _filteredCountries = [];
 
     [Parameter]
     public EventCallback<string> Guess { get; init; }
@@ -41,10 +41,10 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
 
         SubscribeToAction<CountryActions.GuessResult>(action =>
         {
-            if (action.Flag.Success)
+            if (action.Country.Success)
                 return;
 
-            _selectedCountries.Add(action.Flag.Cca2);
+            _selectedCountries.Add(action.Country.Cca2);
         });
 
         SubscribeToAction<GameActions.Restart>(_ =>
@@ -56,7 +56,7 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
         });
 
         countries.Select(c => c.Countries);
-        dispatcher.Dispatch(new SearchCountryActions.GetAll());
+        dispatcher.Dispatch(new CountryActions.Lookup());
     }
 
     protected override void OnAfterRender(bool firstRender)
@@ -94,10 +94,10 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
         return Guess.InvokeAsync(cca2);
     }
 
-    private SearchCountry[] GetFilteredCountries()
+    private CountryLookupResponse[] GetFilteredCountries()
     {
         string input = RemoveDiacritics(_input);
-        SearchCountry[] availableCountries = [.. countries.Value.ExceptBy(_selectedCountries, c => c.Cca2)];
+        CountryLookupResponse[] availableCountries = [.. countries.Value.ExceptBy(_selectedCountries, c => c.Cca2)];
 
         return Array.FindAll(availableCountries, c => RemoveDiacritics(c.Name).Contains(input, StringComparison.OrdinalIgnoreCase));
     }
@@ -138,7 +138,7 @@ public sealed partial class CountryAutocomplete(IJSInProcessRuntime jsRuntime, I
 
         if (HaveElements())
         {
-            SearchCountry? country = Array.Find(_filteredCountries, c => RemoveDiacritics(_input).Equals(c.Name, StringComparison.OrdinalIgnoreCase));
+            CountryLookupResponse? country = Array.Find(_filteredCountries, c => RemoveDiacritics(_input).Equals(c.Name, StringComparison.OrdinalIgnoreCase));
 
             cca2 = country?.Cca2;
             return cca2 is not null;

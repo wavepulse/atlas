@@ -1,7 +1,7 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
-using Atlas.Contracts.Flags;
+using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Components;
 using Atlas.Web.App.Stores.Countries;
 using Atlas.Web.App.Stores.Games;
@@ -14,7 +14,7 @@ public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatche
 {
     private const int MaxGuesses = 6;
 
-    private readonly List<GuessedFlag> _guesses = new(MaxGuesses);
+    private readonly List<GuessedCountryResponse> _guesses = new(MaxGuesses);
     private readonly NumberFormatInfo _numberFormat = new()
     {
         NumberGroupSeparator = " "
@@ -28,8 +28,8 @@ public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatche
     {
         subscriber.SubscribeToAction<CountryActions.GuessResult>(this, action =>
         {
-            _hasWonGame = action.Flag.Success;
-            _guesses.Add(action.Flag);
+            _hasWonGame = action.Country.Success;
+            _guesses.Add(action.Country);
 
             if (_guesses.Count == MaxGuesses && !_hasWonGame)
                 dispatcher.Dispatch(new GameActions.GameOver());

@@ -46,7 +46,7 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 
         subscriber.SubscribeToAction<CountryActions.GuessResult>(this, action =>
         {
-            if (!action.Flag.Success)
+            if (!action.Country.Success)
                 return;
 
             _answer = null;

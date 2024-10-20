@@ -3,9 +3,11 @@
 
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Atlas.Web.App.Options;
 
+[ExcludeFromCodeCoverage]
 public sealed partial class ProjectOptions
 {
     public const string Section = "project";

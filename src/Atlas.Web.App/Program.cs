@@ -13,7 +13,7 @@ builder.RootComponents.Add<App>(".main-layout");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.ConfigureLoggings();
-builder.AddJsRuntime();
+builder.AddServices();
 builder.AddOptions();
 builder.AddFluxor();
 

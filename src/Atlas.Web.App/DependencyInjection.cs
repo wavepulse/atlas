@@ -2,6 +2,7 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Web.App.Options;
+using Atlas.Web.App.Services;
 using Fluxor;
 #if DEBUG
 using Fluxor.Blazor.Web.ReduxDevTools;
@@ -16,8 +17,11 @@ namespace Atlas.Web.App;
 [ExcludeFromCodeCoverage]
 internal static class DependencyInjection
 {
-    internal static void AddJsRuntime(this WebAssemblyHostBuilder builder)
-        => builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
+    internal static void AddServices(this WebAssemblyHostBuilder builder)
+    {
+        builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
+        builder.Services.AddTransient<ITimeService, TimeService>();
+    }
 
     internal static void AddOptions(this WebAssemblyHostBuilder builder)
     {

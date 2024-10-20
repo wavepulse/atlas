@@ -42,7 +42,7 @@ internal static class DependencyInjection
     {
         builder.Services.AddFluxor(options =>
         {
-            options.ScanAssemblies(typeof(Program).Assembly);
+            options.ScanAssemblies(typeof(DependencyInjection).Assembly);
 #if DEBUG
             options.UseReduxDevTools(o => o.Name = "Atlas");
 #endif

@@ -1,5 +1,10 @@
 @use '../utils/media' as *;
 
+:root {
+  // represents the header height which is a magic number!
+  --header-height: 66px;
+}
+
 .main-layout {
   display: grid;
   min-height: 100svh;

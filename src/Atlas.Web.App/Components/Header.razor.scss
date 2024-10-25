@@ -1,13 +1,7 @@
-@use '../utils/media' as *;
-
-:root {
-  // represents the header height which is a magic number!
-  --header-height: 66px;
-}
+@use '../wwwroot/css/utils/media' as *;
 
 header {
   --border-size: 2px;
-
   display: flex;
   justify-content: space-between;
   padding: 0.5em;
@@ -38,11 +32,11 @@ header {
       i + span {
         margin-inline-start: 0.5rem;
       }
-  
+
       & > span {
         display: none;
       }
-  
+
       &:hover {
         color: var(--color-accent);
       }

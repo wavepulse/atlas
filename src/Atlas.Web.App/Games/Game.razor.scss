@@ -1,0 +1,25 @@
+@use '../wwwroot/css/utils/images' as *;
+
+.game {
+  --max-width: 320px;
+  display: grid;
+  gap: 2em;
+  padding-block: 1.5rem;
+  min-width: var(--max-width);
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "picture"
+    "content";
+
+  & > .country-image {
+    grid-area: picture;
+    place-self: center;
+    @include image(var(--max-width));    
+  }
+
+  & > .content {
+    grid-area: content;
+    display: flex;
+    justify-content: center;
+  }
+}

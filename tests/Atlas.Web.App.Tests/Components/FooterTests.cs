@@ -35,7 +35,7 @@ public sealed class FooterTests : TestContext
     }
 
     [Fact]
-    public void ShouldRenderFooterOnce()
+    public void FooterShouldRenderFooterOnce()
     {
         IRenderedComponent<Footer> footer = RenderComponent<Footer>();
         footer.Render();
@@ -44,7 +44,7 @@ public sealed class FooterTests : TestContext
     }
 
     [Fact]
-    public void ShouldDisplayCurrentCopyrightYearWhenStartYearIsEqualToCurrentYear()
+    public void FooterShouldDisplayCurrentCopyrightYearWhenStartYearIsEqualToCurrentYear()
     {
         int startYear = _now.Year;
         _timeService.UtcNow.Returns(_now);
@@ -57,7 +57,7 @@ public sealed class FooterTests : TestContext
     }
 
     [Fact]
-    public void ShouldDisplayRangeOfYearsWhenStartYearIsNotEqualToCurrentYear()
+    public void FooterShouldDisplayRangeOfYearsWhenStartYearIsNotEqualToCurrentYear()
     {
         int startYear = _now.Year;
         int endYear = _now.AddYears(1).Year;

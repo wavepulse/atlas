@@ -26,7 +26,7 @@ public sealed class HeaderTests : TestContext
     }
 
     [Fact]
-    public void ShouldToggleMenuWhenClickingOnTheButton()
+    public void HeaderShouldToggleMenuWhenClickingOnTheButton()
     {
         IRenderedComponent<Header> header = RenderComponent<Header>();
 

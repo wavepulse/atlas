@@ -1,7 +1,3 @@
-declare var Blazor: {
-    start: (options?: { environment?: string }) => void;
-};
-
 window.addEventListener('DOMContentLoaded', () => {
     const url = window.location.hostname;
     const previewRegex = /^(?!atlas)([\w]+)\.([\w].+)$/;

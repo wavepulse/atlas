@@ -5,21 +5,23 @@ using Atlas.Web.App.Stores.Games;
 using Fluxor;
 using Microsoft.AspNetCore.Components;
 
-namespace Atlas.Web.App.Components;
+namespace Atlas.Web.App.Games.Components;
 
 public sealed partial class GameOver(IDispatcher dispatcher)
 {
     [Parameter]
-    [EditorRequired]
-    public required string? Country { get; init; }
+    public string? Country { get; init; }
 
     [Parameter]
     [EditorRequired]
     public required Uri MapUri { get; init; }
 
-    private void RestartGame()
+    [Parameter]
+    public EventCallback OnRestart { get; init; }
+
+    private Task RestartAsync()
     {
         dispatcher.Dispatch(new GameActions.Restart());
-        dispatcher.Dispatch(new GameActions.Randomize());
+        return OnRestart.InvokeAsync();
     }
 }

@@ -1,13 +1,13 @@
-@use '../utils/media' as *;
+@use '../../wwwroot/css/utils/media' as *;
 
-.autocomplete-container {
+.lookup-container {
   display: flex;
   flex-direction: column;
   gap: 1em;
   width: var(--max-width);
   position: absolute;
 
-  .autocomplete-input {
+  .lookup-input {
     display: flex;
     gap: 0.5em;
 
@@ -21,11 +21,10 @@
     }
   }
 
-  .autocomplete-items {
+  .items {
     --max-item-count: 7;
     --border-width: 1px;
     --item-padding-block: 0.5em;
-
     border: 1px solid var(--color-accent);
     max-height: calc(((var(--item-padding-block) * 2) + var(--border-width) + var(--font-size-md) * var(--default-line-height)) * var(--max-item-count));
     overflow-y: auto;
@@ -33,12 +32,12 @@
     color: var(--color-text);
     background: var(--color-secondary);
     z-index: 2;
-    
+
     &:empty {
       display: none;
     }
 
-    .autocomplete-item {
+    .item {
       border-bottom: var(--border-width) solid currentColor;
       padding-block: var(--item-padding-block);
       padding-inline-start: 0.5em;
@@ -55,12 +54,12 @@
 }
 
 @include media-breakpoint-down(md) {
-  .autocomplete-container {
-    .autocomplete-input button {
+  .lookup-container {
+    .lookup-input button {
       display: unset;
     }
 
-    .autocomplete-items {
+    .lookup-items {
       --max-item-count: 5;
     }
   }

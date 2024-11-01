@@ -1,0 +1,18 @@
+@inherits FluxorComponent
+
+<div class="lookup-container">
+    <div class="lookup-input">
+        <input tabindex="0" type="text" aria-label="lookup a country" placeholder="Canada, Italy..."
+               @bind="_input"
+               @oninput="Lookup"
+               @onfocus="Focus"
+               @onkeydown="HandleKeyboardAsync" />
+        <button type="button" class="btn-guess" @onclick="GuessAsync">Guess!</button>
+    </div>
+    <ul class="items" role="list">
+        @foreach ((string code, string name) in _filteredCountries.OrderBy(c => c.Name))
+        {
+            <li class="item" @onclick="() => SelectCountryAsync(code)">@name</li>
+        }
+    </ul>
+</div>

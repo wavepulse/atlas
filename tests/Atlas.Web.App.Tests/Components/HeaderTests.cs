@@ -19,8 +19,8 @@ public sealed class HeaderTests : TestContext
             Version = "1.0.0"
         };
 
-        Services.AddSingleton(_ => project);
-        Services.AddSingleton(_ => (IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddSingleton(project);
+        Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
 
         JSInterop.SetupVoid("toggleNavigation").SetVoidResult();
     }

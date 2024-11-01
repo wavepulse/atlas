@@ -30,8 +30,8 @@ public sealed class FooterTests : TestContext
         };
 
         Services.AddTransient(_ => _timeService);
-        Services.AddSingleton(_ => project);
-        Services.AddSingleton(_ => company);
+        Services.AddSingleton(project);
+        Services.AddSingleton(company);
     }
 
     [Fact]

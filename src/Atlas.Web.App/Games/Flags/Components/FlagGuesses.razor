@@ -1,5 +1,7 @@
+@using Atlas.Application.Countries.Responses
+
 <ul class="guess-container" role="list">
-    @foreach (var guess in _guesses)
+    @foreach(GuessedCountryResponse guess in _guesses)
     {
         <li class="guess @HasSuccess(guess.Success)">
             <img class="img-sm" src="@guess.Flag.Uri" alt="@guess.Name" />
@@ -24,7 +26,7 @@
             </div>
         </li>
     }
-    @for (int index = _guesses.Count; index < MaxGuesses; index++)
+    @for(int index = _guesses.Count; index < MaxGuesses; index++)
     {
         <li class="guess empty @HasWonGame()">
             <span> @(index + 1) / @MaxGuesses</span>

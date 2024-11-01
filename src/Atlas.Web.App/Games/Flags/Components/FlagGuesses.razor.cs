@@ -3,12 +3,11 @@
 
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Components;
-using Atlas.Web.App.Stores.Countries;
 using Atlas.Web.App.Stores.Games;
 using Fluxor;
 using System.Globalization;
 
-namespace Atlas.Web.App.Flags.Components;
+namespace Atlas.Web.App.Games.Flags.Components;
 
 public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatcher dispatcher) : IDisposable
 {
@@ -26,7 +25,7 @@ public sealed partial class FlagGuesses(IActionSubscriber subscriber, IDispatche
 
     protected override void OnInitialized()
     {
-        subscriber.SubscribeToAction<CountryActions.GuessResult>(this, action =>
+        subscriber.SubscribeToAction<GameActions.GuessResult>(this, action =>
         {
             _hasWonGame = action.Country.Success;
             _guesses.Add(action.Country);

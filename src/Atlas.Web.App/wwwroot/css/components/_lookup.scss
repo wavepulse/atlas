@@ -1,4 +1,4 @@
-@use '../utils/media' as *;
+@use '../../wwwroot/css/utils/media' as *;
 
 .lookup-container {
   display: flex;
@@ -59,7 +59,11 @@
       display: unset;
     }
 
+<<<<<<<< HEAD:src/Atlas.Web.App/wwwroot/css/components/_lookup.scss
     .items {
+========
+    .lookup-items {
+>>>>>>>> eb6f2fa (Refactoring):src/Atlas.Web.App/Games/Components/CountryLookupInput.razor.scss
       --max-item-count: 5;
     }
   }

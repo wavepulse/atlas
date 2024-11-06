@@ -14,5 +14,6 @@ public static class DependencyInjection
     {
         services.AddMediator();
         services.AddScoped<IRandomizer, Randomizer>();
+        services.AddScoped<IDateHash, DateHash>();
     }
 }

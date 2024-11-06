@@ -46,9 +46,3 @@ csharp_style_expression_bodied_constructors = false:silent
 # Reason: Disabled expression body to read the code easily
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0022
 csharp_style_expression_bodied_methods = when_on_single_line:silent
-
-# IDE0058: Expression value is never used
-# Reason: No need to use the value from the expression
-# https://docs.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0058
-dotnet_diagnostic.IDE0058.severity = none
-csharp_style_unused_value_expression_statement_preference = unused_local_variable

@@ -1,7 +1,8 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
-using Atlas.Web.App.Settings;
+using Atlas.Web.App.Options;
+using Atlas.Web.App.Services;
 using Fluxor;
 #if DEBUG
 using Fluxor.Blazor.Web.ReduxDevTools;
@@ -9,23 +10,28 @@ using Fluxor.Blazor.Web.ReduxDevTools;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.JSInterop;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Atlas.Web.App;
 
+[ExcludeFromCodeCoverage]
 internal static class DependencyInjection
 {
-    internal static void AddJsRuntime(this WebAssemblyHostBuilder builder)
-        => builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
-
-    internal static void AddSettings(this WebAssemblyHostBuilder builder)
+    internal static void AddServices(this WebAssemblyHostBuilder builder)
     {
-        _ = builder.Services.Configure<ProjectSettings>(builder.Configuration.GetSection(ProjectSettings.Section))
-                            .AddSingleton<IValidateOptions<ProjectSettings>, ProjectSettings.Validator>()
-                            .AddSingleton(sp => sp.GetRequiredService<IOptions<ProjectSettings>>().Value);
+        builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
+        builder.Services.AddTransient<ITimeService, TimeService>();
+    }
 
-        _ = builder.Services.Configure<CompanySettings>(builder.Configuration.GetSection(CompanySettings.Section))
-                            .AddSingleton<IValidateOptions<CompanySettings>, CompanySettings.Validator>()
-                            .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanySettings>>().Value);
+    internal static void AddOptions(this WebAssemblyHostBuilder builder)
+    {
+        builder.Services.Configure<ProjectOptions>(builder.Configuration.GetSection(ProjectOptions.Section))
+                        .AddSingleton<IValidateOptions<ProjectOptions>, ProjectOptions.Validator>()
+                        .AddSingleton(sp => sp.GetRequiredService<IOptions<ProjectOptions>>().Value);
+
+        builder.Services.Configure<CompanyOptions>(builder.Configuration.GetSection(CompanyOptions.Section))
+                        .AddSingleton<IValidateOptions<CompanyOptions>, CompanyOptions.Validator>()
+                        .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanyOptions>>().Value);
     }
 
     internal static void ConfigureLoggings(this WebAssemblyHostBuilder builder)
@@ -33,16 +39,16 @@ internal static class DependencyInjection
         if (!builder.HostEnvironment.IsProduction())
             return;
 
-        _ = builder.Logging.ClearProviders();
+        builder.Logging.ClearProviders();
     }
 
     internal static void AddFluxor(this WebAssemblyHostBuilder builder)
     {
-        _ = builder.Services.AddFluxor(options =>
+        builder.Services.AddFluxor(options =>
         {
-            _ = options.ScanAssemblies(typeof(Program).Assembly);
+            options.ScanAssemblies(typeof(DependencyInjection).Assembly);
 #if DEBUG
-            _ = options.UseReduxDevTools(o => o.Name = "Atlas");
+            options.UseReduxDevTools(o => o.Name = "Atlas");
 #endif
         });
     }

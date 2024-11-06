@@ -12,8 +12,7 @@ public static class DependencyInjection
 {
     public static void AddApplication(this IServiceCollection services)
     {
-        _ = services.AddMediator();
-
-        _ = services.AddScoped<IRandomizer, Randomizer>();
+        services.AddMediator();
+        services.AddScoped<IRandomizer, Randomizer>();
     }
 }

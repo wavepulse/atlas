@@ -8,9 +8,9 @@ using System.Text.Json.Serialization;
 namespace Atlas.Infrastructure.Json;
 
 [JsonSerializable(typeof(Country[]))]
-[JsonSerializable(typeof(SearchCountry[]))]
+[JsonSerializable(typeof(CountryLookup[]))]
 [JsonSourceGenerationOptions(
-    Converters = [typeof(AreaJsonConverter)],
+    Converters = [typeof(AreaJsonConverter), typeof(Cca2JsonConverter)],
     PropertyNameCaseInsensitive = true,
     PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
     UseStringEnumConverter = true)]

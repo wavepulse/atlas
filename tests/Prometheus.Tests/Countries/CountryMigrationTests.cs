@@ -7,7 +7,7 @@ using Atlas.Infrastructure.Json;
 using Microsoft.Extensions.Logging;
 using Prometheus.Countries.Dto;
 using Prometheus.Countries.Endpoints;
-using Prometheus.Countries.Settings;
+using Prometheus.Countries.Options;
 using Prometheus.Json;
 using Prometheus.Patch;
 using System.Text.Json.Serialization.Metadata;
@@ -20,7 +20,7 @@ public sealed class CountryMigrationTests
     private const string CountriesPath = $"{Path}/{DataJsonPaths.Countries}";
 
     private readonly CountryDto _canada = CreateCanada();
-    private readonly CountryFilterSettings _settings = new()
+    private readonly CountryFilterOptions _options = new()
     {
         Languages = ["fra", "eng"],
         ExcludedCountries = []
@@ -38,7 +38,7 @@ public sealed class CountryMigrationTests
 
         ILogger<CountryMigration> logger = Substitute.For<ILogger<CountryMigration>>();
 
-        _migration = new CountryMigration(_endpoint, _jsonFileWriter, _countryPatch, logger, _settings);
+        _migration = new CountryMigration(_endpoint, _jsonFileWriter, _countryPatch, logger, _options);
     }
 
     [Fact]
@@ -66,35 +66,23 @@ public sealed class CountryMigrationTests
     }
 
     [Fact]
-    public async Task MigrateAsyncShouldExcludeExcludedCountriesForCountriesFile()
+    public async Task MigrateAsyncShouldHaveCountryWithIsExcludedWhenCountryIsExcluded()
     {
-        _settings.ExcludedCountries = ["CA"];
+        _options.ExcludedCountries = ["CA"];
 
         await _migration.MigrateAsync(Path, CancellationToken.None);
 
-        await _jsonFileWriter.Received(1).WriteToAsync(CountriesPath, Arg.Is<Country[]>(c => !c.Any()), Arg.Any<JsonTypeInfo<Country[]>>(), CancellationToken.None);
+        await _jsonFileWriter.Received(1).WriteToAsync(CountriesPath, Arg.Is<Country[]>(c => c.Any(x => x.IsExcluded)), Arg.Any<JsonTypeInfo<Country[]>>(), CancellationToken.None);
     }
 
     [Fact]
-    public async Task MigrateAsyncShouldWriteToExcludedCountriesFile()
+    public async Task MigrateAsyncShouldWriteToLookupCountriesFile()
     {
-        const string excludedCountriesPath = $"{Path}/{DataJsonPaths.ExcludedCountries}";
-
-        _settings.ExcludedCountries = ["CA"];
+        const string searchCountriesPath = $"{Path}/{DataJsonPaths.LookupCountries}";
 
         await _migration.MigrateAsync(Path, CancellationToken.None);
 
-        await _jsonFileWriter.Received(1).WriteToAsync(excludedCountriesPath, Arg.Is<Country[]>(c => c.Any(x => x.Cca2 == _canada.Cca2)), Arg.Any<JsonTypeInfo<Country[]>>(), CancellationToken.None);
-    }
-
-    [Fact]
-    public async Task MigrateAsyncShouldWriteToSearchCountriesFile()
-    {
-        const string searchCountriesPath = $"{Path}/{DataJsonPaths.SearchCountries}";
-
-        await _migration.MigrateAsync(Path, CancellationToken.None);
-
-        await _jsonFileWriter.Received(1).WriteToAsync(searchCountriesPath, Arg.Is<SearchCountry[]>(c => c.Any(x => x.Cca2 == _canada.Cca2)), Arg.Any<JsonTypeInfo<SearchCountry[]>>(), CancellationToken.None);
+        await _jsonFileWriter.Received(1).WriteToAsync(searchCountriesPath, Arg.Is<CountryLookup[]>(c => c.Any(x => x.Cca2 == _canada.Cca2)), Arg.Any<JsonTypeInfo<CountryLookup[]>>(), CancellationToken.None);
     }
 
     [Fact]

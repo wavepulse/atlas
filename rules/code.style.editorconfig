@@ -57,10 +57,10 @@ dotnet_diagnostic.IDE0046.severity = none
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0053
 csharp_style_expression_bodied_lambdas = when_on_single_line:warning
 
-# IDE0059: Unnecessary assignment of a value
-# Always use discard '_'
-# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0059
-csharp_style_unused_value_assignment_preference = discard_variable:warning
+# IDE0058: Remove unnecessary expression value
+# Can ignore unused expression values
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0058
+dotnet_diagnostic.IDE0058.severity = none
 
 # IDE0061: Use expression body for local functions
 # Use expression body when on single line

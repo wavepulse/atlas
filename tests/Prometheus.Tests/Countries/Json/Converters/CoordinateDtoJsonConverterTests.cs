@@ -40,7 +40,7 @@ public sealed class CoordinateDtoJsonConverterTests
     {
         Utf8JsonReader reader = CreateJsonReader();
 
-        _ = _converter.Read(ref reader, typeof(CoordinateDto), _options);
+        _converter.Read(ref reader, typeof(CoordinateDto), _options);
 
         reader.TokenType.Should().Be(JsonTokenType.EndArray);
     }

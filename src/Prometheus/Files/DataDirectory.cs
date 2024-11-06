@@ -2,20 +2,20 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Infrastructure.Json;
-using Prometheus.Settings;
+using Prometheus.Options;
 
 namespace Prometheus.Files;
 
-internal sealed class DataDirectory(IDirectory directory, PathSettings settings) : IDataDirectory
+internal sealed class DataDirectory(IDirectory directory, PathOptions options) : IDataDirectory
 {
     public string? Create()
     {
-        string? rootPath = directory.GetRootPath(settings.Root);
+        string? rootPath = directory.GetRootPath(options.Root);
 
         if (string.IsNullOrEmpty(rootPath))
             return null;
 
-        string dataPath = Path.Combine(rootPath, settings.Output, DataJsonPaths.BaseDirectory);
+        string dataPath = Path.Combine(rootPath, options.Output, DataJsonPaths.BaseDirectory);
 
         return directory.Create(dataPath);
     }

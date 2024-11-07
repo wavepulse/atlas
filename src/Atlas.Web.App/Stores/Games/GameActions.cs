@@ -7,6 +7,10 @@ namespace Atlas.Web.App.Stores.Games;
 
 public static class GameActions
 {
+    public sealed record GetDaily;
+
+    public sealed record GetDailyResult(RandomizedCountryResponse Country);
+
     public sealed record Guess(string GuessedCca2, string Cca2);
 
     public sealed record GuessResult(GuessedCountryResponse Country);

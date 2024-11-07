@@ -26,4 +26,12 @@ internal sealed class GameEffect(ISender sender)
 
         dispatcher.Dispatch(new GameActions.GuessResult(guessedFlag));
     }
+
+    [EffectMethod(typeof(GameActions.GetDaily))]
+    public async Task GetDailyAsync(IDispatcher dispatcher)
+    {
+        RandomizedCountryResponse country = await sender.Send(new GetDailyCountry.Query()).ConfigureAwait(false);
+
+        dispatcher.Dispatch(new GameActions.GetDailyResult(country));
+    }
 }

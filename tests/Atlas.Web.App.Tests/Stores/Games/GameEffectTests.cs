@@ -71,4 +71,23 @@ public sealed class GameEffectTests
 
         _dispatcher.Received(1).Dispatch(Arg.Is<GameActions.GuessResult>(a => a.Country == guessedCountry));
     }
+
+    [Fact]
+    public async Task DailyAsyncShouldSendGetDailyCountryQuery()
+    {
+        await _effect.GetDailyAsync(_dispatcher);
+
+        await _sender.Received(1).Send(Arg.Any<GetDailyCountry.Query>());
+    }
+
+    [Fact]
+    public async Task DailyAsyncShouldDispatchDailyResult()
+    {
+        RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
+
+        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+
+        await _effect.GetDailyAsync(_dispatcher);
+        _dispatcher.Received(1).Dispatch(Arg.Is<GameActions.GetDailyResult>(a => a.Country == country));
+    }
 }

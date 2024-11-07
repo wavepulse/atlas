@@ -10,21 +10,23 @@ using Mediator;
 
 namespace Atlas.Application.Countries.Queries;
 
-public static class RandomizeCountry
+public static class GetDailyCountry
 {
     public sealed record Query : IQuery<RandomizedCountryResponse>;
 
-    internal sealed class Handler(IRandomizer randomizer, ICountryRepository repository) : IQueryHandler<Query, RandomizedCountryResponse>
+    internal sealed class Handler(IDateHash dateHash, ICountryRepository countryRepository, ITimeService timeService) : IQueryHandler<Query, RandomizedCountryResponse>
     {
         public async ValueTask<RandomizedCountryResponse> Handle(Query query, CancellationToken cancellationToken)
         {
-            Country[] countries = await repository.GetAllAsync(cancellationToken).ConfigureAwait(false);
+            uint hash = dateHash.Hash(timeService.CurrentDate);
 
-            Country randomizedCountry = randomizer.Randomize<Country>(countries);
+            Country[] countries = await countryRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
 
-            repository.Cache(randomizedCountry);
+            Country country = countries[hash % countries.Length];
 
-            return randomizedCountry.ToResponse();
+            countryRepository.Cache(country);
+
+            return country.ToResponse();
         }
     }
 }

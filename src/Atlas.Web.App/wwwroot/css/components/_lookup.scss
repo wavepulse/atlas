@@ -1,4 +1,4 @@
-@use '../../wwwroot/css/utils/media' as *;
+@use '../utils/media' as *;
 
 .lookup-container {
   display: flex;
@@ -59,7 +59,7 @@
       display: unset;
     }
 
-    .lookup-items {
+    .items {
       --max-item-count: 5;
     }
   }

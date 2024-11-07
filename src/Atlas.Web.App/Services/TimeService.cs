@@ -8,5 +8,5 @@ namespace Atlas.Web.App.Services;
 [ExcludeFromCodeCoverage]
 internal sealed class TimeService : ITimeService
 {
-    public DateTimeOffset UtcNow => DateTimeOffset.UtcNow;
+    public DateOnly Today => DateOnly.FromDateTime(DateTime.Today);
 }

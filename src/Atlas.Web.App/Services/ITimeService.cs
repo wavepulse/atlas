@@ -5,5 +5,5 @@ namespace Atlas.Web.App.Services;
 
 public interface ITimeService
 {
-    DateTimeOffset UtcNow { get; }
+    DateOnly Today { get; }
 }

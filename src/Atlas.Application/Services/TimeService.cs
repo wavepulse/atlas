@@ -8,5 +8,5 @@ namespace Atlas.Application.Services;
 [ExcludeFromCodeCoverage]
 internal sealed class TimeService : ITimeService
 {
-    public DateOnly CurrentDate => DateOnly.FromDateTime(DateTime.Now);
+    public DateOnly Today => DateOnly.FromDateTime(DateTime.Today);
 }

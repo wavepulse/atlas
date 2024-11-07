@@ -5,5 +5,5 @@ namespace Atlas.Application.Services;
 
 internal interface ITimeService
 {
-    DateOnly CurrentDate { get; }
+    DateOnly Today { get; }
 }

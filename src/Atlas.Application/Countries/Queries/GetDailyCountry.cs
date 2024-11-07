@@ -18,7 +18,7 @@ public static class GetDailyCountry
     {
         public async ValueTask<RandomizedCountryResponse> Handle(Query query, CancellationToken cancellationToken)
         {
-            uint hash = dateHash.Hash(timeService.CurrentDate);
+            uint hash = dateHash.Hash(timeService.Today);
 
             Country[] countries = await countryRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
 

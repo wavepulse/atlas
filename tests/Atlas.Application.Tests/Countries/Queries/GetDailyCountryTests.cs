@@ -25,7 +25,7 @@ public sealed class GetDailyCountryTests
 
     public GetDailyCountryTests()
     {
-        _timeService.CurrentDate.Returns(_date);
+        _timeService.Today.Returns(_date);
 
         _countryRepository.GetAllAsync(CancellationToken.None).Returns(_countries);
 

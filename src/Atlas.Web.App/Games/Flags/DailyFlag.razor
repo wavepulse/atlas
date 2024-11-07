@@ -1,0 +1,16 @@
+@using Atlas.Web.App.Games.Components
+@using Atlas.Web.App.Games.Flags.Components
+
+@page "/flags/daily"
+
+<Game Image="_country?.Flag">
+    @if (!_isGameFinished)
+    {
+        <CountryLookupInput Guess="Guess" SelectedCountries="_guessedCountries" />
+    }
+    else
+    {
+        <GameOver Country="@_answer" MapUri="_country!.Map" />
+    }
+    <FlagGuesses />
+</Game>

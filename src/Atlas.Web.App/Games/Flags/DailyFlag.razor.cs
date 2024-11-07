@@ -7,7 +7,7 @@ using Fluxor;
 
 namespace Atlas.Web.App.Games.Flags;
 
-public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscriber subscriber) : IDisposable
+public sealed partial class DailyFlag(IDispatcher dispatcher, IActionSubscriber subscriber) : IDisposable
 {
     private readonly List<string> _guessedCountries = [];
 
@@ -19,7 +19,7 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 
     protected override void OnInitialized()
     {
-        subscriber.SubscribeToAction<GameActions.RandomizeResult>(this, action =>
+        subscriber.SubscribeToAction<GameActions.GetDailyResult>(this, action =>
         {
             _country = action.Country;
             StateHasChanged();
@@ -30,12 +30,6 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
             _isGameFinished = true;
             _answer = _country!.Name;
 
-            StateHasChanged();
-        });
-
-        subscriber.SubscribeToAction<GameActions.Restart>(this, _ =>
-        {
-            _isGameFinished = false;
             StateHasChanged();
         });
 
@@ -55,17 +49,9 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
             StateHasChanged();
         });
 
-        dispatcher.Dispatch(new GameActions.Randomize());
+        dispatcher.Dispatch(new GameActions.GetDaily());
     }
 
     private void Guess(string guessedCca2)
         => dispatcher.Dispatch(new GameActions.Guess(guessedCca2, _country!.Cca2));
-
-    private void Restart()
-    {
-        _guessedCountries.Clear();
-        _isGameFinished = false;
-
-        dispatcher.Dispatch(new GameActions.Randomize());
-    }
 }

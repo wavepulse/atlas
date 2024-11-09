@@ -14,13 +14,13 @@ internal sealed class CoordinateDtoJsonConverter : JsonConverter<CoordinateDto>
         double latitude = SkipPropertyAndGetValue(ref reader);
         double longitude = SkipPropertyAndGetValue(ref reader);
 
-        _ = reader.Read();
+        reader.Read();
 
         return new CoordinateDto(latitude, longitude);
 
         static double SkipPropertyAndGetValue(ref Utf8JsonReader reader)
         {
-            _ = reader.Read();
+            reader.Read();
             return reader.GetDouble();
         }
     }

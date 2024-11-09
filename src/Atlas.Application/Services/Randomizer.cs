@@ -14,4 +14,6 @@ internal sealed class Randomizer : IRandomizer
 
         return items[randomizedIndex];
     }
+
+    public void Shuffle<T>(Span<T> items) => Random.Shared.Shuffle(items);
 }

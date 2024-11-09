@@ -7,12 +7,13 @@ using Microsoft.Extensions.Logging;
 using Prometheus.Countries.Dto;
 using Prometheus.Countries.Endpoints;
 using Prometheus.Countries.Mappers;
-using Prometheus.Countries.Settings;
+using Prometheus.Countries.Options;
 using Prometheus.Json;
+using Prometheus.Patch;
 
 namespace Prometheus.Countries;
 
-internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonFileWriter writer, ILogger<CountryMigration> logger, CountryFilterSettings settings) : IMigration
+internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonFileWriter writer, ICountryPatch countryPatch, ILogger<CountryMigration> logger, CountryFilterOptions options) : IMigration
 {
     public string Name { get; } = "Countries";
 
@@ -20,28 +21,28 @@ internal sealed partial class CountryMigration(ICountryEndpoint endpoint, IJsonF
     {
         CountryDto[] dto = await endpoint.GetAllAsync(cancellationToken).ConfigureAwait(false);
 
-        Country[] countries = dto.AsDomain(settings.Languages);
+        if (dto.Length == 0)
+            return;
 
-        Country[] acceptedCountries = countries.ExceptBy(settings.ExcludedCountries, x => x.Cca2, StringComparer.OrdinalIgnoreCase).ToArray();
-        Country[] excludedCountries = countries.Except(acceptedCountries).ToArray();
-        SearchCountry[] searchCountries = acceptedCountries.AsSearchCountries(settings.ExcludedCountries);
+        PatchingCountries();
+        countryPatch.ApplyTo(dto);
 
-        MigratingCountries(DataJsonPaths.Countries);
-        await writer.WriteToAsync($"{path}/{DataJsonPaths.Countries}", acceptedCountries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);
+        Country[] countries = dto.AsDomain(options.Languages, options.ExcludedCountries);
+        CountryLookup[] countryLookups = countries.AsLookups();
 
-        MigratingExcludedCountries(DataJsonPaths.ExcludedCountries);
-        await writer.WriteToAsync($"{path}/{DataJsonPaths.ExcludedCountries}", excludedCountries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);
+        MigratingCountries(countries.Length, DataJsonPaths.Countries);
+        await writer.WriteToAsync($"{path}/{DataJsonPaths.Countries}", countries, CountryJsonContext.Default.CountryArray, cancellationToken).ConfigureAwait(false);
 
-        MigratingCountriesForSearch(DataJsonPaths.SearchCountries);
-        await writer.WriteToAsync($"{path}/{DataJsonPaths.SearchCountries}", searchCountries, CountryJsonContext.Default.SearchCountryArray, cancellationToken).ConfigureAwait(false);
+        MigratingCountriesForSearch(countryLookups.Length, DataJsonPaths.LookupCountries);
+        await writer.WriteToAsync($"{path}/{DataJsonPaths.LookupCountries}", countryLookups, CountryJsonContext.Default.CountryLookupArray, cancellationToken).ConfigureAwait(false);
     }
 
-    [LoggerMessage(LogLevel.Information, "Migrating countries to {jsonFile}")]
-    private partial void MigratingCountries(string jsonFile);
+    [LoggerMessage(LogLevel.Information, "Patching countries")]
+    private partial void PatchingCountries();
 
-    [LoggerMessage(LogLevel.Information, "Migrating excluded countries to {jsonFile}")]
-    private partial void MigratingExcludedCountries(string jsonFile);
+    [LoggerMessage(LogLevel.Information, "Migrating {length} country to {jsonFile}")]
+    private partial void MigratingCountries(int length, string jsonFile);
 
-    [LoggerMessage(LogLevel.Information, "Migrating countries for search to {jsonFile}")]
-    private partial void MigratingCountriesForSearch(string jsonFile);
+    [LoggerMessage(LogLevel.Information, "Migrating {length} countries for search to {jsonFile}")]
+    private partial void MigratingCountriesForSearch(int length, string jsonFile);
 }

@@ -1,0 +1,12 @@
+<div class="game">
+    @if (Image is not null)
+    {
+        <picture class="country-image">
+            <source srcset="@Image.Uri" type="@Image.MediaType" />
+            <img src="@Image.Uri" alt="Failed to display the country" />
+        </picture>
+    }
+    <div class="content">
+        @ChildContent
+    </div>
+</div>

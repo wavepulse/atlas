@@ -4,7 +4,7 @@
 using Microsoft.Extensions.Logging;
 using MockHttp;
 using Prometheus.Countries.Dto;
-using Prometheus.Countries.Settings;
+using Prometheus.Countries.Options;
 using Prometheus.Fixtures;
 using System.Net;
 
@@ -24,12 +24,12 @@ public sealed class CountryEndpointTests : IClassFixture<CountriesJson>, IDispos
     {
         _json = json;
 
-        CountryEndpointSettings settings = new() { Endpoint = EndpointUrl };
+        CountryEndpointOptions options = new() { Endpoint = EndpointUrl };
         ILogger<CountryEndpoint> logger = Substitute.For<ILogger<CountryEndpoint>>();
 
         _client = new HttpClient(_handler);
 
-        _endpoint = new CountryEndpoint(_client, logger, settings);
+        _endpoint = new CountryEndpoint(_client, logger, options);
     }
 
     public void Dispose()
@@ -46,7 +46,7 @@ public sealed class CountryEndpointTests : IClassFixture<CountriesJson>, IDispos
         _handler.When(h => h.RequestUri(EndpointUrl))
                 .Respond(h => h.StatusCode(HttpStatusCode.OK).Body(body));
 
-        _ = await _endpoint.GetAllAsync(CancellationToken.None);
+        await _endpoint.GetAllAsync(CancellationToken.None);
 
         await _handler.VerifyAsync(h => h.Method(HttpMethod.Get).RequestUri(EndpointUrl), IsSent.Once);
     }

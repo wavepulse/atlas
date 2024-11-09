@@ -1,0 +1,23 @@
+<div class="game-over">
+    @if (!string.IsNullOrEmpty(Country))
+    {
+        <a class="link" target="_blank" href="@MapUri">
+            <i class="@Icons.Earth"></i>
+            <span class="answer">@Country</span>
+        </a>
+    }
+    else
+    {
+        <div class="congratulations">
+            <span>Congratulations!</span>
+            <a class="link" target="_blank" href="@MapUri">
+                <i class="@Icons.Earth"></i>
+                <span class="answer">See on map</span>
+            </a>
+        </div>
+    }
+    @if (OnRestart.HasDelegate)
+    {
+        <button type="button" @onclick="RestartAsync">Restart</button>
+    }
+</div>

@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="bunit" />
+  </ItemGroup>
+  <ItemGroup Label="usings">
+    <Using Include="Bunit" />
+  </ItemGroup>
+</Project>

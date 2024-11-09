@@ -1,0 +1,16 @@
+@using Atlas.Web.App.Games.Components
+@using Atlas.Web.App.Games.Flags.Components
+
+@page "/flags/random"
+
+<Game Image="_country?.Flag">
+    @if (!_isGameFinished)
+    {
+        <CountryLookupInput Guess="Guess" SelectedCountries="_guesses.Select(g => g.Cca2)" />
+    }
+    else
+    {
+        <GameOver Country="@_answer" MapUri="_country!.Map" OnRestart="Restart" />
+    }
+    <FlagGuesses Guesses="_guesses" MaxAttempts="MaxAttempts" />
+</Game>

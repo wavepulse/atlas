@@ -15,28 +15,28 @@ internal sealed class TranslationDtoJsonConverter : JsonConverter<IEnumerable<Tr
 
         while (reader.TokenType != JsonTokenType.PropertyName)
         {
-            _ = reader.Read();
+            reader.Read();
 
             if (reader.TokenType == JsonTokenType.EndObject)
                 break;
 
             string code = reader.GetString()!;
-            _ = reader.Read();
+            reader.Read();
 
-            _ = SkipPropertyNameAndGetValue(ref reader);
+            SkipPropertyNameAndGetValue(ref reader);
             string common = SkipPropertyNameAndGetValue(ref reader);
 
             translations.Add(new TranslationDto(code, common));
 
-            _ = reader.Read();
+            reader.Read();
         }
 
         return translations;
 
         static string SkipPropertyNameAndGetValue(ref Utf8JsonReader reader)
         {
-            _ = reader.Read();
-            _ = reader.Read();
+            reader.Read();
+            reader.Read();
 
             return reader.GetString()!;
         }

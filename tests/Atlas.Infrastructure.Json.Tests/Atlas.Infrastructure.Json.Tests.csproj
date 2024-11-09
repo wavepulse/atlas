@@ -1,5 +1,1 @@
-<Project Sdk="Microsoft.NET.Sdk" >
-  <ItemGroup>
-    <PackageReference Include="skwas.MockHttp" />
-  </ItemGroup>
-</Project>
+<Project Sdk="Microsoft.NET.Sdk" />

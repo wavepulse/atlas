@@ -3,12 +3,13 @@
 
 using Atlas.Domain.Geography;
 using Atlas.Domain.Languages;
+using Atlas.Domain.Resources;
 
 namespace Atlas.Domain.Countries;
 
 public sealed record Country
 {
-    public required string Cca2 { get; init; }
+    public required Cca2 Cca2 { get; init; }
 
     public required IEnumerable<Translation> Translations { get; init; }
 
@@ -24,7 +25,7 @@ public sealed record Country
 
     public required int Population { get; init; }
 
-    public required Uri MapUri { get; init; }
+    public required CountryResources Resources { get; init; }
 
-    public required Uri FlagSvgUri { get; init; }
+    public required bool IsExcluded { get; init; }
 }

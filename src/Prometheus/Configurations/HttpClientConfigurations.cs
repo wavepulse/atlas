@@ -15,6 +15,6 @@ internal static class HttpClientConfigurations
         if (builder.Environment.IsDevelopment())
             return;
 
-        _ = builder.Services.ConfigureHttpClientDefaults(b => b.RemoveAllLoggers());
+        builder.Services.ConfigureHttpClientDefaults(b => b.RemoveAllLoggers());
     }
 }

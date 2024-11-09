@@ -4,28 +4,28 @@
 using Microsoft.Extensions.Logging;
 using Prometheus.Countries.Dto;
 using Prometheus.Countries.Json;
-using Prometheus.Countries.Settings;
+using Prometheus.Countries.Options;
 using System.Net.Http.Json;
 
 namespace Prometheus.Countries.Endpoints;
 
-internal sealed partial class CountryEndpoint(HttpClient client, ILogger<CountryEndpoint> logger, CountryEndpointSettings settings) : ICountryEndpoint
+internal sealed partial class CountryEndpoint(HttpClient client, ILogger<CountryEndpoint> logger, CountryEndpointOptions options) : ICountryEndpoint
 {
     public async Task<CountryDto[]> GetAllAsync(CancellationToken cancellationToken)
     {
-        using HttpResponseMessage response = await client.GetAsync(settings.Endpoint, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
+        using HttpResponseMessage response = await client.GetAsync(options.Endpoint, HttpCompletionOption.ResponseHeadersRead, cancellationToken)
                                                          .ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
         {
-            FailedToFetchCountries(settings.Endpoint);
+            FailedToFetchCountries(options.Endpoint);
             return [];
         }
 
         CountryDto[]? countries = await response.Content.ReadFromJsonAsync(CountryDtoJsonContext.Default.CountryDtoArray, cancellationToken)
                                                         .ConfigureAwait(false);
 
-        FetchedCountries(settings.Endpoint);
+        FetchedCountries(options.Endpoint);
 
         return countries!;
     }

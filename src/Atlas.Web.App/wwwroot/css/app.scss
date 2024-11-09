@@ -5,12 +5,14 @@
 @use 'utils/typography';
 
 @use 'layouts/game';
+@use 'layouts/index';
 @use 'layouts/layout';
 
 @use 'components/anchors';
-@use 'components/autocomplete';
 @use 'components/footer';
+@use 'components/game-over';
 @use 'components/guess';
 @use 'components/hamburger';
 @use 'components/header';
 @use 'components/inputs';
+@use 'components/lookup';

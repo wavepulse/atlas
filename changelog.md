@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added new game mode: Daily flag ([#35])
 - Added a game list on the index page ([#90])
 - Added Bunit tests for testing components ([#55])
 - Lookup input can accept initials of a country name ([#74])
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [#21]: https://github.com/wavepulse/atlas/issues/21
 [#24]: https://github.com/wavepulse/atlas/issues/24
 [#34]: https://github.com/wavepulse/atlas/issues/34
+[#35]: https://github.com/wavepulse/atlas/issues/35
 [#55]: https://github.com/wavepulse/atlas/issues/55
 [#72]: https://github.com/wavepulse/atlas/issues/72
 [#74]: https://github.com/wavepulse/atlas/issues/74

@@ -3,6 +3,8 @@
 
 using AngleSharp.Dom;
 using Atlas.Application.Countries.Responses;
+using Atlas.Web.App.Services;
+using Atlas.Web.App.Storages;
 using Atlas.Web.App.Stores.Countries;
 using Atlas.Web.App.Stores.Games;
 using Fluxor;
@@ -18,6 +20,8 @@ public sealed class CountryLookupInputTests : TestContext
 {
     private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
     private readonly IActionSubscriber _subscriber = Substitute.For<IActionSubscriber>();
+    private readonly ILocalStorage _localStorage = Substitute.For<ILocalStorage>();
+    private readonly ITimeService _timeService = Substitute.For<ITimeService>();
     private readonly IStateSelection<CountryState, CountryLookupResponse[]> _state = Substitute.For<IStateSelection<CountryState, CountryLookupResponse[]>>();
 
     public CountryLookupInputTests()
@@ -35,6 +39,8 @@ public sealed class CountryLookupInputTests : TestContext
 
         Services.AddSingleton(_dispatcher);
         Services.AddSingleton(_subscriber);
+        Services.AddSingleton(_localStorage);
+        Services.AddSingleton(_timeService);
         Services.AddSingleton(_state);
         Services.AddSingleton(_ => (IJSInProcessRuntime)JSInterop.JSRuntime);
 

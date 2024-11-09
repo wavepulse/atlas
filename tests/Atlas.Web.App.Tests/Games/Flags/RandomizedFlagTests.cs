@@ -5,6 +5,8 @@ using Atlas.Application.Countries.Commands;
 using Atlas.Application.Countries.Queries;
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Games.Components;
+using Atlas.Web.App.Services;
+using Atlas.Web.App.Storages;
 using Atlas.Web.App.Stores.Games;
 using Bunit.TestDoubles;
 using Fluxor;
@@ -30,6 +32,8 @@ public sealed class RandomizedFlagTests : TestContext
 
     private readonly IActionSubscriber _subscriber = Substitute.For<IActionSubscriber>();
     private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
+    private readonly ILocalStorage _localStorage = Substitute.For<ILocalStorage>();
+    private readonly ITimeService _timeService = Substitute.For<ITimeService>();
     private readonly ISender _sender = Substitute.For<ISender>();
 
     public RandomizedFlagTests()
@@ -39,6 +43,8 @@ public sealed class RandomizedFlagTests : TestContext
 
         Services.AddSingleton(_subscriber);
         Services.AddSingleton(_dispatcher);
+        Services.AddSingleton(_localStorage);
+        Services.AddSingleton(_timeService);
         Services.AddSingleton(_sender);
 
         _sender.Send(Arg.Any<RandomizeCountry.Query>()).Returns(_country);
@@ -211,7 +217,7 @@ public sealed class RandomizedFlagTests : TestContext
     }
 
     [Fact]
-    public async Task RestartShouldDispatchRamomizeAction()
+    public async Task RestartShouldDispatchRandomizeAction()
     {
         GameActions.Randomize? action = null;
 

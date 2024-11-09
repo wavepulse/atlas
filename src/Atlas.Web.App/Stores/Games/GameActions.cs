@@ -9,7 +9,7 @@ public static class GameActions
 {
     public sealed record GetDaily;
 
-    public sealed record GetDailyResult(RandomizedCountryResponse Country);
+    public sealed record GetDailyResult(RandomizedCountryResponse Country, GuessedCountryResponse[] Guesses);
 
     public sealed record Guess(string GuessedCca2, string Cca2);
 

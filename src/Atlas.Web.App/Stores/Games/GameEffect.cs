@@ -4,12 +4,14 @@
 using Atlas.Application.Countries.Commands;
 using Atlas.Application.Countries.Queries;
 using Atlas.Application.Countries.Responses;
+using Atlas.Web.App.Services;
+using Atlas.Web.App.Storages;
 using Fluxor;
 using Mediator;
 
 namespace Atlas.Web.App.Stores.Games;
 
-internal sealed class GameEffect(ISender sender)
+internal sealed class GameEffect(ISender sender, ILocalStorage storage, ITimeService timeService)
 {
     [EffectMethod(typeof(GameActions.Randomize))]
     public async Task RandomizeAsync(IDispatcher dispatcher)
@@ -32,6 +34,17 @@ internal sealed class GameEffect(ISender sender)
     {
         RandomizedCountryResponse country = await sender.Send(new GetDailyCountry.Query()).ConfigureAwait(false);
 
-        dispatcher.Dispatch(new GameActions.GetDailyResult(country));
+        DateOnly today = timeService.Today;
+        DateOnly lastPlayed = storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey);
+
+        if (lastPlayed != today)
+        {
+            storage.RemoveItem(DailyStorageKeys.GuessesKey);
+            storage.SetItem(DailyStorageKeys.TodayKey, today);
+        }
+
+        GuessedCountryResponse[] guesses = storage.GetItem<GuessedCountryResponse[]>(DailyStorageKeys.GuessesKey) ?? [];
+
+        dispatcher.Dispatch(new GameActions.GetDailyResult(country, guesses));
     }
 }

@@ -3,6 +3,7 @@
 
 using Atlas.Web.App.Options;
 using Atlas.Web.App.Services;
+using Atlas.Web.App.Storages;
 using Fluxor;
 #if DEBUG
 using Fluxor.Blazor.Web.ReduxDevTools;
@@ -21,6 +22,7 @@ internal static class DependencyInjection
     {
         builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
         builder.Services.AddTransient<ITimeService, TimeService>();
+        builder.Services.AddSingleton<ILocalStorage, LocalStorage>();
     }
 
     internal static void AddOptions(this WebAssemblyHostBuilder builder)

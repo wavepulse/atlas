@@ -3,7 +3,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace Atlas.Web.App.Services;
+namespace Atlas.Application.Services;
 
 [ExcludeFromCodeCoverage]
 internal sealed class TimeService : ITimeService

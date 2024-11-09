@@ -1,7 +1,7 @@
 @using Atlas.Web.App.Games.Components
 @using Atlas.Web.App.Games.Flags.Components
 
-@page "/flags/random"
+@page "/flags/daily"
 
 <Game Image="_country?.Flag">
     @if (!_isGameFinished)
@@ -10,7 +10,7 @@
     }
     else
     {
-        <GameOver Country="@_answer" MapUri="_country!.Map" OnRestart="Restart" />
+        <GameOver Country="@_answer" MapUri="_country!.Map" />
     }
     <FlagGuesses Guesses="_guesses" MaxAttempts="MaxAttempts" />
 </Game>

@@ -44,7 +44,8 @@ public sealed class GameOverTests : TestContext
     public void RestartButtonShouldDispatchRestartAction()
     {
         IRenderedComponent<GameOver> component = RenderComponent<GameOver>(parameters =>
-            parameters.Add(g => g.MapUri, new Uri("https://example.com")));
+            parameters.Add(g => g.MapUri, new Uri("https://example.com"))
+                      .Add(g => g.OnRestart, () => { }));
 
         IElement element = component.Find("button");
         element.Click();
@@ -65,5 +66,16 @@ public sealed class GameOverTests : TestContext
         element.Click();
 
         isCalled.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ComponentShouldNotRenderRestartButtonWhenOnRestartIsNull()
+    {
+        IRenderedComponent<GameOver> component = RenderComponent<GameOver>(parameters =>
+            parameters.Add(g => g.MapUri, new Uri("https://example.com")));
+
+        IElement? element = component.Nodes.QuerySelector("button");
+
+        element.Should().BeNull();
     }
 }

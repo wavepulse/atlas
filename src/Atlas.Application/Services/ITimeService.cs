@@ -1,9 +1,9 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
-namespace Atlas.Web.App.Services;
+namespace Atlas.Application.Services;
 
-public interface ITimeService
+internal interface ITimeService
 {
     DateOnly Today { get; }
 }

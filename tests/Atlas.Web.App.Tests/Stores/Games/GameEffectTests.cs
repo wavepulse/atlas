@@ -4,21 +4,26 @@
 using Atlas.Application.Countries.Commands;
 using Atlas.Application.Countries.Queries;
 using Atlas.Application.Countries.Responses;
+using Atlas.Web.App.Services;
+using Atlas.Web.App.Storages;
 using Fluxor;
 using Mediator;
+using NSubstitute.ReturnsExtensions;
 
 namespace Atlas.Web.App.Stores.Games;
 
 public sealed class GameEffectTests
 {
     private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
+    private readonly ILocalStorage _storage = Substitute.For<ILocalStorage>();
+    private readonly ITimeService _timeService = Substitute.For<ITimeService>();
     private readonly ISender _sender = Substitute.For<ISender>();
 
     private readonly GameEffect _effect;
 
     public GameEffectTests()
     {
-        _effect = new GameEffect(_sender);
+        _effect = new GameEffect(_sender, _storage, _timeService);
     }
 
     [Fact]
@@ -71,4 +76,111 @@ public sealed class GameEffectTests
 
         _dispatcher.Received(1).Dispatch(Arg.Is<GameActions.GuessResult>(a => a.Country == guessedCountry));
     }
+
+    [Fact]
+    public async Task DailyAsyncShouldSendGetDailyCountryQuery()
+    {
+        await _effect.GetDailyAsync(_dispatcher);
+
+        await _sender.Received(1).Send(Arg.Any<GetDailyCountry.Query>());
+    }
+
+    [Fact]
+    public async Task DailyAsyncShouldDispatchDailyResult()
+    {
+        GuessedCountryResponse guess = CreateGuessedCountry();
+
+        DateOnly today = new(2024, 11, 08);
+        _timeService.Today.Returns(today);
+        _storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey).Returns(today);
+
+        GuessedCountryResponse[] guesses = [guess];
+        _storage.GetItem<GuessedCountryResponse[]>(DailyStorageKeys.GuessesKey).Returns(guesses);
+
+        RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
+
+        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+
+        await _effect.GetDailyAsync(_dispatcher);
+        _dispatcher.Received(1).Dispatch(Arg.Is<GameActions.GetDailyResult>(a => a.Country == country && a.Guesses.Contains(guess)));
+    }
+
+    [Fact]
+    public async Task DailyAsyncShouldClearGuessesWhenIsNewDaily()
+    {
+        DateOnly today = new(2024, 11, 08);
+
+        _timeService.Today.Returns(today);
+        _storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey).Returns(today.AddDays(-1));
+
+        RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
+        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+
+        await _effect.GetDailyAsync(_dispatcher);
+
+        _storage.Received(1).RemoveItem(DailyStorageKeys.GuessesKey);
+    }
+
+    [Fact]
+    public async Task DailyAsyncShouldSetNewDailyDateWhenIsNewDaily()
+    {
+        DateOnly today = new(2024, 11, 08);
+        _timeService.Today.Returns(today);
+
+        DateOnly yesterday = today.AddDays(-1);
+        _storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey).Returns(yesterday);
+
+        RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
+        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+
+        await _effect.GetDailyAsync(_dispatcher);
+
+        _storage.Received(1).SetItem(DailyStorageKeys.TodayKey, today);
+    }
+
+    [Fact]
+    public async Task DailyAsyncShouldGetGuesses()
+    {
+        DateOnly today = new(2024, 11, 08);
+        _timeService.Today.Returns(today);
+        _storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey).Returns(today);
+
+        RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
+        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+
+        await _effect.GetDailyAsync(_dispatcher);
+
+        _storage.Received(1).GetItem<GuessedCountryResponse[]>(DailyStorageKeys.GuessesKey);
+    }
+
+    [Fact]
+    public async Task DailyAsyncShouldDispatchDailyResultWithEmptyGuessesWhenDoesNotFoundInStorage()
+    {
+        GuessedCountryResponse guess = CreateGuessedCountry();
+
+        DateOnly today = new(2024, 11, 08);
+        _timeService.Today.Returns(today);
+        _storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey).Returns(today);
+
+        _storage.GetItem<GuessedCountryResponse[]>(DailyStorageKeys.GuessesKey).ReturnsNull();
+
+        RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
+
+        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+
+        await _effect.GetDailyAsync(_dispatcher);
+
+        _dispatcher.Received(1).Dispatch(Arg.Is<GameActions.GetDailyResult>(a => a.Guesses.Length == 0));
+    }
+
+    private static GuessedCountryResponse CreateGuessedCountry() => new()
+    {
+        Cca2 = "CA",
+        Name = "Canada",
+        IsSameContinent = true,
+        Kilometers = 100,
+        Direction = 90,
+        Success = true,
+        Flag = new ImageResponse(new Uri("https://image.com"), "image/png")
+    };
 }

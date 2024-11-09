@@ -16,5 +16,8 @@
             </a>
         </div>
     }
-    <button type="button" @onclick="RestartAsync">Restart</button>
+    @if (OnRestart.HasDelegate)
+    {
+        <button type="button" @onclick="RestartAsync">Restart</button>
+    }
 </div>

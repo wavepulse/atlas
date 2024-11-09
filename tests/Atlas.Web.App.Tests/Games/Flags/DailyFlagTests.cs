@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Atlas.Web.App.Games.Flags;
 
-public sealed class RandomizedFlagTests : TestContext
+public sealed class DailyFlagTests : TestContext
 {
     private readonly RandomizedCountryResponse _country = new("CA", "Canada", new ImageResponse(new Uri("https://example.com"), "image/png"), new Uri("https://map.com"));
     private readonly GuessedCountryResponse _guessedCountry = new()
@@ -36,7 +36,7 @@ public sealed class RandomizedFlagTests : TestContext
     private readonly ITimeService _timeService = Substitute.For<ITimeService>();
     private readonly ISender _sender = Substitute.For<ISender>();
 
-    public RandomizedFlagTests()
+    public DailyFlagTests()
     {
         ComponentFactories.AddStub<CountryLookupInput>();
         ComponentFactories.AddStub<GameOver>();
@@ -47,30 +47,30 @@ public sealed class RandomizedFlagTests : TestContext
         Services.AddSingleton(_timeService);
         Services.AddSingleton(_sender);
 
-        _sender.Send(Arg.Any<RandomizeCountry.Query>()).Returns(_country);
+        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(_country);
         _sender.Send(Arg.Any<GuessCountry.Command>()).Returns(_guessedCountry);
     }
 
     [Fact]
-    public void PageShouldDispatchRandomizeAction()
+    public void PageShouldDispatchGetDailyAction()
     {
-        RenderComponent<RandomizedFlag>();
+        RenderComponent<DailyFlag>();
 
-        _dispatcher.Received().Dispatch(Arg.Any<GameActions.Randomize>());
+        _dispatcher.Received().Dispatch(Arg.Any<GameActions.GetDaily>());
     }
 
     [Fact]
-    public void PageShouldSubscribeToRandomizeResultAction()
+    public void PageShouldSubscribeToGetDailyResultAction()
     {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
-        _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.RandomizeResult>>());
+        _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.GetDailyResult>>());
     }
 
     [Fact]
     public void PageShouldSubscribeToGuessResultAction()
     {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
         _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.GuessResult>>());
     }
@@ -78,7 +78,7 @@ public sealed class RandomizedFlagTests : TestContext
     [Fact]
     public void PageShouldDisposeSubscriber()
     {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
         page.Instance.Dispose();
 
@@ -88,7 +88,7 @@ public sealed class RandomizedFlagTests : TestContext
     [Fact]
     public void PageShouldRenderCountryLookupInputWhenGameIsNotFinished()
     {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
         page.HasComponent<Stub<CountryLookupInput>>().Should().BeTrue();
     }
@@ -103,13 +103,49 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
         await page.InvokeAsync(() =>
         {
-            dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
+            dispatcher.Dispatch(new GameActions.GetDailyResult(_country, []));
             dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry));
         });
+
+        page.HasComponent<Stub<GameOver>>().Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task PageShouldRenderGameOverFromDailyResultWhenContainsAnSuccessFromGuesses()
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
+
+        await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GetDailyResult(_country, [_guessedCountry])));
+
+        page.HasComponent<Stub<GameOver>>().Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task PageShouldRenderGameOverFromDailyResultWhenContainsMaxAttemptsAndNoSuccess()
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
+
+        GuessedCountryResponse[] guesses = Enumerable.Range(0, 6).Select(_ => _guessedCountry with { Success = false }).ToArray();
+
+        await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GetDailyResult(_country, guesses)));
 
         page.HasComponent<Stub<GameOver>>().Should().BeTrue();
     }
@@ -124,7 +160,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
         IRenderedComponent<Stub<CountryLookupInput>> input = page.FindComponent<Stub<CountryLookupInput>>();
 
         await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false })));
@@ -144,11 +180,11 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
         await page.InvokeAsync(() =>
         {
-            dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
+            dispatcher.Dispatch(new GameActions.GetDailyResult(_country, []));
             dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry));
         });
 
@@ -169,11 +205,11 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
         await page.InvokeAsync(() =>
         {
-            dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
+            dispatcher.Dispatch(new GameActions.GetDailyResult(_country, []));
 
             dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
             dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
@@ -183,9 +219,7 @@ public sealed class RandomizedFlagTests : TestContext
             dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
         });
 
-        bool result = page.HasComponent<Stub<GameOver>>();
-
-        result.Should().BeTrue();
+        page.HasComponent<Stub<GameOver>>().Should().BeTrue();
     }
 
     [Fact]
@@ -206,7 +240,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
         IRenderedComponent<Stub<CountryLookupInput>> input = page.FindComponent<Stub<CountryLookupInput>>();
 
         EventCallback<string> eventCallback = input.Instance.Parameters.Get(i => i.Guess);
@@ -217,42 +251,7 @@ public sealed class RandomizedFlagTests : TestContext
     }
 
     [Fact]
-    public async Task RestartShouldDispatchRandomizeAction()
-    {
-        GameActions.Randomize? action = null;
-
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        dispatcher.ActionDispatched += (sender, args) =>
-        {
-            if (args.Action is GameActions.Randomize randomizeAction)
-                action = randomizeAction;
-        };
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
-
-        await page.InvokeAsync(() =>
-        {
-            dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
-            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry));
-        });
-
-        IRenderedComponent<Stub<GameOver>> gameOver = page.FindComponent<Stub<GameOver>>();
-
-        EventCallback eventCallback = gameOver.Instance.Parameters.Get(i => i.OnRestart);
-
-        await page.InvokeAsync(eventCallback.InvokeAsync);
-
-        action.Should().NotBeNull();
-    }
-
-    [Fact]
-    public async Task RestartShouldClearGuessedCountries()
+    public async Task PageShouldAddGuessedCountryToLocalStorage()
     {
         Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
 
@@ -261,24 +260,10 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
-        await page.InvokeAsync(() =>
-        {
-            dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
-            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry));
-        });
+        await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry)));
 
-        IRenderedComponent<Stub<GameOver>> gameOver = page.FindComponent<Stub<GameOver>>();
-
-        EventCallback eventCallback = gameOver.Instance.Parameters.Get(i => i.OnRestart);
-
-        await page.InvokeAsync(eventCallback.InvokeAsync);
-
-        IRenderedComponent<Stub<CountryLookupInput>> input = page.FindComponent<Stub<CountryLookupInput>>();
-
-        IEnumerable<string> guessedCountries = input.Instance.Parameters.Get(i => i.SelectedCountries);
-
-        guessedCountries.Should().BeEmpty();
+        _localStorage.Received().SetItem(DailyStorageKeys.GuessesKey, Arg.Is<List<GuessedCountryResponse>>(c => c.Contains(_guessedCountry)));
     }
 }

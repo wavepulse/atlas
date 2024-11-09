@@ -13,7 +13,7 @@ public sealed partial class Footer(ITimeService timeService)
     {
         const int startYear = 2024;
 
-        int currentYear = timeService.UtcNow.Year;
+        int currentYear = timeService.Today.Year;
 
         if (currentYear == startYear)
             return startYear.ToString();

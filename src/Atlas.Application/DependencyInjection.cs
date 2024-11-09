@@ -13,6 +13,9 @@ public static class DependencyInjection
     public static void AddApplication(this IServiceCollection services)
     {
         services.AddMediator();
+
         services.AddScoped<IRandomizer, Randomizer>();
+        services.AddScoped<IDateHash, DateHash>();
+        services.AddScoped<ITimeService, TimeService>();
     }
 }

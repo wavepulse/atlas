@@ -19,9 +19,11 @@ internal sealed class CountryRepository(IDataSource<Country> dataSource, ICache 
         if (cache.TryGet(Key, out Country[]? cachedCountries))
             return cachedCountries;
 
-        Country[] countries = await dataSource.QueryAllAsync(cancellationToken).ConfigureAwait(false);
+        Country[] allCountries = await dataSource.QueryAllAsync(cancellationToken).ConfigureAwait(false);
 
-        cache.Save(Key, countries.Where(c => !c.IsExcluded).ToArray());
+        Country[] countries = allCountries.Where(c => !c.IsExcluded).ToArray();
+
+        cache.Save(Key, countries);
 
         return countries;
     }

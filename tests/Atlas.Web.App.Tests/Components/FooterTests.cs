@@ -10,7 +10,7 @@ namespace Atlas.Web.App.Components;
 
 public sealed class FooterTests : TestContext
 {
-    private readonly DateTimeOffset _now = new(new DateTime(2024, 01, 01, 01, 01, 01, DateTimeKind.Utc));
+    private readonly DateOnly _today = new(2024, 11, 06);
 
     private readonly ITimeService _timeService = Substitute.For<ITimeService>();
 
@@ -46,8 +46,8 @@ public sealed class FooterTests : TestContext
     [Fact]
     public void FooterShouldDisplayCurrentCopyrightYearWhenStartYearIsEqualToCurrentYear()
     {
-        int startYear = _now.Year;
-        _timeService.UtcNow.Returns(_now);
+        int startYear = _today.Year;
+        _timeService.Today.Returns(_today);
 
         IRenderedComponent<Footer> footer = RenderComponent<Footer>();
 
@@ -59,10 +59,10 @@ public sealed class FooterTests : TestContext
     [Fact]
     public void FooterShouldDisplayRangeOfYearsWhenStartYearIsNotEqualToCurrentYear()
     {
-        int startYear = _now.Year;
-        int endYear = _now.AddYears(1).Year;
+        int startYear = _today.Year;
+        int endYear = _today.AddYears(1).Year;
 
-        _timeService.UtcNow.Returns(_now.AddYears(1));
+        _timeService.Today.Returns(_today.AddYears(1));
 
         IRenderedComponent<Footer> footer = RenderComponent<Footer>();
 

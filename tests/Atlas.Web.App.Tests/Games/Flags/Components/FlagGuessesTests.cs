@@ -4,16 +4,14 @@
 using AngleSharp.Dom;
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Components;
-using Atlas.Web.App.Stores.Games;
-using Fluxor;
-using Mediator;
-using Microsoft.Extensions.DependencyInjection;
 using System.Net.Mime;
 
 namespace Atlas.Web.App.Games.Flags.Components;
 
 public sealed class FlagGuessesTests : TestContext
 {
+    private const int MaxAttempts = 6;
+
     private readonly GuessedCountryResponse _country = new()
     {
         Cca2 = "GB",
@@ -25,29 +23,24 @@ public sealed class FlagGuessesTests : TestContext
         Flag = new ImageResponse(new Uri("https://flag.svg"), MediaTypeNames.Image.Svg)
     };
 
-    private readonly IActionSubscriber _subscriber = Substitute.For<IActionSubscriber>();
-    private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
-
-    public FlagGuessesTests()
-    {
-        Services.AddSingleton(_subscriber);
-        Services.AddSingleton(_dispatcher);
-    }
-
     [Fact]
-    public void ComponentShouldRenderSixNonGuessedFlagsWhenThereIsNoGuessedFlags()
+    public void ComponentShouldRenderNonGuessedFlagsBasedOnMaxAttemptsWhenThereIsNoGuesses()
     {
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IRefreshableElementCollection<IElement> nonGuessedFlags = component.FindAll("li.guess.empty");
 
-        nonGuessedFlags.Should().HaveCount(6);
+        nonGuessedFlags.Should().HaveCount(MaxAttempts);
     }
 
     [Fact]
     public void ComponentShouldRenderNonGuessedFlagsWithGoodIndex()
     {
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IRefreshableElementCollection<IElement> nonGuessedFlags = component.FindAll("li.guess.empty");
 
@@ -55,124 +48,25 @@ public sealed class FlagGuessesTests : TestContext
     }
 
     [Fact]
-    public void ComponentShouldSubscribeToGuessResultAction()
+    public void ComponentShouldPopulateGuessedFlagsWhenHavingGuesses()
     {
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        _subscriber.Received().SubscribeToAction(component.Instance, Arg.Any<Action<GameActions.GuessResult>>());
-    }
-
-    [Fact]
-    public void ComponentShouldSubscribeToRestartAction()
-    {
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        _subscriber.Received().SubscribeToAction(component.Instance, Arg.Any<Action<GameActions.Restart>>());
-    }
-
-    [Fact]
-    public void ComponentShouldDisposeActionSubscriber()
-    {
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        component.Instance.Dispose();
-
-        _subscriber.Received().UnsubscribeFromAllActions(component.Instance);
-    }
-
-    [Fact]
-    public async Task ComponentShouldPopulateGuessedFlagsWhenGuessResultActionIsDispatched()
-    {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country)));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IRefreshableElementCollection<IElement> guessedFlags = component.FindAll("li.guess:not(.empty)");
         guessedFlags.Should().ContainSingle();
 
         IRefreshableElementCollection<IElement> nonGuessedFlags = component.FindAll("li.guess.empty");
-        nonGuessedFlags.Should().HaveCount(5);
+        nonGuessedFlags.Should().HaveCount(MaxAttempts - 1);
     }
 
     [Fact]
-    public async Task ComponentShouldDispatchGameOverActionWhenMaxGuessesAreReachedAndCountryWasNotGuessed()
+    public void GuessedCountryShouldHaveSuccessCssWhenIsGoodCountry()
     {
-        bool isDispatched = false;
-
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        dispatcher.ActionDispatched += (sender, args) =>
-        {
-            if (args.Action is GameActions.GameOver)
-            {
-                isDispatched = true;
-            }
-        };
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() =>
-        {
-            for (int i = 0; i < 6; i++)
-            {
-                dispatcher.Dispatch(new GameActions.GuessResult(_country with { Success = false }));
-            }
-        });
-
-        isDispatched.Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task ComponentShouldClearGuessedFlagsWhenRestartActionIsDispatched()
-    {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country)));
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.Restart()));
-
-        IRefreshableElementCollection<IElement> guessedFlags = component.FindAll("li.guess:not(.empty)");
-        guessedFlags.Should().BeEmpty();
-
-        IRefreshableElementCollection<IElement> nonGuessedFlags = component.FindAll("li.guess.empty");
-        nonGuessedFlags.Should().HaveCount(6);
-    }
-
-    [Fact]
-    public async Task GuessedCountryShouldHaveSuccessCssWhenIsGoodCountry()
-    {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country)));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IElement guessedFlag = component.Find("li.guess:first-child");
 
@@ -180,19 +74,11 @@ public sealed class FlagGuessesTests : TestContext
     }
 
     [Fact]
-    public async Task GuessedCountryShouldHaveWrongCssWhenIsBadCountry()
+    public void GuessedCountryShouldHaveWrongCssWhenIsBadCountry()
     {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country with { Success = false })));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country with { Success = false }])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IElement guessedFlag = component.Find("li.guess:first-child");
 
@@ -200,19 +86,11 @@ public sealed class FlagGuessesTests : TestContext
     }
 
     [Fact]
-    public async Task GuessedCountryShouldHaveCheckCssForArrowWhenIsGoodCountry()
+    public void GuessedCountryShouldHaveCheckCssForArrowWhenIsGoodCountry()
     {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country)));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IElement arrow = component.Find("li.guess i.arrow");
 
@@ -220,19 +98,11 @@ public sealed class FlagGuessesTests : TestContext
     }
 
     [Fact]
-    public async Task GuessedCountryShouldHaveDefaultCssForArrowWhenIsBadCountry()
+    public void GuessedCountryShouldHaveDefaultCssForArrowWhenIsBadCountry()
     {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country with { Success = false })));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country with { Success = false }])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IElement arrow = component.Find("li.guess i.arrow");
 
@@ -240,19 +110,11 @@ public sealed class FlagGuessesTests : TestContext
     }
 
     [Fact]
-    public async Task GuessedCountryShouldHaveCheckCssForContinentWhenIsSameContinent()
+    public void GuessedCountryShouldHaveCheckCssForContinentWhenIsSameContinent()
     {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country)));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IElement sameContinent = component.Find("li.guess i.same-continent");
 
@@ -260,19 +122,11 @@ public sealed class FlagGuessesTests : TestContext
     }
 
     [Fact]
-    public async Task GuessedCountryShouldHaveTimesCssForContinentWhenIsNotSameContinent()
+    public void GuessedCountryShouldHaveTimesCssForContinentWhenIsNotSameContinent()
     {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country with { IsSameContinent = false })));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country with { IsSameContinent = false }])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IElement sameContinent = component.Find("li.guess i.same-continent");
 
@@ -280,19 +134,11 @@ public sealed class FlagGuessesTests : TestContext
     }
 
     [Fact]
-    public async Task NonGuessedCountryShouldHaveNoCssWhenIsNotTheGoodCountry()
+    public void NonGuessedCountryShouldHaveNoCssWhenIsNotTheGoodCountry()
     {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country with { Success = false })));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country with { Success = false }])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IElement nonGuessedFlag = component.Find("li.guess.empty");
 
@@ -300,19 +146,11 @@ public sealed class FlagGuessesTests : TestContext
     }
 
     [Fact]
-    public async Task NonGuessedCountryShouldHaveHasWonCssWhenIsGoodCountry()
+    public void NonGuessedCountryShouldHaveHasWonCssWhenIsGoodCountry()
     {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-        Services.AddSingleton(Substitute.For<ISender>());
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>();
-
-        await component.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_country)));
+        IRenderedComponent<FlagGuesses> component = RenderComponent<FlagGuesses>(parameters =>
+            parameters.Add(f => f.Guesses, [_country])
+                      .Add(f => f.MaxAttempts, MaxAttempts));
 
         IElement nonGuessedFlag = component.Find("li.guess.empty");
 

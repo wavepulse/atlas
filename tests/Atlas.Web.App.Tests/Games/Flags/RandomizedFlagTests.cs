@@ -62,22 +62,6 @@ public sealed class RandomizedFlagTests : TestContext
     }
 
     [Fact]
-    public void PageShouldSubscribeToGameOverAction()
-    {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
-
-        _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.GameOver>>());
-    }
-
-    [Fact]
-    public void PageShouldSubscribeToRestartAction()
-    {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
-
-        _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.Restart>>());
-    }
-
-    [Fact]
     public void PageShouldSubscribeToGuessResultAction()
     {
         IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
@@ -118,27 +102,10 @@ public sealed class RandomizedFlagTests : TestContext
         await page.InvokeAsync(() =>
         {
             dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
-            dispatcher.Dispatch(new GameActions.GameOver());
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry));
         });
 
         page.HasComponent<Stub<GameOver>>().Should().BeTrue();
-    }
-
-    [Fact]
-    public async Task PageShouldRenderLookupInputWhenDispatchingRestart()
-    {
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
-
-        await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.Restart()));
-
-        page.HasComponent<Stub<CountryLookupInput>>().Should().BeTrue();
     }
 
     [Fact]
@@ -187,6 +154,35 @@ public sealed class RandomizedFlagTests : TestContext
     }
 
     [Fact]
+    public async Task PageShouldFinishTheGameWhenHavingMaxAttempts()
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+
+        await page.InvokeAsync(() =>
+        {
+            dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
+
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+        });
+
+        bool result = page.HasComponent<Stub<GameOver>>();
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
     public async Task GuessShouldDispatchGuessAction()
     {
         GameActions.Guess? guessAction = null;
@@ -199,9 +195,7 @@ public sealed class RandomizedFlagTests : TestContext
         dispatcher.ActionDispatched += (sender, args) =>
         {
             if (args.Action is GameActions.Guess guess)
-            {
                 guessAction = guess;
-            }
         };
 
         await store.InitializeAsync();
@@ -217,7 +211,7 @@ public sealed class RandomizedFlagTests : TestContext
     }
 
     [Fact]
-    public async Task RestartShouldDispatchRestartAction()
+    public async Task RestartShouldDispatchRamomizeAction()
     {
         GameActions.Randomize? action = null;
 
@@ -229,9 +223,7 @@ public sealed class RandomizedFlagTests : TestContext
         dispatcher.ActionDispatched += (sender, args) =>
         {
             if (args.Action is GameActions.Randomize randomizeAction)
-            {
                 action = randomizeAction;
-            }
         };
 
         await store.InitializeAsync();
@@ -241,7 +233,7 @@ public sealed class RandomizedFlagTests : TestContext
         await page.InvokeAsync(() =>
         {
             dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
-            dispatcher.Dispatch(new GameActions.GameOver());
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry));
         });
 
         IRenderedComponent<Stub<GameOver>> gameOver = page.FindComponent<Stub<GameOver>>();
@@ -250,12 +242,37 @@ public sealed class RandomizedFlagTests : TestContext
 
         await page.InvokeAsync(eventCallback.InvokeAsync);
 
-        page.HasComponent<Stub<CountryLookupInput>>().Should().BeTrue();
+        action.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task RestartShouldClearGuessedCountries()
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+
+        await page.InvokeAsync(() =>
+        {
+            dispatcher.Dispatch(new GameActions.RandomizeResult(_country));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry));
+        });
+
+        IRenderedComponent<Stub<GameOver>> gameOver = page.FindComponent<Stub<GameOver>>();
+
+        EventCallback eventCallback = gameOver.Instance.Parameters.Get(i => i.OnRestart);
+
+        await page.InvokeAsync(eventCallback.InvokeAsync);
 
         IRenderedComponent<Stub<CountryLookupInput>> input = page.FindComponent<Stub<CountryLookupInput>>();
+
         IEnumerable<string> guessedCountries = input.Instance.Parameters.Get(i => i.SelectedCountries);
 
         guessedCountries.Should().BeEmpty();
-        action.Should().NotBeNull();
     }
 }

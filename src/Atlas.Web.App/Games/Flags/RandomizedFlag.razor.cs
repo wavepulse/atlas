@@ -9,7 +9,9 @@ namespace Atlas.Web.App.Games.Flags;
 
 public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscriber subscriber) : IDisposable
 {
-    private readonly List<string> _guessedCountries = [];
+    private const int MaxAttempts = 6;
+
+    private readonly List<GuessedCountryResponse> _guesses = new(MaxAttempts);
 
     private string? _answer;
     private RandomizedCountryResponse? _country;
@@ -25,32 +27,24 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
             StateHasChanged();
         });
 
-        subscriber.SubscribeToAction<GameActions.GameOver>(this, _ =>
-        {
-            _isGameFinished = true;
-            _answer = _country!.Name;
-
-            StateHasChanged();
-        });
-
-        subscriber.SubscribeToAction<GameActions.Restart>(this, _ =>
-        {
-            _isGameFinished = false;
-            StateHasChanged();
-        });
-
         subscriber.SubscribeToAction<GameActions.GuessResult>(this, action =>
         {
-            if (!action.Country.Success)
+            _guesses.Add(action.Country);
+
+            if (action.Country.Success)
             {
-                _guessedCountries.Add(action.Country.Cca2);
+                _answer = null;
+                _isGameFinished = true;
 
                 StateHasChanged();
                 return;
             }
 
-            _answer = null;
-            _isGameFinished = true;
+            if (_guesses.Count == MaxAttempts && !action.Country.Success)
+            {
+                _answer = _country!.Name;
+                _isGameFinished = true;
+            }
 
             StateHasChanged();
         });
@@ -63,7 +57,7 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 
     private void Restart()
     {
-        _guessedCountries.Clear();
+        _guesses.Clear();
         _isGameFinished = false;
 
         dispatcher.Dispatch(new GameActions.Randomize());

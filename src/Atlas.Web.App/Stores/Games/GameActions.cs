@@ -20,6 +20,4 @@ public static class GameActions
     public sealed record RandomizeResult(RandomizedCountryResponse Country);
 
     public sealed record Restart;
-
-    public sealed record GameOver;
 }

@@ -6,11 +6,11 @@
 <Game Image="_country?.Flag">
     @if (!_isGameFinished)
     {
-        <CountryLookupInput Guess="Guess" SelectedCountries="_guessedCountries" />
+        <CountryLookupInput Guess="Guess" SelectedCountries="_guesses.Select(g => g.Cca2)" />
     }
     else
     {
         <GameOver Country="@_answer" MapUri="_country!.Map" OnRestart="Restart" />
     }
-    <FlagGuesses />
+    <FlagGuesses Guesses="_guesses" MaxAttempts="MaxAttempts" />
 </Game>

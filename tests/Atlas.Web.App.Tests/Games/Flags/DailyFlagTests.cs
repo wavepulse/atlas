@@ -46,7 +46,7 @@ public sealed class DailyFlagTests : TestContext
     }
 
     [Fact]
-    public void PageShouldDispatchRandomizeAction()
+    public void PageShouldDispatchGetDailyAction()
     {
         RenderComponent<DailyFlag>();
 
@@ -54,19 +54,11 @@ public sealed class DailyFlagTests : TestContext
     }
 
     [Fact]
-    public void PageShouldSubscribeToRandomizeResultAction()
+    public void PageShouldSubscribeToGetDailyResultAction()
     {
         IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
 
         _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.GetDailyResult>>());
-    }
-
-    [Fact]
-    public void PageShouldSubscribeToGameOverAction()
-    {
-        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
-
-        _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.GameOver>>());
     }
 
     [Fact]
@@ -110,7 +102,7 @@ public sealed class DailyFlagTests : TestContext
         await page.InvokeAsync(() =>
         {
             dispatcher.Dispatch(new GameActions.GetDailyResult(_country));
-            dispatcher.Dispatch(new GameActions.GameOver());
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry));
         });
 
         page.HasComponent<Stub<GameOver>>().Should().BeTrue();
@@ -162,6 +154,35 @@ public sealed class DailyFlagTests : TestContext
     }
 
     [Fact]
+    public async Task PageShouldFinishTheGameWhenHavingMaxAttempts()
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        IRenderedComponent<DailyFlag> page = RenderComponent<DailyFlag>();
+
+        await page.InvokeAsync(() =>
+        {
+            dispatcher.Dispatch(new GameActions.GetDailyResult(_country));
+
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+            dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false }));
+        });
+
+        bool result = page.HasComponent<Stub<GameOver>>();
+
+        result.Should().BeTrue();
+    }
+
+    [Fact]
     public async Task GuessShouldDispatchGuessAction()
     {
         GameActions.Guess? guessAction = null;
@@ -174,9 +195,7 @@ public sealed class DailyFlagTests : TestContext
         dispatcher.ActionDispatched += (sender, args) =>
         {
             if (args.Action is GameActions.Guess guess)
-            {
                 guessAction = guess;
-            }
         };
 
         await store.InitializeAsync();

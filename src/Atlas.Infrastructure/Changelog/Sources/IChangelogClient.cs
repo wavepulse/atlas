@@ -5,5 +5,5 @@ namespace Atlas.Infrastructure.Changelog.Sources;
 
 internal interface IChangelogClient
 {
-    Task<string?> GetAsync(CancellationToken cancellationToken);
+    Task<string> GetAsync(CancellationToken cancellationToken);
 }

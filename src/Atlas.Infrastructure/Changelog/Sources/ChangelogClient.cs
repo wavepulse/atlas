@@ -9,12 +9,12 @@ namespace Atlas.Infrastructure.Changelog.Sources;
 [ExcludeFromCodeCoverage]
 internal sealed class ChangelogClient(HttpClient client, ChangelogOptions options) : IChangelogClient
 {
-    public async Task<string?> GetAsync(CancellationToken cancellationToken)
+    public async Task<string> GetAsync(CancellationToken cancellationToken)
     {
         using HttpResponseMessage response = await client.GetAsync(options.Url, cancellationToken).ConfigureAwait(false);
 
         if (!response.IsSuccessStatusCode)
-            return null;
+            return string.Empty;
 
         return await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
     }

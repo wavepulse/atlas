@@ -1,0 +1,24 @@
+@inject IModal modal
+
+<dialog class="modal">
+    <div class="settings">
+        <div class="header">
+            <h1>Settings</h1>
+            <i class="@Icons.Times close" @onclick="modal.Close"></i>
+        </div>
+        <div class="body">
+            <ul class="tabs" role="list">
+                @foreach((string name, TabItem tab) in GetTabs())
+                {
+                    <li @onclick="() => SelectTab(tab)" class="tab @IsActive(tab)">@name</li>
+                }
+            </ul>
+            <div class="content @GetTabCss()">
+                @if (_selectedTab == TabItem.Changelog)
+                {
+                    @Changelog()
+                }
+            </div>
+        </div>
+    </div>
+</dialog>

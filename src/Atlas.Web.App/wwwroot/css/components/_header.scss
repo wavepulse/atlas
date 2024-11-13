@@ -21,6 +21,7 @@ header {
 .navigation {
   display: flex;
   gap: 1em;
+  cursor: pointer;
 
   .nav-item {
     font-size: calc(var(--font-size-md) * 2);

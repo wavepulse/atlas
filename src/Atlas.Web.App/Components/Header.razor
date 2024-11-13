@@ -1,8 +1,10 @@
+@using Atlas.Web.App.Modals
 @using Atlas.Web.App.Options
 @using Microsoft.JSInterop
 
 @inject ProjectOptions project
 @inject IJSInProcessRuntime jsRuntime
+@inject IModal modal
 
 <header aria-expanded="false">
     <div class="logo">
@@ -32,6 +34,12 @@
                 <a class="nav-link" target="_blank" href="@project.BugUrl">
                     <i class="@Icons.Bug"></i>
                     <span>Report a bug</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" @onclick="modal.Show">
+                    <i class="@Icons.Sliders"></i>
+                    <span>Settings</span>
                 </a>
             </li>
         </ul>

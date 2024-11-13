@@ -1,3 +1,5 @@
+@using Atlas.Web.App.Modals
+
 <StoreInitializer />
 <Router AppAssembly="@typeof(App).Assembly">
     <Found Context="routeData">
@@ -10,3 +12,4 @@
         </LayoutView>
     </NotFound>
 </Router>
+<SettingsModal />

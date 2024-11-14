@@ -41,3 +41,8 @@ dotnet_diagnostic.MA0053.severity = warning
 # Some interpolated string does not need to be localized
 # https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0076.md
 dotnet_diagnostic.MA0076.severity = none
+
+# MA0165: Make interpolated string
+# Is help developer to make string interpolated. It is not required in VS
+# https://github.com/meziantou/Meziantou.Analyzer/blob/main/docs/Rules/MA0165.md
+dotnet_diagnostic.MA0165.severity = none

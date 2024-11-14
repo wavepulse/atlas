@@ -8,9 +8,11 @@ using Atlas.Infrastructure.Changelog.Sources;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Atlas.Infrastructure.Changelog;
 
+[ExcludeFromCodeCoverage]
 internal static class DependencyInjection
 {
     internal static void AddChangelog(this IServiceCollection services, IConfiguration configuration)

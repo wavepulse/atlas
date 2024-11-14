@@ -1,7 +1,6 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
-using Atlas.Web.App.Modals;
 using Atlas.Web.App.Options;
 using Atlas.Web.App.Services;
 using Atlas.Web.App.Storages;
@@ -24,7 +23,6 @@ internal static class DependencyInjection
         builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
         builder.Services.AddTransient<ITimeService, TimeService>();
         builder.Services.AddSingleton<ILocalStorage, LocalStorage>();
-        builder.Services.AddSingleton<IModal, Modal>();
     }
 
     internal static void AddOptions(this WebAssemblyHostBuilder builder)

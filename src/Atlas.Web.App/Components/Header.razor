@@ -4,7 +4,6 @@
 
 @inject ProjectOptions project
 @inject IJSInProcessRuntime jsRuntime
-@inject IModal modal
 
 <header aria-expanded="false">
     <div class="logo">
@@ -37,7 +36,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" @onclick="modal.Show">
+                <a class="nav-link" @onclick="Modal.Show">
                     <i class="@Icons.Sliders"></i>
                     <span>Settings</span>
                 </a>
@@ -45,3 +44,8 @@
         </ul>
     </nav>
 </header>
+
+@code {
+    [CascadingParameter]
+    public required SettingsModal Modal { get; init; }
+}

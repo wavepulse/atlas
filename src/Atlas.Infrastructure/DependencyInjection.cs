@@ -1,7 +1,8 @@
-﻿// Copyright (c) Pulsewave. All rights reserved.
+// Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
 using Atlas.Infrastructure.Caching;
+using Atlas.Infrastructure.Changelog;
 using Atlas.Infrastructure.Countries;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,5 +17,6 @@ public static class DependencyInjection
     {
         services.AddCaching(configuration);
         services.AddCountries(configure);
+        services.AddChangelog(configuration);
     }
 }

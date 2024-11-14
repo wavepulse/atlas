@@ -8,6 +8,10 @@
   --color-background-accent: hsl(218, 22%, 14%);
   --color-danger: hsl(0, 100%, 27%);
   --color-success: hsl(120, 100%, 40%);
+
+  --color-dialog-primary: hsl(43, 86%, 50%);
+  --color-dialog-background: hsl(213, 24%, 16%);
+  --color-dialog-backdrop: hsl(228, 20%, 8%);
 }
 
 @media (prefers-color-scheme: light) {
@@ -21,6 +25,10 @@
     --color-background-accent: hsl(218, 22%, 91%);
     --color-danger: hsl(0, 100%, 50%);
     --color-success: hsl(120, 100%, 27%);
+
+    --color-dialog-primary: hsl(176, 96%, 31%);
+    --color-dialog-background: hsl(228, 20%, 95%);
+    --color-dialog-backdrop: hsl(210, 2%, 22%);
   }
 }
 

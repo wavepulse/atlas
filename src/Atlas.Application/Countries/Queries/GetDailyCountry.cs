@@ -20,9 +20,9 @@ public static class GetDailyCountry
         {
             uint hash = dateHash.Hash(timeService.Today);
 
-            Country[] countries = await countryRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
+            ReadOnlySpan<Country> countries = await countryRepository.GetAllAsync(cancellationToken).ConfigureAwait(false);
 
-            Country country = countries[hash % countries.Length];
+            Country country = countries[(int)(hash % countries.Length)];
 
             countryRepository.Cache(country);
 

@@ -1,3 +1,4 @@
+@using Atlas.Web.App.Modals
 @using Atlas.Web.App.Options
 @using Microsoft.JSInterop
 
@@ -34,6 +35,17 @@
                     <span>Report a bug</span>
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" @onclick="Modal.Show">
+                    <i class="@Icons.Sliders"></i>
+                    <span>Settings</span>
+                </a>
+            </li>
         </ul>
     </nav>
 </header>
+
+@code {
+    [CascadingParameter]
+    public required SettingsModal Modal { get; init; }
+}

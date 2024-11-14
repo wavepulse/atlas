@@ -2,7 +2,9 @@
 // The source code is licensed under MIT License.
 
 using AngleSharp.Dom;
+using Atlas.Web.App.Modals;
 using Atlas.Web.App.Options;
+using Fluxor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 
@@ -21,6 +23,8 @@ public sealed class HeaderTests : TestContext
 
         Services.AddSingleton(project);
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddSingleton(Substitute.For<IDispatcher>());
+        Services.AddSingleton(Substitute.For<IActionSubscriber>());
 
         JSInterop.SetupVoid("toggleNavigation").SetVoidResult();
     }
@@ -28,9 +32,10 @@ public sealed class HeaderTests : TestContext
     [Fact]
     public void HeaderShouldToggleMenuWhenClickingOnTheButton()
     {
-        IRenderedComponent<Header> header = RenderComponent<Header>();
+        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
+        IRenderedComponent<Header> header = RenderComponent<Header>(parameters => parameters.AddCascadingValue(modal.Instance));
 
-        IElement button = header.Find("button");
+        IElement button = header.Find("button.hamburger");
 
         button.Click();
 

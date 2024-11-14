@@ -20,6 +20,11 @@ dotnet_diagnostic.SA1127.severity = none
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1128.md
 dotnet_diagnostic.SA1128.severity = none
 
+# SA1201: An element within a C# code file is out of order in relation to the other elements in the code.
+# No need to put elements in a specific order
+# https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1201.md
+dotnet_diagnostic.SA1201.severity = none
+
 # SA1204: Static members should appear before instance members
 # No need to put static members before instance members
 # https://github.com/DotNetAnalyzers/StyleCopAnalyzers/blob/master/documentation/SA1204.md

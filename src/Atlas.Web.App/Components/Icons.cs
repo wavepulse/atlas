@@ -17,5 +17,7 @@ public static class Icons
 
     public const string Github = "bi bi-github";
 
+    public const string Sliders = "bi bi-sliders";
+
     public const string Times = "bi bi-x";
 }

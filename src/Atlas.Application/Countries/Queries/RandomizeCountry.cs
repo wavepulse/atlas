@@ -18,9 +18,9 @@ public static class RandomizeCountry
     {
         public async ValueTask<RandomizedCountryResponse> Handle(Query query, CancellationToken cancellationToken)
         {
-            Country[] countries = await repository.GetAllAsync(cancellationToken).ConfigureAwait(false);
+            ReadOnlySpan<Country> countries = await repository.GetAllAsync(cancellationToken).ConfigureAwait(false);
 
-            Country randomizedCountry = randomizer.Randomize<Country>(countries);
+            Country randomizedCountry = randomizer.Randomize(countries);
 
             repository.Cache(randomizedCountry);
 

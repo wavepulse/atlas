@@ -10,9 +10,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace Atlas.Infrastructure.Caching;
 
 [ExcludeFromCodeCoverage]
-public static class DependencyInjection
+internal static class DependencyInjection
 {
-    public static void AddCaching(this IServiceCollection services, IConfiguration configuration)
+    internal static void AddCaching(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<CacheOptions>(configuration.GetSection(CacheOptions.Section))
                 .AddSingleton<IValidateOptions<CacheOptions>, CacheOptions.Validator>()

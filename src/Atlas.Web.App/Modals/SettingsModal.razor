@@ -1,0 +1,19 @@
+<CascadingValue Value="this" IsFixed="true">
+    <dialog class="modal">
+        <div class="settings">
+            <div class="header">
+                <h1>Settings</h1>
+                <i class="@Icons.Times close" @onclick="Close"></i>
+            </div>
+            <div class="body">
+                <ul class="tabs" role="list">
+                    <li class="tab active">Changelog</li>
+                </ul>
+                <div class="content changelog">
+                    @_changelog
+                </div>
+            </div>
+        </div>
+    </dialog>
+    @ChildContent
+</CascadingValue>

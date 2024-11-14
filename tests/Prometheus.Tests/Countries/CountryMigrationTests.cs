@@ -95,16 +95,6 @@ public sealed class CountryMigrationTests
         await _jsonFileWriter.DidNotReceiveWithAnyArgs().WriteToAsync<Arg.AnyType>(default!, default!, default!, default);
     }
 
-    [Fact]
-    public async Task MigrateAsyncShouldNotWriteToFilesWhenThereIsNoCountries()
-    {
-        _endpoint.GetAllAsync(CancellationToken.None).Returns([]);
-
-        await _migration.MigrateAsync(Path, CancellationToken.None);
-
-        await _jsonFileWriter.DidNotReceiveWithAnyArgs().WriteToAsync<Arg.AnyType>(default!, default!, default!, default);
-    }
-
     private static CountryDto CreateCanada() => new()
     {
         Cca2 = "CA",

@@ -1,4 +1,4 @@
-name: Staging
+name: Production
 
 on:
   workflow_dispatch:
@@ -7,13 +7,13 @@ on:
 
 jobs:
   deploy:
-    name: Deploy
+    name: Production environment
 
     permissions:
       contents: read
       deployments: write
 
-    uses: wavepulse/atlas/.github/workflows/publish.yml@main
+    uses: wavepulse/atlas/.github/workflows/setup.yml@main
     with:
       branch: main
       environment: production

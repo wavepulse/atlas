@@ -1,73 +1,70 @@
-name: Build
+name: Pull Request
 
 on:
   pull_request:
-    branches: [ develop ]
+    branches: [ develop, release/* ]
 
 jobs:
   build:
+    name: Build/Unit Test
     runs-on: windows-latest
 
-    name: CI Build
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
 
-    - name: Restore dotnet tools
-      run: dotnet tool restore
+      - name: Restore dotnet tools
+        run: dotnet tool restore
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Debug --no-restore
+      - name: Build
+        run: dotnet build --configuration Debug --no-restore
 
-    - name: Test
-      run: dotnet test --configuration Debug --no-build --verbosity normal --results-directory ./coverage --settings coverlet.runsettings
+      - name: Test
+        run: dotnet test --configuration Debug --no-build --results-directory ./coverage --settings coverlet.runsettings
+  
+      - name: Generate coverage report
+        run: dotnet coverage merge coverage/**/*.cobertura.xml --output ./coverage.cobertura.xml --output-format cobertura
 
-    - name: Generate coverage report
-      run: dotnet coverage merge coverage/**/*.cobertura.xml --output ./coverage.cobertura.xml --output-format cobertura
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: ./coverage.cobertura.xml
 
-    - name: Upload coverage report
-      uses: actions/upload-artifact@v4
-      with:
-        name: coverage
-        path: ./coverage.cobertura.xml
-
-  code-coverage:
+  coverage:
+    name: Analyze code coverage
     needs: build
     runs-on: ubuntu-latest
-
     permissions:
-      pull-requests: write
-
-    name: Code Coverage
+        pull-requests: write
 
     steps:
-    - name: Download code coverage report
-      uses: actions/download-artifact@v4
-      with:
-        name: coverage
+      - name: Download code coverage report
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
 
-    - name: Verify code coverage
-      uses: irongut/CodeCoverageSummary@v1.3.0
-      with:
-        filename: coverage.cobertura.xml
-        badge: true
-        fail_below_min: true
-        format: markdown
-        hide_complexity: true
-        output: both
-        thresholds: '80 100'
+      - name: Verify code coverage
+        uses: irongut/CodeCoverageSummary@v1.3.0
+        with:
+          filename: coverage.cobertura.xml
+          badge: true
+          fail_below_min: true
+          format: markdown
+          hide_complexity: true
+          output: file
+          thresholds: '80 100'
 
-    - name: Add coverage PR comment
-      uses: marocchino/sticky-pull-request-comment@v2
-      if: github.event_name == 'pull_request'
-      with:
-        recreate: true
-        path: code-coverage-results.md
+      - name: Add coverage PR comment
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          recreate: true
+          path: code-coverage-results.md

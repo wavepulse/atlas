@@ -25,6 +25,7 @@ public sealed class HeaderTests : TestContext
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
         Services.AddSingleton(Substitute.For<IDispatcher>());
         Services.AddSingleton(Substitute.For<IActionSubscriber>());
+        Services.AddLocalization();
 
         JSInterop.SetupVoid("toggleNavigation").SetVoidResult();
         JSInterop.SetupVoid("addCloseOutsideEvent", _ => true).SetVoidResult();

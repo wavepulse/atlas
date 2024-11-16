@@ -16,6 +16,7 @@ public sealed class ZoomModalTests : TestContext
     public ZoomModalTests()
     {
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddLocalization();
 
         JSInterop.SetupVoid("showModal", _ => true).SetVoidResult();
         JSInterop.SetupVoid("closeModal", _ => true).SetVoidResult();

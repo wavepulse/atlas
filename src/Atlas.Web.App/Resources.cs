@@ -1,8 +1,11 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Atlas.Web.App;
 
+[ExcludeFromCodeCoverage]
 internal sealed class Resources
 {
     private Resources()

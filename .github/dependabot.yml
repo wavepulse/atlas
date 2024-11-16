@@ -1,16 +1,47 @@
 version: 2
 updates:
-  - package-ecosystem: nuget
+  - package-ecosystem: github-actions
     target-branch: develop
     directory: /
     schedule:
       interval: weekly
-      time: "01:00"
+      day: sunday
+    commit-message:
+      prefix: "GitHub Actions"
+    labels: [ dependencies ]
+    assignees: [ beauchama ]
+    groups:
+      actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: nuget
+    target-branch: develop
+    directories:
+      - /src
+      - /tests
+    schedule:
+      interval: daily
     commit-message:
       prefix: NuGet packages
     labels: [ dependencies ]
     assignees: [ beauchama ]
     groups:
-      all:
+      dotnet:
+        patterns:
+          - "*"
+
+  - package-ecosystem: nuget
+    target-branch: develop
+    directories:
+      - /.config
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: Dotnet tools
+    labels: [ dependencies ]
+    assignees: [ beauchama ]
+    groups:
+      dotnet-tools:
         patterns:
           - "*"

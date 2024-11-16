@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Changelog" xml:space="preserve">
+    <value>Changelog</value>
+  </data>
+  <data name="Congratulations" xml:space="preserve">
+    <value>Congratulations!</value>
+  </data>
+  <data name="Continent" xml:space="preserve">
+    <value>Continent</value>
+  </data>
   <data name="DailyFlag" xml:space="preserve">
     <value>Daily flag</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="FailedDisplayCountry" xml:space="preserve">
+    <value>Failed to display the country</value>
   </data>
   <data name="Games" xml:space="preserve">
     <value>Games</value>
@@ -126,13 +141,34 @@
   <data name="GoBack" xml:space="preserve">
     <value>Go back</value>
   </data>
+  <data name="Guess" xml:space="preserve">
+    <value>Guess!</value>
+  </data>
+  <data name="LookupPlaceholder" xml:space="preserve">
+    <value>Canada, Italy...</value>
+  </data>
   <data name="NotFound" xml:space="preserve">
     <value>Not found</value>
   </data>
   <data name="NotFoundMessage" xml:space="preserve">
     <value>Oh no, the page is nowhere on the maps!</value>
   </data>
+  <data name="Project" xml:space="preserve">
+    <value>Project</value>
+  </data>
   <data name="RandomFlag" xml:space="preserve">
     <value>Random flag</value>
+  </data>
+  <data name="ReportBug" xml:space="preserve">
+    <value>Report a bug</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Restart</value>
+  </data>
+  <data name="SeeOnMap" xml:space="preserve">
+    <value>See on map</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
 </root>

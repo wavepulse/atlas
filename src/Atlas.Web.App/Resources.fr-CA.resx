@@ -117,8 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Changelog" xml:space="preserve">
+    <value>Changements</value>
+  </data>
+  <data name="Congratulations" xml:space="preserve">
+    <value>Félicitations!</value>
+  </data>
+  <data name="Continent" xml:space="preserve">
+    <value>Continent</value>
+  </data>
   <data name="DailyFlag" xml:space="preserve">
     <value>Drapeau quotidien</value>
+  </data>
+  <data name="Direction" xml:space="preserve">
+    <value>Direction</value>
+  </data>
+  <data name="FailedDisplayCountry" xml:space="preserve">
+    <value>Impossible d'afficher le pays</value>
   </data>
   <data name="Games" xml:space="preserve">
     <value>Jeux</value>
@@ -126,13 +141,34 @@
   <data name="GoBack" xml:space="preserve">
     <value>Retourner</value>
   </data>
+  <data name="Guess" xml:space="preserve">
+    <value>Deviner</value>
+  </data>
+  <data name="LookupPlaceholder" xml:space="preserve">
+    <value>Canada, Italie...</value>
+  </data>
   <data name="NotFound" xml:space="preserve">
     <value>Page non trouvée</value>
   </data>
   <data name="NotFoundMessage" xml:space="preserve">
     <value>Oh non, la page n'est nulle part sur les cartes!</value>
   </data>
+  <data name="Project" xml:space="preserve">
+    <value>Projet</value>
+  </data>
   <data name="RandomFlag" xml:space="preserve">
     <value>Drapeau aléatoire</value>
+  </data>
+  <data name="ReportBug" xml:space="preserve">
+    <value>Signaler un bug</value>
+  </data>
+  <data name="Restart" xml:space="preserve">
+    <value>Recommencer</value>
+  </data>
+  <data name="SeeOnMap" xml:space="preserve">
+    <value>Voir sur la carte</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Paramètres</value>
   </data>
 </root>

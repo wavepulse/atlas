@@ -1,5 +1,7 @@
 @using Atlas.Application.Countries.Responses
 
+@inject IStringLocalizer<Resources> localizer
+
 <ul class="guess-container" role="list">
     @foreach(GuessedCountryResponse guess in Guesses)
     {
@@ -9,7 +11,7 @@
                 <div class="content">
                     <span title="@guess.Name" class="country-name">@guess.Name</span>
                     <div class="continent">
-                        <span>Continent</span>
+                        <span>@localizer[Resources.Continent]</span>
                         <i class="same-continent @IsSameContinent(guess.IsSameContinent)"></i>
                     </div>
                 </div>
@@ -17,7 +19,7 @@
                 <div class="content">
                     <span>@guess.Kilometers.ToString("N0", _numberFormat) Km</span>
                     <div class="direction">
-                        <span>Direction</span>
+                        <span>@localizer[Resources.Direction]</span>
                         <span>
                             <i style="transform: rotate(@(guess.Direction)deg)" class="arrow @HasFound(guess.Success)"></i>
                         </span>

@@ -29,9 +29,10 @@ public sealed class SettingsModalTests : TestContext
         Services.AddSingleton(Substitute.For<ILocalStorage>());
         Services.AddSingleton(Substitute.For<ITimeService>());
 
-        JSInterop.SetupVoid("showModal").SetVoidResult();
-        JSInterop.SetupVoid("scrollContentToTop").SetVoidResult();
-        JSInterop.SetupVoid("closeModal").SetVoidResult();
+        JSInterop.SetupVoid("showModal", _ => true).SetVoidResult();
+        JSInterop.SetupVoid("scrollContentToTop", _ => true).SetVoidResult();
+        JSInterop.SetupVoid("closeModal", _ => true).SetVoidResult();
+        JSInterop.SetupVoid("addCloseOutsideEvent", _ => true).SetVoidResult();
     }
 
     [Fact]
@@ -58,6 +59,14 @@ public sealed class SettingsModalTests : TestContext
         modal.Instance.Dispose();
 
         _subscriber.Received().UnsubscribeFromAllActions(modal.Instance);
+    }
+
+    [Fact]
+    public void ModalShouldInvokeClickOutsideEvent()
+    {
+        RenderComponent<SettingsModal>();
+
+        JSInterop.VerifyInvoke("addCloseOutsideEvent");
     }
 
     [Fact]

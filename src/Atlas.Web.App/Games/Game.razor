@@ -1,7 +1,9 @@
+@using Atlas.Web.App.Modals
+
 <div class="game">
     @if (Image is not null)
     {
-        <picture class="country-image">
+        <picture class="country-image" @onclick="Zoom">
             <source srcset="@Image.Uri" type="@Image.MediaType" />
             <img src="@Image.Uri" alt="Failed to display the country" />
         </picture>
@@ -10,3 +12,7 @@
         @ChildContent
     </div>
 </div>
+@if (Image is not null)
+{
+    <ZoomModal @ref="_modal" Image="Image" />
+}

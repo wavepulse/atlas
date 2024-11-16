@@ -1,10 +1,12 @@
+@inject IStringLocalizer<Resources> localizer
+
 <div class="not-found">
     <h1>404</h1>
     <div class="message">
-        <p>Oh no, the page is nowhere on the maps!</p>
+        <p>@localizer[Resources.NotFoundMessage]</p>
         <a href="/" class="link">
             <i class="@Icons.ArrowLeftCircle"></i>
-            <span>Go back</span>
+            <span>@localizer[Resources.GoBack]</span>
         </a>
     </div>
 </div>

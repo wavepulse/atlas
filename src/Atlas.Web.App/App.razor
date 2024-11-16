@@ -1,5 +1,7 @@
 @using Atlas.Web.App.Modals
 
+@inject IStringLocalizer<Resources> localizer
+
 <StoreInitializer />
 <SettingsModal>
     <Router AppAssembly="@typeof(App).Assembly">
@@ -7,7 +9,7 @@
             <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
         </Found>
         <NotFound>
-            <PageTitle>Not found</PageTitle>
+            <PageTitle>@localizer[Resources.NotFound]</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
                 <NotFound />
             </LayoutView>

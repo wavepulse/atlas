@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
   <PropertyGroup>
     <EnableConfigurationBindingGenerator>true</EnableConfigurationBindingGenerator>
   </PropertyGroup>
@@ -8,6 +8,7 @@
     <PackageReference Include="Markdig" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Extensions.Localization" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" PrivateAssets="all" />
   </ItemGroup>

@@ -21,6 +21,8 @@ internal static class DependencyInjection
     internal static void AddServices(this WebAssemblyHostBuilder builder)
     {
         builder.Services.AddSingleton(sp => (IJSInProcessRuntime)sp.GetRequiredService<IJSRuntime>());
+        builder.Services.AddLocalization();
+
         builder.Services.AddTransient<ITimeService, TimeService>();
         builder.Services.AddSingleton<ILocalStorage, LocalStorage>();
     }

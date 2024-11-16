@@ -59,6 +59,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: atlas-web-app
+          path: wwwroot
 
       - name: Deploy ${{ inputs.environment }} environment
         id: pages

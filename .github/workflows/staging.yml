@@ -6,14 +6,14 @@ on:
     branches: [ develop ]
 
 jobs:
-  deploy:
-    name: Deploy
+  staging:
+    name: Staging environment
 
     permissions:
       contents: read
       deployments: write
 
-    uses: wavepulse/atlas/.github/workflows/publish.yml@develop
+    uses: wavepulse/atlas/.github/workflows/setup.yml@develop
     with:
       branch: develop
       environment: staging

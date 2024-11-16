@@ -1,16 +1,21 @@
-function showModal() {
-  const modal = document.querySelector<HTMLDialogElement>('.modal');
-
-  modal?.showModal();
+function showModal(dialog: HTMLDialogElement) {
+  dialog.showModal();
 }
 
-function closeModal() {
-  const modal = document.querySelector<HTMLDialogElement>('.modal');
-  modal?.close();
+function closeModal(dialog: HTMLDialogElement) {
+  dialog.close();
 }
 
-function scrollContentToTop() {
-  const content = document.querySelector('.content');
+function addCloseOutsideEvent(dialog: HTMLDialogElement) {
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) {
+      dialog.close();
+    }
+  });
+}
+
+function scrollContentToTop(dialog: HTMLDialogElement) {
+  const content = dialog.querySelector('.content');
 
   content?.scrollTo({ top: 0, behavior: 'instant' });
 }

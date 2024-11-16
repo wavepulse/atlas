@@ -14,6 +14,7 @@ namespace Atlas.Web.App.Modals;
 
 public sealed partial class SettingsModal(IJSInProcessRuntime jsRuntime, IDispatcher dispatcher, IActionSubscriber subscriber) : IDisposable
 {
+    private ElementReference _dialog;
     private MarkupString _changelog;
 
     [Parameter]
@@ -23,8 +24,8 @@ public sealed partial class SettingsModal(IJSInProcessRuntime jsRuntime, IDispat
 
     public void Show()
     {
-        jsRuntime.InvokeVoid("showModal");
-        jsRuntime.InvokeVoid("scrollContentToTop");
+        jsRuntime.ShowModal(_dialog);
+        jsRuntime.InvokeVoid("scrollContentToTop", _dialog);
     }
 
     protected override void OnInitialized()
@@ -67,5 +68,11 @@ public sealed partial class SettingsModal(IJSInProcessRuntime jsRuntime, IDispat
         }
     }
 
-    private void Close() => jsRuntime.InvokeVoid("closeModal");
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+            jsRuntime.InvokeVoid("addCloseOutsideEvent", _dialog);
+    }
+
+    private void Close() => jsRuntime.CloseModal(_dialog);
 }

@@ -5,6 +5,7 @@ using Atlas.Application.Countries.Commands;
 using Atlas.Application.Countries.Queries;
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Games.Components;
+using Atlas.Web.App.Modals;
 using Atlas.Web.App.Services;
 using Atlas.Web.App.Storages;
 using Atlas.Web.App.Stores.Games;
@@ -13,6 +14,7 @@ using Fluxor;
 using Mediator;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Games.Flags;
 
@@ -46,6 +48,7 @@ public sealed class RandomizedFlagTests : TestContext
         Services.AddSingleton(_localStorage);
         Services.AddSingleton(_timeService);
         Services.AddSingleton(_sender);
+        Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
 
         _sender.Send(Arg.Any<RandomizeCountry.Query>()).Returns(_country);
         _sender.Send(Arg.Any<GuessCountry.Command>()).Returns(_guessedCountry);

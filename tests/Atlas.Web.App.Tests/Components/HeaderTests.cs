@@ -27,6 +27,7 @@ public sealed class HeaderTests : TestContext
         Services.AddSingleton(Substitute.For<IActionSubscriber>());
 
         JSInterop.SetupVoid("toggleNavigation").SetVoidResult();
+        JSInterop.SetupVoid("addCloseOutsideEvent", _ => true).SetVoidResult();
     }
 
     [Fact]

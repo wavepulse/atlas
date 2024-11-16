@@ -13,6 +13,7 @@
   & > .country-image {
     grid-area: picture;
     place-self: center;
+    cursor: zoom-in;
     @include image(var(--max-width));
   }
 

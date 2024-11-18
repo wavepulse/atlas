@@ -10,7 +10,7 @@ using System.Net.Mime;
 
 namespace Atlas.Web.App.Games;
 
-public sealed class GameTests : TestContext
+public sealed class GameTests : Bunit.TestContext
 {
     public GameTests()
     {

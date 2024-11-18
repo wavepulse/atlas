@@ -17,7 +17,7 @@ using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Games.Flags;
 
-public sealed class DailyFlagTests : TestContext
+public sealed class DailyFlagTests : Bunit.TestContext
 {
     private readonly RandomizedCountryResponse _country = new("CA", "Canada", new ImageResponse(new Uri("https://example.com"), "image/png"), new Uri("https://map.com"));
     private readonly GuessedCountryResponse _guessedCountry = new()

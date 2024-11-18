@@ -5,7 +5,6 @@ using Atlas.Application.Countries.Commands;
 using Atlas.Application.Countries.Queries;
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Games.Components;
-using Atlas.Web.App.Modals;
 using Atlas.Web.App.Services;
 using Atlas.Web.App.Storages;
 using Atlas.Web.App.Stores.Games;
@@ -18,7 +17,7 @@ using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Games.Flags;
 
-public sealed class RandomizedFlagTests : TestContext
+public sealed class RandomizedFlagTests : Bunit.TestContext
 {
     private readonly RandomizedCountryResponse _country = new("CA", "Canada", new ImageResponse(new Uri("https://example.com"), "image/png"), new Uri("https://map.com"));
     private readonly GuessedCountryResponse _guessedCountry = new()

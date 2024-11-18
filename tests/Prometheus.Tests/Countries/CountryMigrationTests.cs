@@ -92,7 +92,7 @@ public sealed class CountryMigrationTests
 
         await _migration.MigrateAsync(Path, CancellationToken.None);
 
-        await _jsonFileWriter.DidNotReceiveWithAnyArgs().WriteToAsync<Arg.AnyType>(default!, default!, default!, default);
+        await _jsonFileWriter.DidNotReceiveWithAnyArgs().WriteToAsync<Arg.AnyType>(default!, default!, default!, CancellationToken.None);
     }
 
     private static CountryDto CreateCanada() => new()

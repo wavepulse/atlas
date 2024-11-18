@@ -9,7 +9,7 @@ using System.Net.Mime;
 
 namespace Atlas.Web.App.Modals;
 
-public sealed class ZoomModalTests : TestContext
+public sealed class ZoomModalTests : Bunit.TestContext
 {
     private readonly ImageResponse _image = new(new Uri("https://image.svg"), MediaTypeNames.Image.Svg);
 

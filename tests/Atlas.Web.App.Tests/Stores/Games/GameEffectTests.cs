@@ -31,7 +31,7 @@ public sealed class GameEffectTests
     {
         await _effect.RandomizeAsync(_dispatcher);
 
-        await _sender.Received(1).Send(Arg.Any<RandomizeCountry.Query>());
+        await _sender.Received(1).Send(Arg.Any<RandomizeCountry.Query>(), CancellationToken.None);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public sealed class GameEffectTests
     {
         RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
 
-        _sender.Send(Arg.Any<RandomizeCountry.Query>()).Returns(country);
+        _sender.Send(Arg.Any<RandomizeCountry.Query>(), CancellationToken.None).Returns(country);
 
         await _effect.RandomizeAsync(_dispatcher);
         _dispatcher.Received(1).Dispatch(Arg.Is<GameActions.RandomizeResult>(a => a.Country == country));
@@ -52,7 +52,7 @@ public sealed class GameEffectTests
 
         await _effect.GuessAsync(action, _dispatcher);
 
-        await _sender.Received(1).Send(Arg.Is(new GuessCountry.Command(action.GuessedCca2, action.Cca2)));
+        await _sender.Received(1).Send(Arg.Is(new GuessCountry.Command(action.GuessedCca2, action.Cca2)), CancellationToken.None);
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public sealed class GameEffectTests
             Flag = new ImageResponse(new Uri("https://image.com"), "image/png")
         };
 
-        _sender.Send(Arg.Any<GuessCountry.Command>()).Returns(guessedCountry);
+        _sender.Send(Arg.Any<GuessCountry.Command>(), CancellationToken.None).Returns(guessedCountry);
         GameActions.Guess action = new("CA", "US");
 
         await _effect.GuessAsync(action, _dispatcher);
@@ -82,7 +82,7 @@ public sealed class GameEffectTests
     {
         await _effect.GetDailyAsync(_dispatcher);
 
-        await _sender.Received(1).Send(Arg.Any<GetDailyCountry.Query>());
+        await _sender.Received(1).Send(Arg.Any<GetDailyCountry.Query>(), CancellationToken.None);
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public sealed class GameEffectTests
 
         RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
 
-        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+        _sender.Send(Arg.Any<GetDailyCountry.Query>(), CancellationToken.None).Returns(country);
 
         await _effect.GetDailyAsync(_dispatcher);
         _dispatcher.Received(1).Dispatch(Arg.Is<GameActions.GetDailyResult>(a => a.Country == country && a.Guesses.Contains(guess)));
@@ -114,7 +114,7 @@ public sealed class GameEffectTests
         _storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey).Returns(today.AddDays(-1));
 
         RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
-        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+        _sender.Send(Arg.Any<GetDailyCountry.Query>(), CancellationToken.None).Returns(country);
 
         await _effect.GetDailyAsync(_dispatcher);
 
@@ -131,7 +131,7 @@ public sealed class GameEffectTests
         _storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey).Returns(yesterday);
 
         RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
-        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+        _sender.Send(Arg.Any<GetDailyCountry.Query>(), CancellationToken.None).Returns(country);
 
         await _effect.GetDailyAsync(_dispatcher);
 
@@ -146,7 +146,7 @@ public sealed class GameEffectTests
         _storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey).Returns(today);
 
         RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
-        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+        _sender.Send(Arg.Any<GetDailyCountry.Query>(), CancellationToken.None).Returns(country);
 
         await _effect.GetDailyAsync(_dispatcher);
 
@@ -166,7 +166,7 @@ public sealed class GameEffectTests
 
         RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
 
-        _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(country);
+        _sender.Send(Arg.Any<GetDailyCountry.Query>(), CancellationToken.None).Returns(country);
 
         await _effect.GetDailyAsync(_dispatcher);
 

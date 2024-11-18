@@ -14,7 +14,7 @@ using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Modals;
 
-public sealed class SettingsModalTests : TestContext
+public sealed class SettingsModalTests : Bunit.TestContext
 {
     private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
     private readonly IActionSubscriber _subscriber = Substitute.For<IActionSubscriber>();
@@ -105,7 +105,7 @@ public sealed class SettingsModalTests : TestContext
 
         await store.InitializeAsync();
 
-        _sender.Send(Arg.Any<GetChangelog.Query>()).Returns(changelog);
+        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
 
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 
@@ -128,7 +128,7 @@ public sealed class SettingsModalTests : TestContext
 
         await store.InitializeAsync();
 
-        _sender.Send(Arg.Any<GetChangelog.Query>()).Returns(changelog);
+        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
 
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 
@@ -149,7 +149,7 @@ public sealed class SettingsModalTests : TestContext
 
         await store.InitializeAsync();
 
-        _sender.Send(Arg.Any<GetChangelog.Query>()).Returns(changelog);
+        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
 
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 
@@ -170,7 +170,7 @@ public sealed class SettingsModalTests : TestContext
 
         await store.InitializeAsync();
 
-        _sender.Send(Arg.Any<GetChangelog.Query>()).Returns(changelog);
+        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
 
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 

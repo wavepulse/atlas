@@ -1,13 +1,14 @@
 @page "/"
+@inject IStringLocalizer<Resources> localizer
 
 <div class="games-container">
-    <h2>Games</h2>
+    <h2>@localizer[Resources.Games]</h2>
     <ul class="games" role="list">
         <li class="game-item">
-            <i class="fg-flag-start"></i><a class="link" href="/flags/random">Random flag</a>
+            <i class="fg-flag-start"></i><a class="link" href="/flags/random">@localizer[Resources.RandomFlag]</a>
         </li>
         <li class="game-item">
-            <i class="fg-flag"></i><a class="link" href="/flags/daily">Daily flag</a>
+            <i class="fg-flag"></i><a class="link" href="/flags/daily">@localizer[Resources.DailyFlag]</a>
         </li>
     </ul>
 </div>

@@ -15,6 +15,7 @@ public sealed class GameTests : TestContext
     public GameTests()
     {
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddLocalization();
 
         JSInterop.SetupVoid("showModal", _ => true).SetVoidResult();
     }

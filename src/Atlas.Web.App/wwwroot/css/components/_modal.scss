@@ -1,7 +1,6 @@
 dialog.modal {
   --width: 800px;
   --animation-speed: 700ms;
-
   width: var(--width);
   height: calc((var(--width) * 9) / 16);
   border: 1px solid var(--color-dialog-primary);
@@ -10,13 +9,15 @@ dialog.modal {
   padding: 12px 16px;
   z-index: 2;
   outline: none;
-
   opacity: 0;
   translate: 0 25vh;
   transition: all var(--animation-speed) allow-discrete;
 
   &:has(> .zoom) {
     --width: 600px;
+    max-width: var(--width);
+    min-width: 450px;
+    width: fit-content;
     height: fit-content;
     padding: unset;
     border-color: var(--color-secondary-accent);
@@ -120,12 +121,12 @@ dialog.modal > .settings {
         display: flex;
         flex-direction: column;
         gap: 8px;
-      
+
         .version {
           margin-block-start: 0.5em;
           margin-block-end: 1em;
         }
-      
+
         .section {
           display: flex;
           flex-direction: column;

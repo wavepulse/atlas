@@ -48,6 +48,7 @@ public sealed class DailyFlagTests : TestContext
         Services.AddSingleton(_timeService);
         Services.AddSingleton(_sender);
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddLocalization();
 
         _sender.Send(Arg.Any<GetDailyCountry.Query>()).Returns(_country);
         _sender.Send(Arg.Any<GuessCountry.Command>()).Returns(_guessedCountry);

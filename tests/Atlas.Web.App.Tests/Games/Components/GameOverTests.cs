@@ -15,6 +15,7 @@ public sealed class GameOverTests : TestContext
     public GameOverTests()
     {
         Services.AddSingleton(_dispatcher);
+        Services.AddLocalization();
     }
 
     [Fact]

@@ -28,6 +28,7 @@ public sealed class SettingsModalTests : TestContext
         Services.AddSingleton(_sender);
         Services.AddSingleton(Substitute.For<ILocalStorage>());
         Services.AddSingleton(Substitute.For<ITimeService>());
+        Services.AddLocalization();
 
         JSInterop.SetupVoid("showModal", _ => true).SetVoidResult();
         JSInterop.SetupVoid("scrollContentToTop", _ => true).SetVoidResult();

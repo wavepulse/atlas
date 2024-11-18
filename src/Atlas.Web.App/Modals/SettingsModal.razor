@@ -1,13 +1,15 @@
+@inject IStringLocalizer<Resources> localizer
+
 <CascadingValue Value="this" IsFixed="true">
     <dialog @ref="_dialog" class="modal">
         <div class="settings">
             <div class="header">
-                <h1>Settings</h1>
+                <h1>@localizer[Resources.Settings]</h1>
                 <i class="@Icons.Times close" @onclick="Close"></i>
             </div>
             <div class="body">
                 <ul class="tabs" role="list">
-                    <li class="tab active">Changelog</li>
+                    <li class="tab active">@localizer[Resources.Changelog]</li>
                 </ul>
                 <div class="content changelog">
                     @_changelog

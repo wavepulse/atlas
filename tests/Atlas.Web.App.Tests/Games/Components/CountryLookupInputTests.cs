@@ -43,6 +43,7 @@ public sealed class CountryLookupInputTests : TestContext
         Services.AddSingleton(_timeService);
         Services.AddSingleton(_state);
         Services.AddSingleton(_ => (IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddLocalization();
 
         JSInterop.SetupVoid("scrollToLookup").SetVoidResult();
         JSInterop.SetupVoid("addClearEvent", m => m.Arguments[0] is DotNetObjectReference<CountryLookupInput>).SetVoidResult();

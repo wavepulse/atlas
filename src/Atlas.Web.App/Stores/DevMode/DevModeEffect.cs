@@ -13,7 +13,7 @@ internal sealed class DevModeEffect(ISender sender)
     [EffectMethod]
     public async Task HandleGetCountryAsync(DevModeActions.GetCountry action, IDispatcher dispatcher)
     {
-        RandomizedCountryResponse country = await sender.Send(new GetCountry.Query(action.Cca2)).ConfigureAwait(false);
+        CountryResponse country = await sender.Send(new GetCountry.Query(action.Cca2)).ConfigureAwait(false);
 
         dispatcher.Dispatch(new DevModeActions.GetCountryResult(country));
     }

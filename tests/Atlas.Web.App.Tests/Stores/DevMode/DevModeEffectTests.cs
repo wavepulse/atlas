@@ -33,7 +33,7 @@ public sealed class DevModeEffectTests
     [Fact]
     public async Task HandleGetCountryAsyncShouldDispatchGetCountryResult()
     {
-        RandomizedCountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
+        CountryResponse country = new("CA", "Canada", new ImageResponse(new Uri("https://image.com"), "image/png"), new Uri("https://map.com"));
         _sender.Send(Arg.Any<GetCountry.Query>(), CancellationToken.None).Returns(country);
 
         DevModeActions.GetCountry action = new("CA");

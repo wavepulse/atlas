@@ -11,11 +11,11 @@ namespace Atlas.Application.Countries.Queries;
 
 public static class GetCountry
 {
-    public sealed record Query(string Cca2) : IQuery<RandomizedCountryResponse>;
+    public sealed record Query(string Cca2) : IQuery<CountryResponse>;
 
-    internal sealed class Handler(ICountryRepository repository) : IQueryHandler<Query, RandomizedCountryResponse>
+    internal sealed class Handler(ICountryRepository repository) : IQueryHandler<Query, CountryResponse>
     {
-        public async ValueTask<RandomizedCountryResponse> Handle(Query query, CancellationToken cancellationToken)
+        public async ValueTask<CountryResponse> Handle(Query query, CancellationToken cancellationToken)
         {
             Country? country = await repository.GetAsync(new Cca2(query.Cca2), cancellationToken).ConfigureAwait(false);
 

@@ -38,7 +38,7 @@ public sealed class GetCountryTests
     [Fact]
     public async Task HandleShouldReturnTheCountry()
     {
-        RandomizedCountryResponse country = await _handler.Handle(_query, CancellationToken.None);
+        CountryResponse country = await _handler.Handle(_query, CancellationToken.None);
 
         country.Cca2.Should().Be(_country.Cca2);
     }

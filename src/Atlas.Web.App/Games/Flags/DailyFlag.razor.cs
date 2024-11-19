@@ -15,7 +15,7 @@ public sealed partial class DailyFlag(IDispatcher dispatcher, IActionSubscriber 
     private readonly List<GuessedCountryResponse> _guesses = new(MaxAttempts);
 
     private string? _answer;
-    private RandomizedCountryResponse? _country;
+    private CountryResponse? _country;
     private bool _isGameFinished;
 
     public void Dispose() => subscriber.UnsubscribeFromAllActions(this);

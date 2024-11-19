@@ -17,7 +17,7 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
     private readonly List<GuessedCountryResponse> _guesses = new(MaxAttempts);
 
     private string? _answer;
-    private RandomizedCountryResponse? _country;
+    private CountryResponse? _country;
     private bool _isGameFinished;
 
     [SupplyParameterFromQuery]

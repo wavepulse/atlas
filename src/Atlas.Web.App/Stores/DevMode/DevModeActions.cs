@@ -9,5 +9,5 @@ public static class DevModeActions
 {
     public sealed record GetCountry(string Cca2);
 
-    public sealed record GetCountryResult(RandomizedCountryResponse Country);
+    public sealed record GetCountryResult(CountryResponse Country);
 }

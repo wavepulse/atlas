@@ -16,7 +16,7 @@ using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Games.Components;
 
-public sealed class CountryLookupInputTests : TestContext
+public sealed class CountryLookupInputTests : Bunit.TestContext
 {
     private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
     private readonly IActionSubscriber _subscriber = Substitute.For<IActionSubscriber>();

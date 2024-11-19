@@ -24,7 +24,7 @@ public sealed class ChangelogEffectTests
     {
         await _effect.GetChangelogAsync(_dispatcher);
 
-        await _sender.Received(1).Send(Arg.Any<GetChangelog.Query>());
+        await _sender.Received(1).Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public sealed class ChangelogEffectTests
     {
         const string changelog = "changelog";
 
-        _sender.Send(Arg.Any<GetChangelog.Query>()).Returns(changelog);
+        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
 
         await _effect.GetChangelogAsync(_dispatcher);
 

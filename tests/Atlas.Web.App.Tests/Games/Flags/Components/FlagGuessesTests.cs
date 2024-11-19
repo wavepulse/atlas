@@ -9,7 +9,7 @@ using System.Net.Mime;
 
 namespace Atlas.Web.App.Games.Flags.Components;
 
-public sealed class FlagGuessesTests : TestContext
+public sealed class FlagGuessesTests : Bunit.TestContext
 {
     private const int MaxAttempts = 6;
 

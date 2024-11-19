@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Atlas.Web.App.Components;
 
-public sealed class FooterTests : TestContext
+public sealed class FooterTests : Bunit.TestContext
 {
     private readonly DateOnly _today = new(2024, 11, 06);
 

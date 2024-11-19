@@ -10,7 +10,7 @@ using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Components;
 
-public sealed class HeaderTests : TestContext
+public sealed class HeaderTests : Bunit.TestContext
 {
     public HeaderTests()
     {

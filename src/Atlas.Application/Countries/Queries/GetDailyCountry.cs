@@ -12,11 +12,11 @@ namespace Atlas.Application.Countries.Queries;
 
 public static class GetDailyCountry
 {
-    public sealed record Query : IQuery<RandomizedCountryResponse>;
+    public sealed record Query : IQuery<CountryResponse>;
 
-    internal sealed class Handler(IDateHash dateHash, ICountryRepository countryRepository, ITimeService timeService) : IQueryHandler<Query, RandomizedCountryResponse>
+    internal sealed class Handler(IDateHash dateHash, ICountryRepository countryRepository, ITimeService timeService) : IQueryHandler<Query, CountryResponse>
     {
-        public async ValueTask<RandomizedCountryResponse> Handle(Query query, CancellationToken cancellationToken)
+        public async ValueTask<CountryResponse> Handle(Query query, CancellationToken cancellationToken)
         {
             uint hash = dateHash.Hash(timeService.Today);
 

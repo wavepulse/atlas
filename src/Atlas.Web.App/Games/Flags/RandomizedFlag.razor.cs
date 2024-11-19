@@ -2,20 +2,26 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Application.Countries.Responses;
+using Atlas.Web.App.Options;
+using Atlas.Web.App.Stores.DevMode;
 using Atlas.Web.App.Stores.Games;
 using Fluxor;
+using Microsoft.AspNetCore.Components;
 
 namespace Atlas.Web.App.Games.Flags;
 
-public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscriber subscriber) : IDisposable
+public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscriber subscriber, DevModeOptions devMode) : IDisposable
 {
     private const int MaxAttempts = 6;
 
     private readonly List<GuessedCountryResponse> _guesses = new(MaxAttempts);
 
     private string? _answer;
-    private RandomizedCountryResponse? _country;
+    private CountryResponse? _country;
     private bool _isGameFinished;
+
+    [SupplyParameterFromQuery]
+    public string? Cca2 { get; set; }
 
     public void Dispose() => subscriber.UnsubscribeFromAllActions(this);
 
@@ -26,6 +32,15 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
             _country = action.Country;
             StateHasChanged();
         });
+
+        if (devMode.Enabled)
+        {
+            subscriber.SubscribeToAction<DevModeActions.GetCountryResult>(this, action =>
+            {
+                _country = action.Country;
+                StateHasChanged();
+            });
+        }
 
         subscriber.SubscribeToAction<GameActions.GuessResult>(this, action =>
         {
@@ -49,7 +64,10 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
             StateHasChanged();
         });
 
-        dispatcher.Dispatch(new GameActions.Randomize());
+        if (devMode.Enabled && !string.IsNullOrEmpty(Cca2))
+            dispatcher.Dispatch(new DevModeActions.GetCountry(Cca2));
+        else
+            dispatcher.Dispatch(new GameActions.Randomize());
     }
 
     private void Guess(string guessedCca2)

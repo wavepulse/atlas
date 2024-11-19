@@ -36,6 +36,9 @@ internal static class DependencyInjection
         builder.Services.Configure<CompanyOptions>(builder.Configuration.GetSection(CompanyOptions.Section))
                         .AddSingleton<IValidateOptions<CompanyOptions>, CompanyOptions.Validator>()
                         .AddSingleton(sp => sp.GetRequiredService<IOptions<CompanyOptions>>().Value);
+
+        builder.Services.Configure<DevModeOptions>(builder.Configuration.GetSection(DevModeOptions.Section))
+                        .AddSingleton(sp => sp.GetRequiredService<IOptions<DevModeOptions>>().Value);
     }
 
     internal static void ConfigureLoggings(this WebAssemblyHostBuilder builder)

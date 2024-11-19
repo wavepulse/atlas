@@ -3,7 +3,6 @@
 
 using Atlas.Application.Countries.Repositories;
 using Atlas.Application.Countries.Responses;
-using Atlas.Application.Services;
 using Atlas.Domain.Countries;
 using Atlas.Domain.Geography;
 using Atlas.Domain.Languages;
@@ -11,45 +10,37 @@ using Atlas.Domain.Resources;
 
 namespace Atlas.Application.Countries.Queries;
 
-public sealed class RandomizeCountryTests
+public sealed class GetCountryTests
 {
-    private readonly Country[] _countries = [CreateCanada()];
+    private readonly Country _country = CreateCanada();
 
-    private readonly IRandomizer _randomizer = new Randomizer();
     private readonly ICountryRepository _countryRepository = Substitute.For<ICountryRepository>();
 
-    private readonly RandomizeCountry.Query _query = new();
-    private readonly RandomizeCountry.Handler _handler;
+    private readonly GetCountry.Query _query;
+    private readonly GetCountry.Handler _handler;
 
-    public RandomizeCountryTests()
+    public GetCountryTests()
     {
-        _countryRepository.GetAllAsync(CancellationToken.None).Returns(_countries);
+        _countryRepository.GetAsync(_country.Cca2, CancellationToken.None).Returns(_country);
 
-        _handler = new RandomizeCountry.Handler(_randomizer, _countryRepository);
+        _query = new GetCountry.Query(_country.Cca2);
+        _handler = new GetCountry.Handler(_countryRepository);
     }
 
     [Fact]
-    public async Task HandleShouldGetAllCountries()
+    public async Task HandleShouldGetTheCountry()
     {
         await _handler.Handle(_query, CancellationToken.None);
 
-        await _countryRepository.Received(1).GetAllAsync(CancellationToken.None);
+        await _countryRepository.Received(1).GetAsync(_country.Cca2, CancellationToken.None);
     }
 
     [Fact]
-    public async Task HandleShouldReturnTheRandomizedCountry()
+    public async Task HandleShouldReturnTheCountry()
     {
         CountryResponse country = await _handler.Handle(_query, CancellationToken.None);
 
-        country.Cca2.Should().Be(_countries[0].Cca2);
-    }
-
-    [Fact]
-    public async Task HandleShouldCacheTheRandomizedCountry()
-    {
-        await _handler.Handle(_query, CancellationToken.None);
-
-        _countryRepository.Received(1).Cache(Arg.Is<Country>(c => c.Cca2 == _countries[0].Cca2));
+        country.Cca2.Should().Be(_country.Cca2);
     }
 
     private static Country CreateCanada() => new()

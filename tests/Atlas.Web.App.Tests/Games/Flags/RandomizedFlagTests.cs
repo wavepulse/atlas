@@ -5,8 +5,10 @@ using Atlas.Application.Countries.Commands;
 using Atlas.Application.Countries.Queries;
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Games.Components;
+using Atlas.Web.App.Options;
 using Atlas.Web.App.Services;
 using Atlas.Web.App.Storages;
+using Atlas.Web.App.Stores.DevMode;
 using Atlas.Web.App.Stores.Games;
 using Bunit.TestDoubles;
 using Fluxor;
@@ -19,7 +21,8 @@ namespace Atlas.Web.App.Games.Flags;
 
 public sealed class RandomizedFlagTests : Bunit.TestContext
 {
-    private readonly RandomizedCountryResponse _country = new("CA", "Canada", new ImageResponse(new Uri("https://example.com"), "image/png"), new Uri("https://map.com"));
+    private readonly DevModeOptions _devMode = new();
+    private readonly CountryResponse _country = new("CA", "Canada", new ImageResponse(new Uri("https://example.com"), "image/png"), new Uri("https://map.com"));
     private readonly GuessedCountryResponse _guessedCountry = new()
     {
         Cca2 = "CA",
@@ -47,6 +50,7 @@ public sealed class RandomizedFlagTests : Bunit.TestContext
         Services.AddSingleton(_localStorage);
         Services.AddSingleton(_timeService);
         Services.AddSingleton(_sender);
+        Services.AddSingleton(_devMode);
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
         Services.AddLocalization();
 
@@ -60,6 +64,57 @@ public sealed class RandomizedFlagTests : Bunit.TestContext
         RenderComponent<RandomizedFlag>();
 
         _dispatcher.Received().Dispatch(Arg.Any<GameActions.Randomize>());
+    }
+
+    [Fact]
+    public void PageShouldDispatchGetCountryActionWhenDevModeIsEnabledAndHavingCca2()
+    {
+        const string cca2 = "CA";
+        _devMode.Enabled = true;
+
+        NavigationManager navigation = Services.GetRequiredService<NavigationManager>();
+        string uri = navigation.GetUriWithQueryParameter("cca2", cca2);
+
+        navigation.NavigateTo(uri);
+
+        RenderComponent<RandomizedFlag>();
+
+        _dispatcher.Received().Dispatch(Arg.Is<DevModeActions.GetCountry>(c => c.Cca2 == cca2));
+    }
+
+    [Theory]
+    [InlineData(true, "")]
+    [InlineData(false, "CA")]
+    public void PageShouldNotDispatchGetCountryActionWhenDoesNotMeetConditionToUseDevMode(bool isEnabled, string cca2)
+    {
+        _devMode.Enabled = isEnabled;
+
+        NavigationManager navigation = Services.GetRequiredService<NavigationManager>();
+        string uri = navigation.GetUriWithQueryParameter("cca2", cca2);
+
+        navigation.NavigateTo(uri);
+
+        RenderComponent<RandomizedFlag>();
+
+        _dispatcher.DidNotReceive().Dispatch(Arg.Is<DevModeActions.GetCountry>(c => c.Cca2 == cca2));
+    }
+
+    [Fact]
+    public void PageShouldSubscribeToGetCountryResultActionWhenDevModeIsEnabled()
+    {
+        _devMode.Enabled = true;
+
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+
+        _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<DevModeActions.GetCountryResult>>());
+    }
+
+    [Fact]
+    public void PageShouldNotSubscribeToGetCountryResultActionWhenDevModeIsNotEnabled()
+    {
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+
+        _subscriber.DidNotReceive().SubscribeToAction(page.Instance, Arg.Any<Action<DevModeActions.GetCountryResult>>());
     }
 
     [Fact]

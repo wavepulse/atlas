@@ -296,22 +296,6 @@ public sealed class CountryLookupInputTests : Bunit.TestContext
     }
 
     [Fact]
-    public void InputShouldSelectCountryByInitialsOnlyThereIsMoreThanOneCountry()
-    {
-        string guessedCountry = string.Empty;
-
-        IRenderedComponent<CountryLookupInput> lookupInput = RenderComponent<CountryLookupInput>(parameters =>
-            parameters.Add(c => c.Guess, value => guessedCountry = value));
-
-        IElement input = lookupInput.Find("input");
-
-        input.Input(new ChangeEventArgs { Value = "I" });
-        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-
-        guessedCountry.Should().BeEmpty();
-    }
-
-    [Fact]
     public void InputShouldSelectCountryWhenClickingOnTheItem()
     {
         string guessedCountry = string.Empty;

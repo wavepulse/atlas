@@ -37,6 +37,10 @@ dialog.modal {
     &:focus-visible {
       outline: 1px solid var(--color-dialog-primary);
     }
+
+    &:hover {
+      color: var(--color-dialog-primary);
+    }
   }
 
   &::backdrop {
@@ -116,11 +120,18 @@ dialog.modal > .settings {
       overscroll-behavior: contain;
       scrollbar-width: thin;
       outline: none;
+      width: 100%;
+      height: 100%;
 
       &.changelog {
         display: flex;
         flex-direction: column;
         gap: 8px;
+
+        &:has(> .spinner) {
+          align-items: center;
+          justify-content: center;
+        }
 
         .version {
           margin-block-start: 0.5em;
@@ -141,7 +152,6 @@ dialog.modal > .settings {
 
 @container (max-width: 576px) {
   dialog.modal > .settings {
-
     .body {
       flex-direction: column;
       margin-block-start: 0px;

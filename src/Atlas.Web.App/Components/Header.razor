@@ -1,5 +1,5 @@
-@using Atlas.Web.App.Modals
 @using Atlas.Web.App.Options
+@using Atlas.Web.App.Settings.Modals
 @using Microsoft.JSInterop
 
 @inject ProjectOptions project
@@ -37,7 +37,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" @onclick="Modal.Show">
+                <a class="nav-link" @onclick="Modal.ShowGeneral">
                     <i class="@Icons.Sliders"></i>
                     <span>@localizer[Resources.Settings]</span>
                 </a>

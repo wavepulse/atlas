@@ -2,11 +2,12 @@
 // The source code is licensed under MIT License.
 
 using AngleSharp.Dom;
-using Atlas.Application.Changelog.Queries;
 using Atlas.Web.App.Services;
+using Atlas.Web.App.Settings;
+using Atlas.Web.App.Settings.Components;
+using Atlas.Web.App.Settings.Modals;
 using Atlas.Web.App.Storages;
-using Atlas.Web.App.Stores.Changelog;
-using Atlas.Web.App.Stores.Games;
+using Atlas.Web.App.Stores.Settings;
 using Fluxor;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,34 +23,22 @@ public sealed class SettingsModalTests : Bunit.TestContext
 
     public SettingsModalTests()
     {
+        IStateSelection<SettingsState, General> state = Substitute.For<IStateSelection<SettingsState, General>>();
+        state.Value.Returns(new General() { Theme = Theme.Dark });
+
         Services.AddSingleton(_dispatcher);
         Services.AddSingleton(_subscriber);
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
         Services.AddSingleton(_sender);
         Services.AddSingleton(Substitute.For<ILocalStorage>());
         Services.AddSingleton(Substitute.For<ITimeService>());
+        Services.AddSingleton(state);
         Services.AddLocalization();
 
         JSInterop.SetupVoid("showModal", _ => true).SetVoidResult();
         JSInterop.SetupVoid("scrollContentToTop", _ => true).SetVoidResult();
         JSInterop.SetupVoid("closeModal", _ => true).SetVoidResult();
         JSInterop.SetupVoid("addCloseOutsideEvent", _ => true).SetVoidResult();
-    }
-
-    [Fact]
-    public void ModalShouldDispatchToGetChangelog()
-    {
-        RenderComponent<SettingsModal>();
-
-        _dispatcher.Received(1).Dispatch(Arg.Any<ChangelogActions.GetChangelog>());
-    }
-
-    [Fact]
-    public void ModalShouldSubscribeToGetChangelogResult()
-    {
-        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
-
-        _subscriber.Received(1).SubscribeToAction(modal.Instance, Arg.Any<Action<ChangelogActions.GetChangelogResult>>());
     }
 
     [Fact]
@@ -71,11 +60,21 @@ public sealed class SettingsModalTests : Bunit.TestContext
     }
 
     [Fact]
-    public void ShowShouldInvokeJavascript()
+    public void ShowGeneralShouldInvokeJavascript()
     {
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 
-        modal.Instance.Show();
+        modal.Instance.ShowGeneral();
+
+        JSInterop.VerifyInvoke("showModal");
+        JSInterop.VerifyInvoke("scrollContentToTop");
+    }
+
+    [Fact]
+    public void ShowChangelogShouldInvokeJavascript()
+    {
+        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
+        modal.Instance.ShowChangelog();
 
         JSInterop.VerifyInvoke("showModal");
         JSInterop.VerifyInvoke("scrollContentToTop");
@@ -94,88 +93,64 @@ public sealed class SettingsModalTests : Bunit.TestContext
     }
 
     [Fact]
-    public async Task ModalShouldPopulateChangelogContent()
+    public void ModalShouldAddActiveOnSelectedTab()
     {
-        const string changelog = "changelog";
-
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
-
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 
-        await modal.InvokeAsync(() => dispatcher.Dispatch(new ChangelogActions.GetChangelog()));
+        IElement item = modal.Find("li:not(.active)");
+
+        item.Click();
+
+        IElement? activeItem = modal.Nodes.QuerySelector("li.active");
+
+        activeItem.Should().NotBeNull();
+    }
+
+    [Fact]
+    public void ModalShouldGetGeneralCssForContentWhenSelectGeneral()
+    {
+        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
+
+        modal.Instance.ShowGeneral();
+        modal.Render();
 
         IElement content = modal.Find(".content");
 
-        content.TextContent.Should().NotBeEmpty();
+        content.ClassList.Should().Contain("general");
     }
 
     [Fact]
-    public async Task ChangelogContentShouldHaveAttributesForHeader()
+    public void ModalShouldHaveGeneralComponentWhenSelectedTabIsGeneral()
     {
-        const string changelog = "## header";
-
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
-
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 
-        IElement content = modal.Find(".content > :first-child");
+        modal.Instance.ShowGeneral();
+        modal.Render();
 
-        content.MarkupMatches("<h2 class=\"version\">header</h2>\n");
+        modal.HasComponent<GeneralSettings>().Should().BeTrue();
     }
 
     [Fact]
-    public async Task ChangelogContentShouldHaveAttributesForLinks()
+    public void ModalShouldGetChangelogCssForContentWhenSelectChangelog()
     {
-        const string changelog = "test ([#34](https://bunit.dev))";
-
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
-
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 
-        IElement content = modal.Find(".content > :first-child");
+        modal.Instance.ShowChangelog();
+        modal.Render();
 
-        content.MarkupMatches("<p>test (<a href=\"https://bunit.dev\" class=\"link\" target=\"_blank\">#34</a>)</p>");
+        IElement content = modal.Find(".content");
+
+        content.ClassList.Should().Contain("changelog");
     }
 
     [Fact]
-    public async Task ChangelogContentShouldHaveAttributesForList()
+    public void ModalShouldHaveChangelogComponentWhenSelectedTabIsChangelog()
     {
-        const string changelog = "- test";
-
-        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
-
-        IStore store = Services.GetRequiredService<IStore>();
-        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
-
-        await store.InitializeAsync();
-
-        _sender.Send(Arg.Any<GetChangelog.Query>(), CancellationToken.None).Returns(changelog);
-
         IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
 
-        IElement content = modal.Find(".content > :first-child");
+        modal.Instance.ShowChangelog();
+        modal.Render();
 
-        content.MarkupMatches("<ul class=\"section\"><li>test</li></ul>");
+        modal.HasComponent<Changelog>().Should().BeTrue();
     }
 }

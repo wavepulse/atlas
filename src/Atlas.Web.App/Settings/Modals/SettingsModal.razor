@@ -1,0 +1,32 @@
+@using Atlas.Web.App.Settings.Components
+@inject IStringLocalizer<Resources> localizer
+
+<CascadingValue Value="this" IsFixed="true">
+    <dialog @ref="_dialog" class="modal">
+        <div class="settings">
+            <div class="header">
+                <h1>@localizer[Resources.Settings]</h1>
+                <i class="@Icons.Times close" @onclick="Close"></i>
+            </div>
+            <div class="body">
+                <ul class="tabs" role="list">
+                    @foreach ((TabItem tab, string name) in GetTabItems())
+                    {
+                        <li class="tab @IsActive(tab)" @onclick="() => SelectTab(tab)">@localizer[name]</li>
+                    }
+                </ul>
+                <div class="content @GetTabCss()">
+                    @if (_selectedTab == TabItem.General)
+                    {
+                        <GeneralSettings />
+                    }
+                    @if (_selectedTab == TabItem.Changelog)
+                    {
+                        <Changelog />
+                    }
+                </div>
+            </div>
+        </div>
+    </dialog>
+    @ChildContent
+</CascadingValue>

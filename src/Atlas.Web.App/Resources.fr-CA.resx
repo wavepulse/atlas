@@ -120,6 +120,9 @@
   <data name="Changelog" xml:space="preserve">
     <value>Changements</value>
   </data>
+  <data name="ChangingLanguageWarning" xml:space="preserve">
+    <value>Changer la langue entraînera le rechargement de la page.</value>
+  </data>
   <data name="Congratulations" xml:space="preserve">
     <value>Félicitations!</value>
   </data>
@@ -129,20 +132,41 @@
   <data name="DailyFlag" xml:space="preserve">
     <value>Drapeau quotidien</value>
   </data>
+  <data name="Dark" xml:space="preserve">
+    <value>Noir</value>
+  </data>
   <data name="Direction" xml:space="preserve">
     <value>Direction</value>
+  </data>
+  <data name="Display" xml:space="preserve">
+    <value>Affichage</value>
+  </data>
+  <data name="English" xml:space="preserve">
+    <value>Anglais</value>
   </data>
   <data name="FailedDisplayCountry" xml:space="preserve">
     <value>Impossible d'afficher le pays</value>
   </data>
+  <data name="French" xml:space="preserve">
+    <value>Français</value>
+  </data>
   <data name="Games" xml:space="preserve">
     <value>Jeux</value>
+  </data>
+  <data name="General" xml:space="preserve">
+    <value>Général</value>
   </data>
   <data name="GoBack" xml:space="preserve">
     <value>Retourner</value>
   </data>
   <data name="Guess" xml:space="preserve">
     <value>Deviner</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Langue</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+    <value>Blanc</value>
   </data>
   <data name="LookupPlaceholder" xml:space="preserve">
     <value>Canada, Italie...</value>
@@ -170,5 +194,11 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>Système</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Thème</value>
   </data>
 </root>

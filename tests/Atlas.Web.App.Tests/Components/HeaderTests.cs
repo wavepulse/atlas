@@ -2,8 +2,10 @@
 // The source code is licensed under MIT License.
 
 using AngleSharp.Dom;
-using Atlas.Web.App.Modals;
 using Atlas.Web.App.Options;
+using Atlas.Web.App.Settings;
+using Atlas.Web.App.Settings.Modals;
+using Atlas.Web.App.Stores.Settings;
 using Fluxor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
@@ -21,10 +23,14 @@ public sealed class HeaderTests : Bunit.TestContext
             Version = "1.0.0"
         };
 
+        IStateSelection<SettingsState, General> state = Substitute.For<IStateSelection<SettingsState, General>>();
+        state.Value.Returns(new General() { Theme = Theme.Dark });
+
         Services.AddSingleton(project);
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
         Services.AddSingleton(Substitute.For<IDispatcher>());
         Services.AddSingleton(Substitute.For<IActionSubscriber>());
+        Services.AddSingleton(state);
         Services.AddLocalization();
 
         JSInterop.SetupVoid("toggleNavigation").SetVoidResult();

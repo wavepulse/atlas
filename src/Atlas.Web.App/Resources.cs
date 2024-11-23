@@ -14,21 +14,37 @@ internal sealed class Resources
 
     public const string Changelog = nameof(Changelog);
 
+    public const string ChangingLanguageWarning = nameof(ChangingLanguageWarning);
+
     public const string Congratulations = nameof(Congratulations);
 
     public const string Continent = nameof(Continent);
 
     public const string DailyFlag = nameof(DailyFlag);
 
+    public const string Dark = nameof(Dark);
+
     public const string Direction = nameof(Direction);
+
+    public const string Display = nameof(Display);
+
+    public const string English = nameof(English);
 
     public const string FailedDisplayCountry = nameof(FailedDisplayCountry);
 
+    public const string French = nameof(French);
+
     public const string Games = nameof(Games);
+
+    public const string General = nameof(General);
 
     public const string GoBack = nameof(GoBack);
 
     public const string Guess = nameof(Guess);
+
+    public const string Language = nameof(Language);
+
+    public const string Light = nameof(Light);
 
     public const string LookupPlaceholder = nameof(LookupPlaceholder);
 
@@ -47,4 +63,8 @@ internal sealed class Resources
     public const string SeeOnMap = nameof(SeeOnMap);
 
     public const string Settings = nameof(Settings);
+
+    public const string System = nameof(System);
+
+    public const string Theme = nameof(Theme);
 }

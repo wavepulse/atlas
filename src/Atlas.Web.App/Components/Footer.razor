@@ -12,6 +12,10 @@
                 <span>@company.Name</span>
             </a>
         </li>
-        <li>@project.Version</li>
+        <li>
+            <a class="link" @onclick="Modal.ShowChangelog">
+                <span>@project.Version</span>
+            </a>
+        </li>
     </ul>
 </footer>

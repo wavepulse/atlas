@@ -28,11 +28,8 @@ public sealed partial class Changelog(IDispatcher dispatcher, IActionSubscriber 
             StateHasChanged();
         });
 
-        if (string.IsNullOrEmpty(_changelog))
-        {
-            _isLoading = true;
-            dispatcher.Dispatch(new ChangelogActions.GetChangelog());
-        }
+        _isLoading = true;
+        dispatcher.Dispatch(new ChangelogActions.GetChangelog());
     }
 
     private MarkupString DisplayChangelogContent()

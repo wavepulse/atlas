@@ -35,15 +35,15 @@ internal sealed class GameEffect(ISender sender, ILocalStorage storage, ITimeSer
         CountryResponse country = await sender.Send(new GetDailyCountry.Query()).ConfigureAwait(false);
 
         DateOnly today = timeService.Today;
-        DateOnly lastPlayed = storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey);
+        DateOnly lastPlayed = storage.GetItem<DateOnly>(LocalStorageKeys.Today);
 
         if (lastPlayed != today)
         {
-            storage.RemoveItem(DailyStorageKeys.GuessesKey);
-            storage.SetItem(DailyStorageKeys.TodayKey, today);
+            storage.RemoveItem(LocalStorageKeys.Guesses);
+            storage.SetItem(LocalStorageKeys.Today, today);
         }
 
-        GuessedCountryResponse[] guesses = storage.GetItem<GuessedCountryResponse[]>(DailyStorageKeys.GuessesKey) ?? [];
+        GuessedCountryResponse[] guesses = storage.GetItem<GuessedCountryResponse[]>(LocalStorageKeys.Guesses) ?? [];
 
         dispatcher.Dispatch(new GameActions.GetDailyResult(country, guesses));
     }

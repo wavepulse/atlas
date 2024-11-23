@@ -4,6 +4,7 @@
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Atlas.Web.App.Storages;
 
@@ -13,7 +14,8 @@ internal sealed class LocalStorage(IJSInProcessRuntime jsRuntime) : ILocalStorag
     private readonly JsonSerializerOptions _options = new()
     {
         PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        PropertyNameCaseInsensitive = true
+        PropertyNameCaseInsensitive = true,
+        Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
     };
 
     public T? GetItem<T>(string key)

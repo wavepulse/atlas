@@ -45,7 +45,7 @@ public sealed partial class DailyFlag(IDispatcher dispatcher, IActionSubscriber 
         subscriber.SubscribeToAction<GameActions.GuessResult>(this, action =>
         {
             _guesses.Add(action.Country);
-            storage.SetItem(DailyStorageKeys.GuessesKey, _guesses);
+            storage.SetItem(LocalStorageKeys.Guesses, _guesses);
 
             if (action.Country.Success)
             {

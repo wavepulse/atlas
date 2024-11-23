@@ -15,9 +15,11 @@ public static class Icons
 
     public const string Earth = "fg-earth";
 
+    public const string InfoCircle = "bi bi-info-circle";
+
     public const string Github = "bi bi-github";
 
-    public const string Sliders = "bi bi-sliders";
+    public const string Sliders = "bi bi-sliders2";
 
     public const string Times = "bi bi-x";
 }

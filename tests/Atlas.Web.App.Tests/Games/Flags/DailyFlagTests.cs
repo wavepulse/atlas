@@ -267,6 +267,6 @@ public sealed class DailyFlagTests : Bunit.TestContext
 
         await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry)));
 
-        _localStorage.Received().SetItem(DailyStorageKeys.GuessesKey, Arg.Is<List<GuessedCountryResponse>>(c => c.Contains(_guessedCountry)));
+        _localStorage.Received().SetItem(LocalStorageKeys.Guesses, Arg.Is<List<GuessedCountryResponse>>(c => c.Contains(_guessedCountry)));
     }
 }

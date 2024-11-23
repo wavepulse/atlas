@@ -2,8 +2,8 @@
 // The source code is licensed under MIT License.
 
 using AngleSharp.Dom;
-using Atlas.Web.App.Modals;
 using Atlas.Web.App.Options;
+using Atlas.Web.App.Settings.Modals;
 using Fluxor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;

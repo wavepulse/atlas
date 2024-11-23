@@ -4,6 +4,7 @@
 using Atlas.Application;
 using Atlas.Infrastructure;
 using Atlas.Web.App;
+using Atlas.Web.App.Extensions;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Diagnostics.CodeAnalysis;
@@ -20,7 +21,10 @@ builder.AddFluxor();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration, c => c.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
-await builder.Build().RunAsync().ConfigureAwait(false);
+await builder.Build()
+             .UseLocalization()
+             .RunAsync()
+             .ConfigureAwait(false);
 
 [ExcludeFromCodeCoverage]
 file static partial class Program;

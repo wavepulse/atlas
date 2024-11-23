@@ -4,7 +4,10 @@
 using AngleSharp.Dom;
 using Atlas.Web.App.Options;
 using Atlas.Web.App.Services;
+using Atlas.Web.App.Settings.Modals;
+using Fluxor;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Components;
 
@@ -32,12 +35,20 @@ public sealed class FooterTests : Bunit.TestContext
         Services.AddTransient(_ => _timeService);
         Services.AddSingleton(project);
         Services.AddSingleton(company);
+        Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddSingleton(Substitute.For<IDispatcher>());
+        Services.AddSingleton(Substitute.For<IActionSubscriber>());
+        Services.AddLocalization();
+
+        JSInterop.SetupVoid("addCloseOutsideEvent", _ => true).SetVoidResult();
     }
 
     [Fact]
     public void FooterShouldRenderFooterOnce()
     {
-        IRenderedComponent<Footer> footer = RenderComponent<Footer>();
+        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
+        IRenderedComponent<Footer> footer = RenderComponent<Footer>(parameters => parameters.AddCascadingValue(modal.Instance));
+
         footer.Render();
 
         footer.RenderCount.Should().Be(1);
@@ -49,7 +60,8 @@ public sealed class FooterTests : Bunit.TestContext
         int startYear = _today.Year;
         _timeService.Today.Returns(_today);
 
-        IRenderedComponent<Footer> footer = RenderComponent<Footer>();
+        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
+        IRenderedComponent<Footer> footer = RenderComponent<Footer>(parameters => parameters.AddCascadingValue(modal.Instance));
 
         IElement element = footer.Find("ul > li:first-child");
 
@@ -64,7 +76,8 @@ public sealed class FooterTests : Bunit.TestContext
 
         _timeService.Today.Returns(_today.AddYears(1));
 
-        IRenderedComponent<Footer> footer = RenderComponent<Footer>();
+        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
+        IRenderedComponent<Footer> footer = RenderComponent<Footer>(parameters => parameters.AddCascadingValue(modal.Instance));
 
         IElement element = footer.Find("ul > li:first-child");
 

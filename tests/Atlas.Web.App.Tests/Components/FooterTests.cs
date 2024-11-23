@@ -4,9 +4,7 @@
 using AngleSharp.Dom;
 using Atlas.Web.App.Options;
 using Atlas.Web.App.Services;
-using Atlas.Web.App.Settings;
 using Atlas.Web.App.Settings.Modals;
-using Atlas.Web.App.Stores.Settings;
 using Fluxor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
@@ -34,16 +32,12 @@ public sealed class FooterTests : Bunit.TestContext
             Url = "https://pulsewave.com"
         };
 
-        IStateSelection<SettingsState, General> state = Substitute.For<IStateSelection<SettingsState, General>>();
-        state.Value.Returns(new General() { Theme = Theme.Dark });
-
         Services.AddTransient(_ => _timeService);
         Services.AddSingleton(project);
         Services.AddSingleton(company);
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
         Services.AddSingleton(Substitute.For<IDispatcher>());
         Services.AddSingleton(Substitute.For<IActionSubscriber>());
-        Services.AddSingleton(state);
         Services.AddLocalization();
 
         JSInterop.SetupVoid("addCloseOutsideEvent", _ => true).SetVoidResult();

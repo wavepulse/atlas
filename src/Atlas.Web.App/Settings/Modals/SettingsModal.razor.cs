@@ -2,21 +2,18 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Web.App.Modals;
-using Fluxor;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Settings.Modals;
 
-public sealed partial class SettingsModal(IJSInProcessRuntime jsRuntime, IActionSubscriber subscriber) : IDisposable
+public sealed partial class SettingsModal(IJSInProcessRuntime jsRuntime)
 {
-    private TabItem _selectedTab = TabItem.General;
+    private TabItem? _selectedTab;
     private ElementReference _dialog;
 
     [Parameter]
     public RenderFragment? ChildContent { get; init; }
-
-    public void Dispose() => subscriber.UnsubscribeFromAllActions(this);
 
     public void ShowGeneral() => Show(TabItem.General);
 

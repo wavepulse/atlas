@@ -2,53 +2,27 @@
 // The source code is licensed under MIT License.
 
 using AngleSharp.Dom;
-using Atlas.Web.App.Services;
-using Atlas.Web.App.Settings;
 using Atlas.Web.App.Settings.Components;
-using Atlas.Web.App.Settings.Modals;
-using Atlas.Web.App.Storages;
-using Atlas.Web.App.Stores.Settings;
-using Fluxor;
-using Mediator;
+using Bunit.TestDoubles;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 
-namespace Atlas.Web.App.Modals;
+namespace Atlas.Web.App.Settings.Modals;
 
 public sealed class SettingsModalTests : Bunit.TestContext
 {
-    private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
-    private readonly IActionSubscriber _subscriber = Substitute.For<IActionSubscriber>();
-    private readonly ISender _sender = Substitute.For<ISender>();
-
     public SettingsModalTests()
     {
-        IStateSelection<SettingsState, General> state = Substitute.For<IStateSelection<SettingsState, General>>();
-        state.Value.Returns(new General() { Theme = Theme.Dark });
+        ComponentFactories.AddStub<GeneralSettings>();
+        ComponentFactories.AddStub<Changelog>();
 
-        Services.AddSingleton(_dispatcher);
-        Services.AddSingleton(_subscriber);
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
-        Services.AddSingleton(_sender);
-        Services.AddSingleton(Substitute.For<ILocalStorage>());
-        Services.AddSingleton(Substitute.For<ITimeService>());
-        Services.AddSingleton(state);
         Services.AddLocalization();
 
         JSInterop.SetupVoid("showModal", _ => true).SetVoidResult();
         JSInterop.SetupVoid("scrollContentToTop", _ => true).SetVoidResult();
         JSInterop.SetupVoid("closeModal", _ => true).SetVoidResult();
         JSInterop.SetupVoid("addCloseOutsideEvent", _ => true).SetVoidResult();
-    }
-
-    [Fact]
-    public void PageShouldDisposeSubscriber()
-    {
-        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
-
-        modal.Instance.Dispose();
-
-        _subscriber.Received().UnsubscribeFromAllActions(modal.Instance);
     }
 
     [Fact]
@@ -127,7 +101,7 @@ public sealed class SettingsModalTests : Bunit.TestContext
         modal.Instance.ShowGeneral();
         modal.Render();
 
-        modal.HasComponent<GeneralSettings>().Should().BeTrue();
+        modal.HasComponent<Stub<GeneralSettings>>().Should().BeTrue();
     }
 
     [Fact]
@@ -151,6 +125,6 @@ public sealed class SettingsModalTests : Bunit.TestContext
         modal.Instance.ShowChangelog();
         modal.Render();
 
-        modal.HasComponent<Changelog>().Should().BeTrue();
+        modal.HasComponent<Stub<Changelog>>().Should().BeTrue();
     }
 }

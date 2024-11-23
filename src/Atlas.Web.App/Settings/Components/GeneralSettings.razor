@@ -1,0 +1,32 @@
+@inherits FluxorComponent
+@inject IStringLocalizer<Resources> localizer
+
+<div class="display-settings">
+    <h2>@localizer[Resources.Display]</h2>
+    <div class="display-item">
+        <div class="theme">
+            <label for="theme">@localizer[Resources.Theme]</label>
+            <select @bind:get="settings.Value.Theme" @bind:set="ChangeTheme">
+                @foreach ((Theme theme, string name) in GetThemes())
+                {
+                    <option value="@theme">@localizer[name]</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="display-item">
+        <div class="language">
+            <label for="language">@localizer[Resources.Language]</label>
+            <select @bind:get="settings.Value.Language" @bind:set="ChangeLanguage">
+                @foreach ((Language language, string name) in GetLanguages())
+                {
+                    <option value="@language">@localizer[name]</option>
+                }
+            </select>
+        </div>
+        <div class="alert info">
+            <i class="@Icons.InfoCircle"></i>
+            <span>@localizer[Resources.ChangingLanguageWarning]</span>
+        </div>
+    </div>
+</div>

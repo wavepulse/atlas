@@ -42,3 +42,10 @@ button {
     color: var(--color-secondary);
   }
 }
+
+.checkbox {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  accent-color: var(--color-primary);
+}

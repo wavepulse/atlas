@@ -10,4 +10,6 @@ public static class SettingsActions
     public sealed record ChangeTheme(Theme Theme);
 
     public sealed record ChangeLanguage(Language Language);
+
+    public sealed record ChangeFlagDifficulty(FlagDifficulty Difficulty);
 }

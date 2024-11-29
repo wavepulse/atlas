@@ -15,6 +15,7 @@ public sealed class SettingsModalTests : Bunit.TestContext
     {
         ComponentFactories.AddStub<GeneralSettings>();
         ComponentFactories.AddStub<Changelog>();
+        ComponentFactories.AddStub<DifficultySettings>();
 
         Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
         Services.AddLocalization();
@@ -126,5 +127,29 @@ public sealed class SettingsModalTests : Bunit.TestContext
         modal.Render();
 
         modal.HasComponent<Stub<Changelog>>().Should().BeTrue();
+    }
+
+    [Fact]
+    public void ModalShouldGetDifficultyCssForContentWhenSelectDifficult()
+    {
+        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
+
+        IElement li = modal.Find("li:nth-child(3)");
+        li.Click();
+
+        IElement content = modal.Find(".content");
+
+        content.ClassList.Should().Contain("difficulty");
+    }
+
+    [Fact]
+    public void ModalShouldHaveDifficultyComponentWhenSelectedTabIsDifficulty()
+    {
+        IRenderedComponent<SettingsModal> modal = RenderComponent<SettingsModal>();
+
+        IElement li = modal.Find("li:nth-child(3)");
+        li.Click();
+
+        modal.HasComponent<Stub<DifficultySettings>>().Should().BeTrue();
     }
 }

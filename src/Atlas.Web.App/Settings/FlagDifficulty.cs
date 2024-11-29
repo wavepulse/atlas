@@ -5,7 +5,7 @@ namespace Atlas.Web.App.Settings;
 
 public sealed record FlagDifficulty
 {
-    public Difficulty? All { get; init; }
+    public Difficulty All { get; init; }
 
     public Difficulty Randomized { get; init; }
 

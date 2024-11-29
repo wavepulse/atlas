@@ -39,6 +39,14 @@ public sealed partial class CascadingSettings(ILocalStorage storage, IJSInProces
             StateHasChanged();
         });
 
+        subscriber.SubscribeToAction<SettingsActions.ChangeFlagDifficulty>(this, action =>
+        {
+            _settings = _settings with { Flag = action.Difficulty };
+
+            storage.SetItem(LocalStorageKeys.Settings, _settings);
+            StateHasChanged();
+        });
+
         _settings = storage.GetItem<AppSettings>(LocalStorageKeys.Settings) ?? _settings;
         jsRuntime.InvokeVoid("changeTheme", _settings.General.Theme.ToString());
     }

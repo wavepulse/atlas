@@ -1,13 +1,14 @@
 @inherits FluxorComponent
+@inject IStringLocalizer<Resources> localizer
 
 <div class="lookup-container">
     <div class="lookup-input">
-        <input tabindex="0" type="text" aria-label="lookup a country" placeholder="Canada, Italy..."
+        <input tabindex="0" type="text" aria-label="lookup a country" placeholder="@localizer[Resources.LookupPlaceholder]"
                @bind="_input"
                @oninput="Lookup"
                @onfocus="Focus"
                @onkeydown="HandleKeyboardAsync" />
-        <button type="button" class="btn-guess" @onclick="GuessAsync">Guess!</button>
+        <button type="button" class="btn-guess" @onclick="GuessAsync">@localizer[Resources.Guess]</button>
     </div>
     <ul class="items" role="list">
         @foreach ((string code, string name) in _filteredCountries.OrderBy(c => c.Name))

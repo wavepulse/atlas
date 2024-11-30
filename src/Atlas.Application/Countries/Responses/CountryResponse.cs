@@ -3,4 +3,4 @@
 
 namespace Atlas.Application.Countries.Responses;
 
-public sealed record RandomizedCountryResponse(string Cca2, string Name, ImageResponse Flag, Uri Map);
+public sealed record CountryResponse(string Cca2, string Name, ImageResponse Flag, Uri Map);

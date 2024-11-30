@@ -12,15 +12,15 @@ namespace Atlas.Application.Countries.Queries;
 
 public static class RandomizeCountry
 {
-    public sealed record Query : IQuery<RandomizedCountryResponse>;
+    public sealed record Query : IQuery<CountryResponse>;
 
-    internal sealed class Handler(IRandomizer randomizer, ICountryRepository repository) : IQueryHandler<Query, RandomizedCountryResponse>
+    internal sealed class Handler(IRandomizer randomizer, ICountryRepository repository) : IQueryHandler<Query, CountryResponse>
     {
-        public async ValueTask<RandomizedCountryResponse> Handle(Query query, CancellationToken cancellationToken)
+        public async ValueTask<CountryResponse> Handle(Query query, CancellationToken cancellationToken)
         {
-            Country[] countries = await repository.GetAllAsync(cancellationToken).ConfigureAwait(false);
+            ReadOnlySpan<Country> countries = await repository.GetAllAsync(cancellationToken).ConfigureAwait(false);
 
-            Country randomizedCountry = randomizer.Randomize<Country>(countries);
+            Country randomizedCountry = randomizer.Randomize(countries);
 
             repository.Cache(randomizedCountry);
 

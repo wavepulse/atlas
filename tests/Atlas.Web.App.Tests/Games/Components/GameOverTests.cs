@@ -8,13 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Atlas.Web.App.Games.Components;
 
-public sealed class GameOverTests : TestContext
+public sealed class GameOverTests : Bunit.TestContext
 {
     private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
 
     public GameOverTests()
     {
         Services.AddSingleton(_dispatcher);
+        Services.AddLocalization();
     }
 
     [Fact]

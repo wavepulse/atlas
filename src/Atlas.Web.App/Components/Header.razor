@@ -1,8 +1,10 @@
 @using Atlas.Web.App.Options
+@using Atlas.Web.App.Settings.Modals
 @using Microsoft.JSInterop
 
 @inject ProjectOptions project
 @inject IJSInProcessRuntime jsRuntime
+@inject IStringLocalizer<Resources> localizer
 
 <header aria-expanded="false">
     <div class="logo">
@@ -25,15 +27,26 @@
             <li class="nav-item">
                 <a class="nav-link" target="_blank" href="@project.Url">
                     <i class="@Icons.Github"></i>
-                    <span>Project</span>
+                    <span>@localizer[Resources.Project]</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" target="_blank" href="@project.BugUrl">
                     <i class="@Icons.Bug"></i>
-                    <span>Report a bug</span>
+                    <span>@localizer[Resources.ReportBug]</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" @onclick="Modal.ShowGeneral">
+                    <i class="@Icons.Sliders"></i>
+                    <span>@localizer[Resources.Settings]</span>
                 </a>
             </li>
         </ul>
     </nav>
 </header>
+
+@code {
+    [CascadingParameter]
+    public required SettingsModal Modal { get; init; }
+}

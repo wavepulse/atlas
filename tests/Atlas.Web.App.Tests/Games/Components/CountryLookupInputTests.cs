@@ -16,7 +16,7 @@ using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Games.Components;
 
-public sealed class CountryLookupInputTests : TestContext
+public sealed class CountryLookupInputTests : Bunit.TestContext
 {
     private readonly IDispatcher _dispatcher = Substitute.For<IDispatcher>();
     private readonly IActionSubscriber _subscriber = Substitute.For<IActionSubscriber>();
@@ -43,6 +43,7 @@ public sealed class CountryLookupInputTests : TestContext
         Services.AddSingleton(_timeService);
         Services.AddSingleton(_state);
         Services.AddSingleton(_ => (IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddLocalization();
 
         JSInterop.SetupVoid("scrollToLookup").SetVoidResult();
         JSInterop.SetupVoid("addClearEvent", m => m.Arguments[0] is DotNetObjectReference<CountryLookupInput>).SetVoidResult();
@@ -292,22 +293,6 @@ public sealed class CountryLookupInputTests : TestContext
         input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
 
         guessedCountry.Should().Be("US");
-    }
-
-    [Fact]
-    public void InputShouldSelectCountryByInitialsOnlyThereIsMoreThanOneCountry()
-    {
-        string guessedCountry = string.Empty;
-
-        IRenderedComponent<CountryLookupInput> lookupInput = RenderComponent<CountryLookupInput>(parameters =>
-            parameters.Add(c => c.Guess, value => guessedCountry = value));
-
-        IElement input = lookupInput.Find("input");
-
-        input.Input(new ChangeEventArgs { Value = "I" });
-        input.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-
-        guessedCountry.Should().BeEmpty();
     }
 
     [Fact]

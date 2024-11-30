@@ -11,14 +11,12 @@ using System.Diagnostics.CodeAnalysis;
 namespace Atlas.Infrastructure.Countries;
 
 [ExcludeFromCodeCoverage]
-public static class DependencyInjection
+internal static class DependencyInjection
 {
-    public static void AddCountries(this IServiceCollection services, Action<HttpClient> configure)
+    internal static void AddCountries(this IServiceCollection services, Action<HttpClient> configure)
     {
-        services.ConfigureHttpClientDefaults(c => c.ConfigureHttpClient(configure));
-
-        services.AddHttpClient<IDataSource<Country>, CountryDataSource>();
-        services.AddHttpClient<IDataSource<CountryLookup>, CountryLookupDataSource>();
+        services.AddHttpClient<IDataSource<Country>, CountryDataSource>(configure);
+        services.AddHttpClient<IDataSource<CountryLookup>, CountryLookupDataSource>(configure);
 
         services.AddTransient<ICountryLookupRepository, CountryLookupRepository>();
         services.AddTransient<ICountryRepository, CountryRepository>();

@@ -25,7 +25,7 @@ public sealed class CountryEffectTests
     {
         await _effect.LookupAsync(_dispatcher);
 
-        await _sender.Received(1).Send(Arg.Any<LookupCountries.Query>());
+        await _sender.Received(1).Send(Arg.Any<LookupCountries.Query>(), CancellationToken.None);
     }
 
     [Fact]
@@ -35,7 +35,7 @@ public sealed class CountryEffectTests
 
         CountryLookupResponse[] countries = [country];
 
-        _sender.Send(Arg.Any<LookupCountries.Query>()).Returns(countries);
+        _sender.Send(Arg.Any<LookupCountries.Query>(), CancellationToken.None).Returns(countries);
 
         await _effect.LookupAsync(_dispatcher);
 

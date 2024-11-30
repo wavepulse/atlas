@@ -1,0 +1,75 @@
+name: Setup
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: 'The branch to deploy from'
+        required: true
+        type: string
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: string
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: true
+      CLOUDFLARE_ACCOUNT_ID:
+        required: true
+
+jobs:
+  setup:
+    runs-on: windows-latest
+
+    name: Setup Atlas
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Create Prometheus
+        run: dotnet publish ./src/Prometheus/Prometheus.csproj --output .
+
+      - name: Run Prometheus
+        run: ./Prometheus.exe --root atlas --output src/Atlas.Web.App/wwwroot
+
+      - name: Publish Atlas
+        run: dotnet publish ./src/Atlas.Web.App/Atlas.Web.App.csproj --output ./artifacts
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: atlas-web-app
+          path: ./artifacts/wwwroot
+
+  deploy:
+    name: Deploy Atlas
+    needs: setup
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      deployments: write
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: atlas-web-app
+          path: wwwroot
+
+      - name: Deploy ${{ inputs.environment }} environment
+        id: pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy wwwroot --project-name=atlas --branch=${{ inputs.branch }}
+
+      - name: Deployed to ${{ inputs.environment }} environment
+        env:
+          DEPLOYMENT_URL: ${{ steps.pages.outputs.deployment-url }}
+        run: echo "Deployed to $DEPLOYMENT_URL"

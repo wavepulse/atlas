@@ -1,24 +1,31 @@
 // Copyright (c) Pulsewave. All rights reserved.
 // The source code is licensed under MIT License.
 
+using AngleSharp.Dom;
 using Atlas.Application.Countries.Commands;
 using Atlas.Application.Countries.Queries;
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Games.Components;
+using Atlas.Web.App.Options;
 using Atlas.Web.App.Services;
+using Atlas.Web.App.Settings;
 using Atlas.Web.App.Storages;
+using Atlas.Web.App.Stores.DevMode;
 using Atlas.Web.App.Stores.Games;
 using Bunit.TestDoubles;
 using Fluxor;
 using Mediator;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 
 namespace Atlas.Web.App.Games.Flags;
 
-public sealed class RandomizedFlagTests : TestContext
+public sealed class RandomizedFlagTests : Bunit.TestContext
 {
-    private readonly RandomizedCountryResponse _country = new("CA", "Canada", new ImageResponse(new Uri("https://example.com"), "image/png"), new Uri("https://map.com"));
+    private readonly AppSettings _settings = new();
+    private readonly DevModeOptions _devMode = new();
+    private readonly CountryResponse _country = new("CA", "Canada", new ImageResponse(new Uri("https://example.com"), "image/png"), new Uri("https://map.com"));
     private readonly GuessedCountryResponse _guessedCountry = new()
     {
         Cca2 = "CA",
@@ -46,6 +53,9 @@ public sealed class RandomizedFlagTests : TestContext
         Services.AddSingleton(_localStorage);
         Services.AddSingleton(_timeService);
         Services.AddSingleton(_sender);
+        Services.AddSingleton(_devMode);
+        Services.AddSingleton((IJSInProcessRuntime)JSInterop.JSRuntime);
+        Services.AddLocalization();
 
         _sender.Send(Arg.Any<RandomizeCountry.Query>()).Returns(_country);
         _sender.Send(Arg.Any<GuessCountry.Command>()).Returns(_guessedCountry);
@@ -54,15 +64,66 @@ public sealed class RandomizedFlagTests : TestContext
     [Fact]
     public void PageShouldDispatchRandomizeAction()
     {
-        RenderComponent<RandomizedFlag>();
+        RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         _dispatcher.Received().Dispatch(Arg.Any<GameActions.Randomize>());
     }
 
     [Fact]
+    public void PageShouldDispatchGetCountryActionWhenDevModeIsEnabledAndHavingCca2()
+    {
+        const string cca2 = "CA";
+        _devMode.Enabled = true;
+
+        NavigationManager navigation = Services.GetRequiredService<NavigationManager>();
+        string uri = navigation.GetUriWithQueryParameter("cca2", cca2);
+
+        navigation.NavigateTo(uri);
+
+        RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
+
+        _dispatcher.Received().Dispatch(Arg.Is<DevModeActions.GetCountry>(c => c.Cca2 == cca2));
+    }
+
+    [Theory]
+    [InlineData(true, "")]
+    [InlineData(false, "CA")]
+    public void PageShouldNotDispatchGetCountryActionWhenDoesNotMeetConditionToUseDevMode(bool isEnabled, string cca2)
+    {
+        _devMode.Enabled = isEnabled;
+
+        NavigationManager navigation = Services.GetRequiredService<NavigationManager>();
+        string uri = navigation.GetUriWithQueryParameter("cca2", cca2);
+
+        navigation.NavigateTo(uri);
+
+        RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
+
+        _dispatcher.DidNotReceive().Dispatch(Arg.Is<DevModeActions.GetCountry>(c => c.Cca2 == cca2));
+    }
+
+    [Fact]
+    public void PageShouldSubscribeToGetCountryResultActionWhenDevModeIsEnabled()
+    {
+        _devMode.Enabled = true;
+
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
+
+        _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<DevModeActions.GetCountryResult>>());
+    }
+
+    [Fact]
+    public void PageShouldNotSubscribeToGetCountryResultActionWhenDevModeIsNotEnabled()
+    {
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
+
+        _subscriber.DidNotReceive().SubscribeToAction(page.Instance, Arg.Any<Action<DevModeActions.GetCountryResult>>());
+    }
+
+    [Fact]
     public void PageShouldSubscribeToRandomizeResultAction()
     {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.RandomizeResult>>());
     }
@@ -70,7 +131,7 @@ public sealed class RandomizedFlagTests : TestContext
     [Fact]
     public void PageShouldSubscribeToGuessResultAction()
     {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         _subscriber.Received().SubscribeToAction(page.Instance, Arg.Any<Action<GameActions.GuessResult>>());
     }
@@ -78,7 +139,7 @@ public sealed class RandomizedFlagTests : TestContext
     [Fact]
     public void PageShouldDisposeSubscriber()
     {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         page.Instance.Dispose();
 
@@ -88,7 +149,7 @@ public sealed class RandomizedFlagTests : TestContext
     [Fact]
     public void PageShouldRenderCountryLookupInputWhenGameIsNotFinished()
     {
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         page.HasComponent<Stub<CountryLookupInput>>().Should().BeTrue();
     }
@@ -103,7 +164,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         await page.InvokeAsync(() =>
         {
@@ -124,7 +185,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
         IRenderedComponent<Stub<CountryLookupInput>> input = page.FindComponent<Stub<CountryLookupInput>>();
 
         await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.GuessResult(_guessedCountry with { Success = false })));
@@ -144,7 +205,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         await page.InvokeAsync(() =>
         {
@@ -169,7 +230,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         await page.InvokeAsync(() =>
         {
@@ -206,7 +267,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
         IRenderedComponent<Stub<CountryLookupInput>> input = page.FindComponent<Stub<CountryLookupInput>>();
 
         EventCallback<string> eventCallback = input.Instance.Parameters.Get(i => i.Guess);
@@ -234,7 +295,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         await page.InvokeAsync(() =>
         {
@@ -261,7 +322,7 @@ public sealed class RandomizedFlagTests : TestContext
 
         await store.InitializeAsync();
 
-        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>();
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(_settings));
 
         await page.InvokeAsync(() =>
         {
@@ -280,5 +341,95 @@ public sealed class RandomizedFlagTests : TestContext
         IEnumerable<string> guessedCountries = input.Instance.Parameters.Get(i => i.SelectedCountries);
 
         guessedCountries.Should().BeEmpty();
+    }
+
+    [Theory]
+    [InlineData(Difficulty.Blur, "blur-0")]
+    [InlineData(Difficulty.Invert, "invert")]
+    [InlineData(Difficulty.Shift, "shift")]
+    public async Task PageShouldAddDifficultyWhenAppSettingsContainsADifficultyInAll(Difficulty difficulty, string css)
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        AppSettings settings = new() { Flag = new FlagDifficulty() { All = difficulty } };
+
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(settings));
+
+        await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.RandomizeResult(_country)));
+
+        IElement element = page.Find("picture");
+
+        element.ClassList.Should().Contain(css);
+    }
+
+    [Theory]
+    [InlineData(Difficulty.Blur, "blur-0")]
+    [InlineData(Difficulty.Invert, "invert")]
+    [InlineData(Difficulty.Shift, "shift")]
+    public async Task PageShouldAddDifficultyWhenAppSettingsContainsADifficultyInRandomized(Difficulty difficulty, string css)
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        AppSettings settings = new() { Flag = new FlagDifficulty() { All = Difficulty.None, Randomized = difficulty } };
+
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(settings));
+
+        await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.RandomizeResult(_country)));
+
+        IElement element = page.Find("picture");
+
+        element.ClassList.Should().Contain(css);
+    }
+
+    [Fact]
+    public async Task PageShouldAddNoDifficultyWhenAppSettingsContainsNoneForAll()
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        AppSettings settings = new() { Flag = new FlagDifficulty() { All = Difficulty.None } };
+
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(settings));
+
+        await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.RandomizeResult(_country)));
+
+        IElement element = page.Find("picture");
+
+        element.ClassList.Should().Contain("country-image");
+    }
+
+    [Fact]
+    public async Task PageShouldAddNoDifficultyWhenAppSettingsContainsNoneForRandomized()
+    {
+        Services.AddFluxor(options => options.ScanAssemblies(typeof(GameActions).Assembly));
+
+        IStore store = Services.GetRequiredService<IStore>();
+        IDispatcher dispatcher = Services.GetRequiredService<IDispatcher>();
+
+        await store.InitializeAsync();
+
+        AppSettings settings = new() { Flag = new FlagDifficulty() { Randomized = Difficulty.None } };
+
+        IRenderedComponent<RandomizedFlag> page = RenderComponent<RandomizedFlag>(parameters => parameters.AddCascadingValue(settings));
+
+        await page.InvokeAsync(() => dispatcher.Dispatch(new GameActions.RandomizeResult(_country)));
+
+        IElement element = page.Find("picture");
+
+        element.ClassList.Should().Contain("country-image");
     }
 }

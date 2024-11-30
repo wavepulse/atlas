@@ -4,11 +4,12 @@
 using AngleSharp.Dom;
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Components;
+using Microsoft.Extensions.DependencyInjection;
 using System.Net.Mime;
 
 namespace Atlas.Web.App.Games.Flags.Components;
 
-public sealed class FlagGuessesTests : TestContext
+public sealed class FlagGuessesTests : Bunit.TestContext
 {
     private const int MaxAttempts = 6;
 
@@ -22,6 +23,11 @@ public sealed class FlagGuessesTests : TestContext
         Success = true,
         Flag = new ImageResponse(new Uri("https://flag.svg"), MediaTypeNames.Image.Svg)
     };
+
+    public FlagGuessesTests()
+    {
+        Services.AddLocalization();
+    }
 
     [Fact]
     public void ComponentShouldRenderNonGuessedFlagsBasedOnMaxAttemptsWhenThereIsNoGuesses()

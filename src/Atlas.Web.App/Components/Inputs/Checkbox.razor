@@ -1,0 +1,4 @@
+<div class="checkbox">
+    <label for="@GetHashCode()">@Label</label>
+    <input id="@GetHashCode()" type="checkbox" @bind:get="Value" @bind:set="OnValueChangeAsync" disabled="@Disabled" />
+</div>

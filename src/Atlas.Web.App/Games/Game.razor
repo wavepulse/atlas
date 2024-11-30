@@ -1,12 +1,26 @@
+@using Atlas.Web.App.Modals
+
+@inject IStringLocalizer<Resources> localizer
+
 <div class="game">
     @if (Image is not null)
     {
-        <picture class="country-image">
+        <picture class="country-image @DifficultyCss" @onclick="Zoom">
             <source srcset="@Image.Uri" type="@Image.MediaType" />
-            <img src="@Image.Uri" alt="Failed to display the country" />
+            <img src="@Image.Uri" alt="@localizer[Resources.FailedDisplayCountry]" />
         </picture>
     }
     <div class="content">
         @ChildContent
     </div>
+    <div class="actions">
+        <a href="/" class="link">
+            <i class="@Icons.ArrowLeftCircle"></i>
+            <span>@localizer[Resources.GoBack]</span>
+        </a>
+    </div>
 </div>
+@if (Image is not null)
+{
+    <ZoomModal @ref="_modal" Image="Image" DifficultyCss="@DifficultyCss" />
+}

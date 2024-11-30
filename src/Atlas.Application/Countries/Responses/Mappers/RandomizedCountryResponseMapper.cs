@@ -9,7 +9,7 @@ namespace Atlas.Application.Countries.Responses.Mappers;
 
 internal static class RandomizedCountryResponseMapper
 {
-    internal static RandomizedCountryResponse ToResponse(this Country country)
+    internal static CountryResponse ToResponse(this Country country)
     {
         string name = country.Translations.First(t => t.Language == Language.English).Name;
         (Uri map, Image flag) = country.Resources;

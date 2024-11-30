@@ -148,12 +148,8 @@ public sealed partial class CountryLookupInput(IDispatcher dispatcher, IStateSel
             if (normalized.Equals(input, StringComparison.OrdinalIgnoreCase))
                 return true;
 
-            ReadOnlySpan<string> initials = normalized.Split(' ');
-
-            if (initials.Length == 1)
-                return false;
-
-            return CreateInitials(initials).Equals(input, StringComparison.OrdinalIgnoreCase);
+            ReadOnlySpan<char> initials = GetInitials(normalized);
+            return initials.Equals(input, StringComparison.OrdinalIgnoreCase);
         }
     }
 
@@ -171,16 +167,24 @@ public sealed partial class CountryLookupInput(IDispatcher dispatcher, IStateSel
             if (normalized.Contains(input, StringComparison.OrdinalIgnoreCase))
                 return true;
 
-            string initials = CreateInitials(normalized.Split(' '));
+            ReadOnlySpan<char> initials = GetInitials(normalized);
             return initials.Contains(input, StringComparison.OrdinalIgnoreCase);
         }
     }
 
-    private static string CreateInitials(ReadOnlySpan<string> initials) => string.Create(initials.Length, initials, (buffer, content) =>
+    private static ReadOnlySpan<char> GetInitials(ReadOnlySpan<char> value)
     {
-        for (int i = 0; i < content.Length; i++)
-            buffer[i] = content[i][0];
-    });
+        Span<char> initials = stackalloc char[7];
+
+        int i = 0;
+        foreach (Range range in value.Split(' '))
+        {
+            ReadOnlySpan<char> word = value[range];
+            initials[i++] = word[0];
+        }
+
+        return initials[..i].ToString();
+    }
 
     private static string RemoveDiacritics(string value)
     {

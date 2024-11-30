@@ -1,12 +1,21 @@
+@using Atlas.Web.App.Settings.Components
+@using Atlas.Web.App.Settings.Modals
+
+@inject IStringLocalizer<Resources> localizer
+
 <StoreInitializer />
-<Router AppAssembly="@typeof(App).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-    </Found>
-    <NotFound>
-        <PageTitle>Not found</PageTitle>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <NotFound />
-        </LayoutView>
-    </NotFound>
-</Router>
+<CascadingSettings>
+    <SettingsModal>
+        <Router AppAssembly="@typeof(App).Assembly">
+            <Found Context="routeData">
+                <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            </Found>
+            <NotFound>
+                <PageTitle>@localizer[Resources.NotFound]</PageTitle>
+                <LayoutView Layout="@typeof(MainLayout)">
+                    <NotFound />
+                </LayoutView>
+            </NotFound>
+        </Router>
+    </SettingsModal>
+</CascadingSettings>

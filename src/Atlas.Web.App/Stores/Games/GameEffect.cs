@@ -16,7 +16,7 @@ internal sealed class GameEffect(ISender sender, ILocalStorage storage, ITimeSer
     [EffectMethod(typeof(GameActions.Randomize))]
     public async Task RandomizeAsync(IDispatcher dispatcher)
     {
-        RandomizedCountryResponse country = await sender.Send(new RandomizeCountry.Query()).ConfigureAwait(false);
+        CountryResponse country = await sender.Send(new RandomizeCountry.Query()).ConfigureAwait(false);
 
         dispatcher.Dispatch(new GameActions.RandomizeResult(country));
     }
@@ -32,18 +32,18 @@ internal sealed class GameEffect(ISender sender, ILocalStorage storage, ITimeSer
     [EffectMethod(typeof(GameActions.GetDaily))]
     public async Task GetDailyAsync(IDispatcher dispatcher)
     {
-        RandomizedCountryResponse country = await sender.Send(new GetDailyCountry.Query()).ConfigureAwait(false);
+        CountryResponse country = await sender.Send(new GetDailyCountry.Query()).ConfigureAwait(false);
 
         DateOnly today = timeService.Today;
-        DateOnly lastPlayed = storage.GetItem<DateOnly>(DailyStorageKeys.TodayKey);
+        DateOnly lastPlayed = storage.GetItem<DateOnly>(LocalStorageKeys.Today);
 
         if (lastPlayed != today)
         {
-            storage.RemoveItem(DailyStorageKeys.GuessesKey);
-            storage.SetItem(DailyStorageKeys.TodayKey, today);
+            storage.RemoveItem(LocalStorageKeys.Guesses);
+            storage.SetItem(LocalStorageKeys.Today, today);
         }
 
-        GuessedCountryResponse[] guesses = storage.GetItem<GuessedCountryResponse[]>(DailyStorageKeys.GuessesKey) ?? [];
+        GuessedCountryResponse[] guesses = storage.GetItem<GuessedCountryResponse[]>(LocalStorageKeys.Guesses) ?? [];
 
         dispatcher.Dispatch(new GameActions.GetDailyResult(country, guesses));
     }

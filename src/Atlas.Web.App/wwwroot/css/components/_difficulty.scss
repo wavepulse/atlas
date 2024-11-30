@@ -1,0 +1,65 @@
+@use '../utils/media' as *;
+
+.difficulty {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  .flags-settings {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    padding: 12px;
+    margin: 0;
+    border: 1px solid hsl(from var(--color-dialog-primary) h s l / 0.75);
+    min-width: 0;
+
+    legend {
+      font-weight: bold;
+      padding-inline: 1em;
+    }
+
+    & > .difficulty-container:first-of-type {
+      grid-column: 1 / -1;
+    }
+
+    .difficulty-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+
+      &.disabled {
+        opacity: 0.5;
+      }
+    }
+
+    .difficulty-settings {
+      display: flex;
+      gap: 1em;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .difficulty {
+    padding-inline: 0 !important;
+
+    & > .flags-settings {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+@for $i from 0 through 6 {
+  .blur-#{$i} {
+    filter: blur(#{(6 - $i) * 5px});
+  }
+}
+
+.invert {
+  filter: invert(1);
+}
+
+.shift {
+  filter: hue-rotate(90deg);
+}

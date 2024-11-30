@@ -1,0 +1,31 @@
+@inject IStringLocalizer<Resources> localizer
+
+<h2>@localizer[Resources.Display]</h2>
+<div class="display-settings">
+    <div class="display-item">
+        <div class="theme">
+            <label for="theme">@localizer[Resources.Theme]</label>
+            <select @bind:get="Settings.General.Theme" @bind:set="ChangeTheme">
+                @foreach ((Theme theme, string name) in GetThemes())
+                {
+                    <option value="@theme">@localizer[name]</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="display-item">
+        <div class="language">
+            <label for="language">@localizer[Resources.Language]</label>
+            <select @bind:get="Settings.General.Language" @bind:set="ChangeLanguage">
+                @foreach ((Language language, string name) in GetLanguages())
+                {
+                    <option value="@language">@localizer[name]</option>
+                }
+            </select>
+        </div>
+        <div class="alert info">
+            <i class="@Icons.InfoCircle"></i>
+            <span>@localizer[Resources.ChangingLanguageWarning]</span>
+        </div>
+    </div>
+</div>

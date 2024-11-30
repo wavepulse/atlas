@@ -67,6 +67,12 @@ dotnet_diagnostic.IDE0058.severity = none
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0061
 csharp_style_expression_bodied_local_functions = when_on_single_line:warning
 
+# IDE0072: Populate default switch
+# can ignore default switch when condition will never happen
+# https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0072
+dotnet_diagnostic.IDE0072.severity = none
+dotnet_diagnostic.CS8524.severity = none
+
 # IDE0090: Use 'new(...)' instead of 'new ...'
 # Always use 'new(...)'
 # https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0090

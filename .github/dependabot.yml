@@ -1,16 +1,56 @@
 version: 2
+registries:
+  public-nuget:
+    type: nuget-feed
+    url: https://api.nuget.org/v3/index.json
 updates:
-  - package-ecosystem: nuget
+  - package-ecosystem: github-actions
     target-branch: develop
     directory: /
     schedule:
       interval: weekly
-      time: "01:00"
+      day: sunday
     commit-message:
-      prefix: NuGet packages
+      prefix: "GitHub Actions"
     labels: [ dependencies ]
     assignees: [ beauchama ]
     groups:
-      all:
+      actions:
+        patterns:
+          - "*"
+
+  - package-ecosystem: nuget
+    registries:
+      - public-nuget
+    target-branch: develop
+    directories:
+      - /
+      - /src
+      - /tests
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: "NuGet packages"
+    labels: [ dependencies ]
+    assignees: [ beauchama ]
+    groups:
+      dotnet:
+        patterns:
+          - "*"
+
+  - package-ecosystem: nuget
+    registries:
+      - public-nuget
+    target-branch: develop
+    directories:
+      - /.config
+    schedule:
+      interval: daily
+    commit-message:
+      prefix: "Dotnet tools"
+    labels: [ dependencies ]
+    assignees: [ beauchama ]
+    groups:
+      dotnet-tools:
         patterns:
           - "*"

@@ -8,11 +8,12 @@
   min-width: var(--max-width);
   grid-template-rows: auto 1fr;
   grid-template-areas:
-    "picture" "content";
+    "picture" "content" "actions";
 
   & > .country-image {
     grid-area: picture;
     place-self: center;
+    cursor: zoom-in;
     @include image(var(--max-width));
   }
 
@@ -20,5 +21,12 @@
     grid-area: content;
     display: flex;
     justify-content: center;
+  }
+
+  & > .actions {
+    display: flex;
+    grid-area: actions;
+    width: var(--max-width);
+    place-self: center;
   }
 }

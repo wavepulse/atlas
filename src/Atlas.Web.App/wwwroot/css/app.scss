@@ -9,10 +9,14 @@
 @use 'layouts/layout';
 
 @use 'components/anchors';
+@use 'components/difficulty';
 @use 'components/footer';
 @use 'components/game-over';
+@use 'components/general';
 @use 'components/guess';
 @use 'components/hamburger';
 @use 'components/header';
 @use 'components/inputs';
 @use 'components/lookup';
+@use 'components/modal';
+@use 'components/spinner';

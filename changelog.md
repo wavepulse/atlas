@@ -5,14 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.4.0 &#8212; 2024-11-xx
+## 0.4.0 &#8212; 2024-11-29
 
 ### Added
 
-- Added a modal to display changelog ([#56])
+- Added a settings modal ([#56])
+- Can see changelog by clicking on the version or settings icon to open the modal (changelog section) ([#56])
+- Can manage theme and language (french and english) in the settings modal (general section) ([#39], [#110])
+- Can manage difficulty in the settings modal (difficulty section) ([#111])
+- Added dev mode for testing country. Only in stage site ([#75])
+- Added a zoom feature when clicking on the image ([#109])
+- Added a button to return to the index page via games ([#126])
+
+### Changed
+
+- Improve pipelines to deploy the application ([#13], [#122])
+- Improve the performance to lookup countries by initials ([#103])
+- Update Atlas and Prometheus to .NET 9.0 ([#105])
+- Update tests project using XUnit 3 ([#124])
 
 <!-- 0.4.0 -->
+[#13]: https://github.com/wavepulse/atlas/issues/13
+[#39]: https://github.com/wavepulse/atlas/issues/39
 [#56]: https://github.com/wavepulse/atlas/issues/56
+[#75]: https://github.com/wavepulse/atlas/issues/75
+[#103]: https://github.com/wavepulse/atlas/issues/103
+[#105]: https://github.com/wavepulse/atlas/issues/105
+[#109]: https://github.com/wavepulse/atlas/issues/109
+[#110]: https://github.com/wavepulse/atlas/issues/110
+[#111]: https://github.com/wavepulse/atlas/issues/111
+[#122]: https://github.com/wavepulse/atlas/issues/122
+[#124]: https://github.com/wavepulse/atlas/issues/124
+[#126]: https://github.com/wavepulse/atlas/issues/126
 
 ## 0.3.0 &#8212; 2024-11-09
 

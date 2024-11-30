@@ -1,7 +1,7 @@
 @inject IStringLocalizer<Resources> localizer
 
 <dialog @ref="_dialog" class="modal" @onclick="Close">
-    <picture class="zoom">
+    <picture class="zoom @DifficultyCss">
         <source srcset="@Image.Uri" type="@Image.MediaType" />
         <img src="@Image.Uri" alt="@localizer[Resources.FailedDisplayCountry]" />
     </picture>

@@ -15,6 +15,9 @@ public sealed partial class ZoomModal(IJSInProcessRuntime jsRuntime)
     [EditorRequired]
     public required ImageResponse Image { get; init; }
 
+    [Parameter]
+    public string? DifficultyCss { get; init; }
+
     public void Show() => jsRuntime.ShowModal(_dialog);
 
     private void Close() => jsRuntime.CloseModal(_dialog);

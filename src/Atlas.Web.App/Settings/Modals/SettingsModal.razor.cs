@@ -44,13 +44,20 @@ public sealed partial class SettingsModal(IJSInProcessRuntime jsRuntime)
 
     private string IsActive(TabItem tab) => _selectedTab == tab ? "active" : string.Empty;
 
-    private string GetTabCss() => _selectedTab == TabItem.General ? "general" : "changelog";
+    private string GetTabCss() => _selectedTab switch
+    {
+        TabItem.General => "general",
+        TabItem.Changelog => "changelog",
+        TabItem.Difficulty => "difficulty",
+        _ => string.Empty
+    };
 
     private void Close() => jsRuntime.CloseModal(_dialog);
 
     private enum TabItem
     {
         General = 0,
-        Changelog = 1
+        Changelog = 1,
+        Difficulty = 2
     }
 }

@@ -2,9 +2,11 @@
 // The source code is licensed under MIT License.
 
 using Atlas.Application.Countries.Responses;
+using Atlas.Web.App.Settings;
 using Atlas.Web.App.Storages;
 using Atlas.Web.App.Stores.Games;
 using Fluxor;
+using Microsoft.AspNetCore.Components;
 
 namespace Atlas.Web.App.Games.Flags;
 
@@ -17,6 +19,9 @@ public sealed partial class DailyFlag(IDispatcher dispatcher, IActionSubscriber 
     private string? _answer;
     private CountryResponse? _country;
     private bool _isGameFinished;
+
+    [CascadingParameter]
+    public required AppSettings Settings { get; init; }
 
     public void Dispose() => subscriber.UnsubscribeFromAllActions(this);
 
@@ -70,4 +75,20 @@ public sealed partial class DailyFlag(IDispatcher dispatcher, IActionSubscriber 
 
     private void Guess(string guessedCca2)
         => dispatcher.Dispatch(new GameActions.Guess(guessedCca2, _country!.Cca2));
+
+    private string GetDifficultyCss()
+    {
+        if (Settings.Flag.All != Difficulty.None)
+            return GetDifficulty(Settings.Flag.All);
+
+        return GetDifficulty(Settings.Flag.Daily);
+
+        string GetDifficulty(Difficulty difficulty) => difficulty switch
+        {
+            Difficulty.Blur => $"blur-{_guesses.Count}",
+            Difficulty.Invert => "invert",
+            Difficulty.Shift => "shift",
+            Difficulty.None => string.Empty,
+        };
+    }
 }

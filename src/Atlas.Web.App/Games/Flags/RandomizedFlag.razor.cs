@@ -3,6 +3,7 @@
 
 using Atlas.Application.Countries.Responses;
 using Atlas.Web.App.Options;
+using Atlas.Web.App.Settings;
 using Atlas.Web.App.Stores.DevMode;
 using Atlas.Web.App.Stores.Games;
 using Fluxor;
@@ -22,6 +23,9 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 
     [SupplyParameterFromQuery]
     public string? Cca2 { get; set; }
+
+    [CascadingParameter]
+    public required AppSettings Settings { get; init; }
 
     public void Dispose() => subscriber.UnsubscribeFromAllActions(this);
 
@@ -72,6 +76,22 @@ public sealed partial class RandomizedFlag(IDispatcher dispatcher, IActionSubscr
 
     private void Guess(string guessedCca2)
         => dispatcher.Dispatch(new GameActions.Guess(guessedCca2, _country!.Cca2));
+
+    private string GetDifficultyCss()
+    {
+        if (Settings.Flag.All != Difficulty.None)
+            return GetDifficulty(Settings.Flag.All);
+
+        return GetDifficulty(Settings.Flag.Randomized);
+
+        string GetDifficulty(Difficulty difficulty) => difficulty switch
+        {
+            Difficulty.Blur => $"blur-{_guesses.Count}",
+            Difficulty.Invert => "invert",
+            Difficulty.Shift => "shift",
+            Difficulty.None => string.Empty,
+        };
+    }
 
     private void Restart()
     {

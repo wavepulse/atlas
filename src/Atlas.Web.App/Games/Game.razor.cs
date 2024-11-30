@@ -18,5 +18,8 @@ public sealed partial class Game
     [EditorRequired]
     public required RenderFragment ChildContent { get; init; }
 
+    [Parameter]
+    public string? DifficultyCss { get; init; }
+
     private void Zoom() => _modal.Show();
 }

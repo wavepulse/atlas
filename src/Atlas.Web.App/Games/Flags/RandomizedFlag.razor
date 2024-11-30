@@ -3,7 +3,7 @@
 
 @page "/flags/random"
 
-<Game Image="_country?.Flag">
+<Game Image="_country?.Flag" DifficultyCss="@GetDifficultyCss()">
     @if (!_isGameFinished)
     {
         <CountryLookupInput Guess="Guess" SelectedCountries="_guesses.Select(g => g.Cca2)" />

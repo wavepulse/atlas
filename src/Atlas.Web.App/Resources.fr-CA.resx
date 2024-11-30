@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="All" xml:space="preserve">
+    <value>Tous</value>
+  </data>
+  <data name="Blur" xml:space="preserve">
+    <value>Brouillé</value>
+  </data>
   <data name="Changelog" xml:space="preserve">
     <value>Changements</value>
   </data>
@@ -129,11 +135,17 @@
   <data name="Continent" xml:space="preserve">
     <value>Continent</value>
   </data>
+  <data name="Daily" xml:space="preserve">
+    <value>Quotidien</value>
+  </data>
   <data name="DailyFlag" xml:space="preserve">
     <value>Drapeau quotidien</value>
   </data>
   <data name="Dark" xml:space="preserve">
     <value>Noir</value>
+  </data>
+  <data name="Difficulty" xml:space="preserve">
+    <value>Difficulté</value>
   </data>
   <data name="Direction" xml:space="preserve">
     <value>Direction</value>
@@ -146,6 +158,9 @@
   </data>
   <data name="FailedDisplayCountry" xml:space="preserve">
     <value>Impossible d'afficher le pays</value>
+  </data>
+  <data name="Flags" xml:space="preserve">
+    <value>Drapeaux</value>
   </data>
   <data name="French" xml:space="preserve">
     <value>Français</value>
@@ -161,6 +176,9 @@
   </data>
   <data name="Guess" xml:space="preserve">
     <value>Deviner</value>
+  </data>
+  <data name="Invert" xml:space="preserve">
+    <value>Inversé</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Langue</value>
@@ -183,6 +201,9 @@
   <data name="RandomFlag" xml:space="preserve">
     <value>Drapeau aléatoire</value>
   </data>
+  <data name="Randomized" xml:space="preserve">
+    <value>Aléatoire</value>
+  </data>
   <data name="ReportBug" xml:space="preserve">
     <value>Signaler un bug</value>
   </data>
@@ -194,6 +215,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Paramètres</value>
+  </data>
+  <data name="Shift" xml:space="preserve">
+    <value>Décalage</value>
   </data>
   <data name="System" xml:space="preserve">
     <value>Système</value>

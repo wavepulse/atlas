@@ -1,29 +1,31 @@
-<h2>Difficulty</h2>
+@inject IStringLocalizer<Resources> localizer
+
+<h2>@localizer[Resources.Difficulty]</h2>
 
 <fieldset class="flags-settings">
-    <legend>Flags</legend>
+    <legend>@localizer[Resources.Flags]</legend>
     <div class="difficulty-container">
-        <h4>All</h4>
+        <h4>@localizer[Resources.All]</h4>
         <div class="difficulty-settings">
-            <Checkbox Label="Blur" @bind-Value:get="IsAllFlagDifficultyEnabled(Difficulty.Blur)" @bind-Value:set="isChecked => OnAllFlagDifficultyChange(isChecked, Difficulty.Blur)" />
-            <Checkbox Label="Invert" @bind-Value:get="IsAllFlagDifficultyEnabled(Difficulty.Invert)" @bind-Value:set="isChecked => OnAllFlagDifficultyChange(isChecked, Difficulty.Invert)" />
-            <Checkbox Label="Shift" @bind-Value:get="IsAllFlagDifficultyEnabled(Difficulty.Shift)" @bind-Value:set="isChecked => OnAllFlagDifficultyChange(isChecked, Difficulty.Shift)" />
+            <Checkbox Label="@localizer[Resources.Blur]" @bind-Value:get="IsAllFlagDifficultyEnabled(Difficulty.Blur)" @bind-Value:set="isChecked => OnAllFlagDifficultyChange(isChecked, Difficulty.Blur)" />
+            <Checkbox Label="@localizer[Resources.Invert]" @bind-Value:get="IsAllFlagDifficultyEnabled(Difficulty.Invert)" @bind-Value:set="isChecked => OnAllFlagDifficultyChange(isChecked, Difficulty.Invert)" />
+            <Checkbox Label="@localizer[Resources.Shift]" @bind-Value:get="IsAllFlagDifficultyEnabled(Difficulty.Shift)" @bind-Value:set="isChecked => OnAllFlagDifficultyChange(isChecked, Difficulty.Shift)" />
         </div>
     </div>
     <div class="difficulty-container @IsAllFlagChecked">
-        <h4>Randomized</h4>
+        <h4>@localizer[Resources.Randomized]</h4>
         <div class="difficulty-settings">
-            <Checkbox Disabled="IsAllFlagEnabled" Label="Blur" @bind-Value:get="IsRandomizedFlagDifficultyEnabled(Difficulty.Blur)" @bind-Value:set="isChecked => OnRandomizedFlagDifficultyChange(isChecked, Difficulty.Blur)" />
-            <Checkbox Disabled="IsAllFlagEnabled" Label="Invert" @bind-Value:get="IsRandomizedFlagDifficultyEnabled(Difficulty.Invert)" @bind-Value:set="isChecked => OnRandomizedFlagDifficultyChange(isChecked, Difficulty.Invert)" />
-            <Checkbox Disabled="IsAllFlagEnabled" Label="Shift" @bind-Value:get="IsRandomizedFlagDifficultyEnabled(Difficulty.Shift)" @bind-Value:set="isChecked => OnRandomizedFlagDifficultyChange(isChecked, Difficulty.Shift)" />
+            <Checkbox Disabled="IsAllFlagEnabled" Label="@localizer[Resources.Blur]" @bind-Value:get="IsRandomizedFlagDifficultyEnabled(Difficulty.Blur)" @bind-Value:set="isChecked => OnRandomizedFlagDifficultyChange(isChecked, Difficulty.Blur)" />
+            <Checkbox Disabled="IsAllFlagEnabled" Label="@localizer[Resources.Invert]" @bind-Value:get="IsRandomizedFlagDifficultyEnabled(Difficulty.Invert)" @bind-Value:set="isChecked => OnRandomizedFlagDifficultyChange(isChecked, Difficulty.Invert)" />
+            <Checkbox Disabled="IsAllFlagEnabled" Label="@localizer[Resources.Shift]" @bind-Value:get="IsRandomizedFlagDifficultyEnabled(Difficulty.Shift)" @bind-Value:set="isChecked => OnRandomizedFlagDifficultyChange(isChecked, Difficulty.Shift)" />
         </div>
     </div>
     <div class="difficulty-container @IsAllFlagChecked">
-        <h4>Daily</h4>
+        <h4>@localizer[Resources.Daily]</h4>
         <div class="difficulty-settings">
-            <Checkbox Disabled="IsAllFlagEnabled" Label="Blur" @bind-Value:get="IsDailyFlagDifficultyEnabled(Difficulty.Blur)" @bind-Value:set="isChecked => OnDailyFlagDifficultyChange(isChecked, Difficulty.Blur)" />
-            <Checkbox Disabled="IsAllFlagEnabled" Label="Invert" @bind-Value:get="IsDailyFlagDifficultyEnabled(Difficulty.Invert)" @bind-Value:set="isChecked => OnDailyFlagDifficultyChange(isChecked, Difficulty.Invert)" />
-            <Checkbox Disabled="IsAllFlagEnabled" Label="Shift" @bind-Value:get="IsDailyFlagDifficultyEnabled(Difficulty.Shift)" @bind-Value:set="isChecked => OnDailyFlagDifficultyChange(isChecked, Difficulty.Shift)" />
+            <Checkbox Disabled="IsAllFlagEnabled" Label="@localizer[Resources.Blur]" @bind-Value:get="IsDailyFlagDifficultyEnabled(Difficulty.Blur)" @bind-Value:set="isChecked => OnDailyFlagDifficultyChange(isChecked, Difficulty.Blur)" />
+            <Checkbox Disabled="IsAllFlagEnabled" Label="@localizer[Resources.Invert]" @bind-Value:get="IsDailyFlagDifficultyEnabled(Difficulty.Invert)" @bind-Value:set="isChecked => OnDailyFlagDifficultyChange(isChecked, Difficulty.Invert)" />
+            <Checkbox Disabled="IsAllFlagEnabled" Label="@localizer[Resources.Shift]" @bind-Value:get="IsDailyFlagDifficultyEnabled(Difficulty.Shift)" @bind-Value:set="isChecked => OnDailyFlagDifficultyChange(isChecked, Difficulty.Shift)" />
         </div>
     </div>
 </fieldset>

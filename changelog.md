@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.4.1 &#8212; 2024-11-29
+
+### Fixed
+
+- Fixed dependabot paths for nuget packages ([#143])
+
+<!-- 0.4.1 -->
+[#143]: https://github.com/wavepulse/atlas/issues/143
+
 ## 0.4.0 &#8212; 2024-11-29
 
 ### Added
